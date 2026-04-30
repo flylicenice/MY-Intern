@@ -1,13 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/4d8d735e30.js" crossorigin="anonymous"></script>
+
+    <script src="js/app.js"></script>
+    <link href="css/style.css" rel="stylesheet">
+
     <title>MyIntern | HomePage</title>
 </head>
+
 <body>
-    <header>
-        <h1>MyIntern</h1>
-    </header>
+    <div id="wrapper">
+        <div id="title">
+            <h1>MYIntern</h1>
+        </div>
+
+        <div class="sidebar">
+            <button id="home-btn"><strong>Job</strong></button>
+            <button id="job-btn"><strong>Company</strong></button>
+            <button id="job-btn"><strong>People</strong></button>
+            <button id="login-btn"><strong>Join Us</strong></button>
+        </div>
+    </div>
+
+    <div class="top-bar">
+        <div class="search-container">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="search-bar" placeholder="Search...">
+        </div>
+    </div>
 </body>
+
 </html>
