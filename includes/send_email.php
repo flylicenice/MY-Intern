@@ -2,8 +2,13 @@
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
+use Dotenv\Dotenv;
 
 require '../vendor/autoload.php'; //Path to composer files
+
+//Creating dotenv instance
+$dotenv = Dotenv::createImmutable(__DIR__ . '/../');
+$dotenv->load();
 
 //Send Email Function
 function sendInternshipEmail($to, $subject, $messageBody)
@@ -16,13 +21,13 @@ function sendInternshipEmail($to, $subject, $messageBody)
         $mail->isSMTP();
         $mail->Host = 'smtp.gmail.com';
         $mail->SMTPAuth = true;
-        $mail->Username = '';
-        $mail->Password = '';
+        $mail->Username = $_ENV['SMTP_EMAIL'];
+        $mail->Password = $_ENV['SMTP_PASSWORD'];
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port = 587;
 
         //Sender & Recipients
-        $mail->setFrom("tamkaidit50@gmail.com", 'MyIntern');
+        $mail->setFrom($_ENV['SMTP_EMAIL'], 'MyIntern');
         $mail->addAddress($to);
 
         //Set email content as HTML and its subject
@@ -69,4 +74,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     exit();
 }
+
 ?>

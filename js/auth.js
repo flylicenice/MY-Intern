@@ -1,6 +1,5 @@
 $(document).ready(function() {
     $("#loginForm").on("submit", function(e) {
-
         //Stop the page from refreshing
         e.preventDefault();
 
@@ -24,7 +23,7 @@ $(document).ready(function() {
             //If the send_email.php successfully send message
             success: function(response) {
                 $('#responseMessage').text('Success! Please check your inbox!').css('color', 'green');
-                setTimeout(() => { window.location.href = '../index.html'; }, 1500);
+                return false;
             }, 
             
             //Else if there is an error
