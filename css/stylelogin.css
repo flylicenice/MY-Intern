@@ -83,7 +83,7 @@ body
 
 .input-group input:focus{ /* when the input field is typed/touched (clicked on) */
     border-color: #000;
-    background-color: #ECCD85;
+    background-color: #d3d3d3;
 }
 
 .password-eye-icon {
@@ -108,6 +108,6 @@ body
 }
 
 .login-btn:hover{ /* when the login button is hovered (mouse pointer is on top of it) */
-    background-color: #6e6666;
+    background-color: #483248;
     transform: translateY(-1px);
 }
