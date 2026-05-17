@@ -11,24 +11,41 @@
     <script src="https://kit.fontawesome.com/4d8d735e30.js" crossorigin="anonymous"></script>
 
     <script src="js/app.js"></script>
-    <link href="css/style.css" rel="stylesheet">
+    <link href="css/stylelogin.css" rel="stylesheet">
 
     <title>MyIntern | HomePage</title>
 </head>
 
 <body>
-    <div id="wrapper">
-        <div id="title">
-            <h1>MYIntern</h1>
-        </div>
 
-        <div class="sidebar">
-            <a class="btn" id="home-btn" href=""><strong>Job</strong></a>
-            <a class="btn" id="job-btn" href=""><strong>Company</strong></a>
-            <a class="btn" id="job-btn" href=""><strong>People</strong></a>
-            <a class="btn" id="login-btn" href="pages/login.html"><strong>Join Us</strong></a>
-        </div>
-    </div>
+    <main class="login-container">
+      <section class="welcome-banner"> <!--grouping container for left side design (yellow block) -->
+        <p class ="subtitle">Welcome to</p> <!--small text "Welcome to"-->   
+        <h1 class="title-MyIntern">MYIntern<br>Tracking<br>System!</h1>  <!--big text "MYIntern Tracking System!" br is for break to skip to next line-->
+      </section> <!--end of yellow block -->
+
+      <section class="login-form"> <!--grouping container for right side design (white block) -->
+        <div class="form-wrapper"> <!--<div> to wrap the login box -->
+         <h2>Login</h2> <!--big text "Login"-->
+          <form action="role_Selection.html" method="POST"> <!--form tag tells browser that everything inside for data submission-->
+                                          <!--action="#" means the form will submit to the same page until link with databse script-->
+                                          <!--method="POST" means the secure way data will be sent in the body of the HTTP request, not visible in the URL-->
+           <div class="input-group"> <!--grouping container for input email-->
+            <input type="email" id="email" name="email" placeholder="Email" required> <!--input field for email, type="email" ensures valid email format, placeholder is the text inside the box, required means it must be filled out-->
+           </div> <!-- close input email container-->
+
+           <div class="input-group"> <!--grouping container for input password-->
+            <input type="password" id="password" name="password" placeholder="Password" required> <!--input field for password, type="password" hides the characters, placeholder is the text inside the box, required means it must be filled out-->
+            <span class ="password-eye-icon"> </span> <!-- letak close password-->
+            <span class="password-eye-icon"></span> <!-- letak open password-->
+           </div> <!-- close input password container-->
+
+             <button type="submit" class="login-btn">Login</button> <!--submit button for login-->
+          </form> <!--end of form tag-->
+        </div> <!--end of form wrapper-->
+      </section> <!--end of white block-->
+    </main> <!--end of login container-->
 </body>
-
 </html>
+
+

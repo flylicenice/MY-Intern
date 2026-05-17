@@ -1,0 +1,164 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f4f4f4;
+    display: flex; /* Use flexbox to center the content */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    min-height: 100vh; /* Ensure the body takes the full viewport height */
+}
+
+.login-container {
+    display: flex;
+    width: 900px;
+    background-color: #ffffff;
+    border-radius: 4px;
+    height: 550px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3); /* add shadow behind panel wrapper */
+    overflow: hidden;
+}
+
+.welcome-banner {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 50px 40px;
+    border-bottom-right-radius: 40px;
+    background-color: #ECCD85;
+}
+
+.title-MyIntern {
+    font-size: 2.8rem;
+    font-weight: 800;
+    color: #000000;
+    margin-bottom: 40px;
+}
+
+.choose-role { /* for text header "Are you a.."*/
+    font-size: 1.2rem;
+    margin-bottom: 12px;
+    color: #000000;
+    font-weight: 700;
+}
+
+.decision-btn { /* for the 3 buttons */
+    margin-top: 30px;
+}
+
+.role-button{
+    width: 85%;
+    padding: 13px 0;
+    font-size: 1.25rem;
+    font-weight: 400;
+    color: #000000;
+    background-color: #ffffff;
+    border: none;
+    border-radius: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.12);
+    cursor: pointer;
+    transition: transform 0.2s , box-shadow 0.2s ;
+}
+
+.role-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.18);
+}
+
+.login-form { /* for the right side white block */
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 40px;
+}
+
+.form-wrapper {
+    text-align: center;
+    width: 100%;
+    max-width: 320px;
+}
+
+.form-wrapper h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+    color: #000000;
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.input-group input{ /* specifically for <input matric no> fields */
+    width: 100%;
+    padding: 15px 20px; /* add padding to the right for the eye icon */
+    border-radius: 25px;
+    border: 2px solid #ccc;
+    outline: none;
+    background: #fff;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+    transition: border-color 0.2s;
+    font-size: 1rem;
+}
+
+.input-group input:focus{ /* when the input field is typed/touched (clicked on) */
+    border-color: #d3d3d3;
+}
+
+.password-eye-icon {
+   position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    z-index: 10;
+}
+
+
+.action-buttons {
+    width: 100%;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    margin-top: 30px;
+    gap: 15px;
+    flex-direction: column;
+    align-items: center;
+}
+
+.action-btn.btn-wrapper {
+    background-color: #ffffff;
+    color: #000000;
+    padding: 11px 0;
+    border-radius: 20px;
+    width: 55%;
+    font-size: 1.05rem;
+    font-weight: 500;
+    border: 1px solid #d2d6dc;
+    cursor: pointer;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.12);
+    transition: all 0.2s;
+    
+}
+
+.action-btn:hover {
+    
+    background-color: #483248;
+    transform: translateY(-1px);
+}
+
+

@@ -1,0 +1,124 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body
+{
+    background-color: #ECCD85;
+    display: flex; /* Use flexbox to center the content */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    min-height: 100vh; /* Ensure the body takes the full viewport height */
+}
+
+.login-container{
+    display: flex;
+    width: 900px;
+    background-color: #ffffff;
+    border-radius: 4px;
+    height: 550px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3); /* add shadow behind panel wrapper */
+    overflow: hidden;
+}
+
+.welcome-banner{
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-left: 50px;
+    border-bottom-right-radius: 40px;
+    border-bottom-right-radius: 40px;
+    background-color: #ECCD85;
+}
+
+.subtitle{
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+    color: #000000;
+}
+
+.title-MyIntern{
+    font-size: 3rem;
+    font-weight: 800;
+    color: #000000;
+    line-height: 1.1;
+}
+
+.login-form{
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+}
+
+.form-wrapper{
+    text-align: center;
+    width: 100%;
+    max-width: 320px;
+}
+
+.input-group{
+    position: relative;
+    margin-bottom: 20px;
+    width: 100%;
+    
+}
+
+.input-group input{ /* specifically for <input email> fields */
+    width: 100%;
+    padding: 15px 50px 15px 20px; /* add padding to the right for the eye icon */
+    border-radius: 25px;
+    border: 2px solid #ccc;
+    outline: none;
+    background: #fff;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+    transition: border-color 0.2s;
+    font-size: 1rem;
+}
+
+.input-group input:focus{ /* when the input field is typed/touched (clicked on) */
+    border-color: #000;
+    background-color: #d3d3d3;
+}
+
+.password-eye-icon {
+   position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+.password-eye-icon img {
+    width: 20px;
+    height: auto;
+    display: block;
+}
+
+.password-eye-icon img:hover {
+    opacity: 1.0;
+}
+
+.login-btn{ /* to design the login button */
+    background-color: #ffffff;
+    padding: 15px;
+    border-radius: 25px;
+    width: 60%;
+    border: 1px solid #000;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.login-btn:hover{ /* when the login button is hovered (mouse pointer is on top of it) */
+    background-color: #483248;
+    transform: translateY(-1px);
+}

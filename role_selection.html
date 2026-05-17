@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/4d8d735e30.js" crossorigin="anonymous"></script>
+
+    <script src="js/app.js"></script>
+    <link href="css/role_selectionstyle.css" rel="stylesheet">
+
+    <title>MyIntern-Login Role Selection</title>
+</head>
+
+
+<body>
+     <main class="login-container"> 
+       <section class="welcome-banner"> <!--grouping container for left side design (yellow block) -->
+        <h1 class="title-MyIntern">MyIntern</h1> <!-- bold text at the top column yellow block-->
+        <p class ="choose-role">Are you a...</p> <!--small text "Are you a..."-->   
+        <button type="student-btn" class="role-button">Student</button> <!--button for student-->
+        <button type="lecturer-btn" class="role-button">Lecturer</button> <!--button for lecturer-->
+        <p class ="decision">Or start hiring here!</p><!-- small text for employer-->
+        <button type="employer-btn" class="role-button">Employer</button> <!--button for employer-->
+       </section> <!--end of yellow block -->
+
+       <section class="login-form"> <!--grouping container for right side design (white block) -->
+        <div class ="form-wrapper"> <!--<div> to wrap the login box -->
+         <h2>Login</h2> 
+          <form action="#" method="POST"><!--form tag tells browser that everything inside for data submission-->
+                                         <!--action="#" means the form will submit to the same page until link with databse script-->
+                                         <!--method="POST" means the secure password -->
+           <div class="input-group">
+           <input type ="text" id="matric" name="matric" placeholder="Matric No." required> <!--input field for matric number, type="text" allows any text input, placeholder is the text inside the box, required means it must be filled out-->
+           </div>
+
+           <div class ="input-group"><!-- for password input -->
+           <input type="password" id="password" name="password" placeholder="Password" required> <!--input field for password, type="password" hides the characters, placeholder is the text inside the box, required means it must be filled out-->
+           <span class="password-eye-icon"></span> <!-- letak close password-->
+           <span class="password-eye-icon"></span> <!-- letak open password-->
+           </div>
+             
+        <div class="action-buttons">
+            <button type="submit-login" class="action-btn btn-wrapper">Login</button> <!--submit button for login-->
+            <button type="register-btn" class="action-btn btn-wrapper">Register</button> <!--button for register-->
+        </div>
+        </form>
+        </div> <!--end of form wrapper-->
+      </section> <!--end of white block-->
+     </main>
+</body>
+</html>
