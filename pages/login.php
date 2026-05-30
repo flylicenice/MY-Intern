@@ -15,8 +15,8 @@
     <title>MyIntern | Login</title>
 </head>
 
-<body class="login-page">
-    <main id="main-content">
+<body class="center">
+    <main class="main-content">
         <div id="card-container">
             <div id="left-card">
                 <a class="link" href="../index.html"><h1>MYIntern</h1></a>
@@ -34,12 +34,12 @@
                 <form id="loginForm">
                     <div class="form-group">
                         <label>Email</label>
-                        <input type="email" name="user-email" required placeholder="email@example.com">
+                        <input type="email" name="user-email" required">
                     </div>
 
                     <div class="form-group">
                         <label>Password</label>
-                        <input type="password" required placeholder="8 - 12 characters">
+                        <input type="password" required>
                     </div>
 
                     <button type="submit" class="submit-btn" id="submitBtn">Login</button>
@@ -48,6 +48,7 @@
             </div>
         </div>
     </main>
+
 </body>
 
 </html>

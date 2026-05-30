@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,25 +9,19 @@
     <link href="https://googleapis.com" rel="stylesheet">
     <script src="https://kit.fontawesome.com/4d8d735e30.js" crossorigin="anonymous"></script>
 
-    <script src="js/app.js"></script>
-    <link href="css/style.css" rel="stylesheet">
-
-    <title>MyIntern | HomePage</title>
+    <link rel="stylesheet" href="../../css/lecturer.css">
+    <title>Lecturer | Home</title>
 </head>
-
 <body>
-    <div id="wrapper">
-        <div id="title">
+    <header>
+        <div class="title">
             <h1>MYIntern</h1>
         </div>
-
-        <div class="sidebar">
-            <a class="btn" id="home-btn" href=""><strong>Job</strong></a>
-            <a class="btn" id="job-btn" href=""><strong>Company</strong></a>
-            <a class="btn" id="job-btn" href=""><strong>People</strong></a>
-            <a class="btn" id="login-btn" href="pages/login.html"><strong>Join Us</strong></a>
-        </div>
-    </div>
+        
+            <nav>
+                <a href="#">Overview</a>
+                <a href="#">Approve</a>
+            </nav>
+    </header>
 </body>
-
 </html>
