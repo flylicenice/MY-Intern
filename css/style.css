@@ -1,142 +1,434 @@
 :root {
-    --wrapper-width: 250px;
+    --menu-color: #0c0908;
+    --link-unactive-color: #696969;
+    --link-active-color: #000080;
 }
 
-*{
-    font-family: 'Google Sans', sans-serif;
-    margin: 0;
-    padding: 0;
-    text-decoration: none;
-}
-
-h1{
-    font-weight: bold;
-    font-size: 2.5rem;
-}
-
-div#wrapper{
+body.center {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 3rem 3rem 0 3rem;
-    gap: 3rem;
-    width: var(--wrapper-width);
+    justify-content: center;
 }
 
-div.sidebar{
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
+* {
+    padding: 0;
+    margin: 0;
+    text-decoration: none;
+    font-family: "Google Sans", sans-serif;
+    color: black;
+    list-style-type: none;
+}
+
+header {
+    box-sizing: border-box;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
     width: 100%;
-    background-color: #ececec;
-    border-radius: 20px 20px 0px 0px;
-}
-
-a.link {
-    color: black;
-}
-
-a.btn {
-    margin: 1rem;
-    padding: 1rem;  
-    background-color: white;
-    color: black;
-    border-radius: 30px;
-    text-align: center;
-    font-size: 1rem;
-    box-shadow: 0 2px 0px;
-}
-
-a.btn:focus {
-    outline: none;
-}
-
-a.btn:hover {
-    outline: 3px solid black;
-}
-
-a.btn:focus-visible {
-    outline: 3px solid cyan;
-}
-
-/* end -- index.html*/
-
-/* start -- login.html */
-
-body.login-page{
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100vh;
-    width: 100vw;
 }
 
-body.login-page div#card-container {
-    border: 1px solid black;
-    box-shadow: 8px 8px black;
-    border-radius: 25px;
-    padding: 2.5rem;
+header h1 {
+    font-size: 2rem;
+    color: #093C5D;
+}
+
+.nav-bar {
+    padding: 1rem;
     display: flex;
+    gap: 2rem;
+    margin-left: 1%;
+    margin-right: 25%;
 }
 
-body.login-page div#card-container div#left-card {
-    flex: 1;
-    padding: 40px;
-    text-align: center;
+.nav-bar a {
+    font-weight: 1000;
+    color: var(--link-unactive-color);
+    text-underline-offset: 10px;
+    transition: color 0.1s ease-in;
 }
 
-body.login-page div#card-container div#left-card div#btn-container{
-    margin-top: 50%;
+.nav-bar a.active {
+    color: var(--link-active-color);
+    text-decoration: 3px var(--link-active-color) underline;
 }
 
-body.login-page div#card-container div#right-card {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    border-left: 0.5px dashed black;
+.nav-bar a:hover {
+    color: var(--link-active-color);
+    text-decoration: 3px var(--link-active-color) underline;
+}
+
+.profile-container {
+    display: inline-flex;
+    justify-content: flex-end;
     align-items: center;
-    padding: 40px;
+    gap: 5px;
 }
 
-body.login-page div#card-container div#btn-container{
+.profile-avatar {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.dropdown-arrow {
+    width: 20px;
+    height: 20px;
+}
+
+a.link-btn {
+    display: block;
+    min-width: 25%;
+    padding: 1rem;
+    background-color: #00ADB5;
+    text-align: center;
+    color: white;
+    font-weight: 800;
+    border-radius: 12px;
+}
+
+main.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.content-card {
+    margin-top: 3rem;
+    width: 60vw;
+    height: 80vh;
+    border: 1px solid black;
+    border-radius: 10px;
+    box-shadow: 0px 5px 3px rgba(0, 0, 0, 0.3);
+}
+
+div#search-bar-container {
+    box-sizing: border-box;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #222831;
+    padding-left: 20%;
+    padding-right: 20%;
+    padding-bottom: 2rem;
+}
+
+form {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 20px;
+    margin-top: 2rem;
+}
+
+form i {
+    left: 1rem;
+    position: absolute;
+    border: none;
+    background-color: transparent;
+}
+
+input.basic-textfield{
+    background-color: white;
+    font-weight: bold;
+    border: 2px solid #222831;
+    border-radius: 10px;
+    padding: 0.8rem;
+    padding-left: 4rem;
+
+    transition: outline 0.1s ease-in;
+}
+
+input::placeholder {
+    font-size: 0.8rem;  
+}
+
+input:focus {
+    background-color: white;
+    outline: 8px solid #6BAED8;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+    -webkit-text-fill-color: #000000 !important;
+}
+
+
+#job-search {
+    width: 60%;
+}
+
+#location-search {
+    width: 30%;
+}
+
+#go-btn {
+    width: 10%;
+}
+
+button.btn {
+    cursor: pointer;
+    text-align: center;
+    font-weight: 800;
+    font-size: 1rem;
+    padding: 1rem;
+    border-radius: 10px;
+    border: none;
+    background-color: #00ADB5;
+    color: white;
+
+    transition: background-color 0.1s ease-in;
+}
+
+button.btn:hover {
+    background-color: #00C4C2;
+}
+
+main.main-content {
+    height: 100vh;
+    border: 1px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* --- Job Posting Card Layout --- */
+.job-posting-card {
+    box-sizing: border-box;
+    width: 60%;/* Adjust this value based on your main wrapper container limits */
+    background-color: #FFFFFF;
+    border: 1.5px solid #A0AEC0; /* Matches the clean gray outline border from your design image */
+    border-radius: 12px; /* Smooth rounded interface edges */
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: row;
+    gap: 1.25rem; /* Precise horizontal separation between image and text block */
+    align-items: flex-start;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+/* Subtle micro-interaction hover effect matching your current system guidelines */
+.job-posting-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+}
+
+/* --- Left Side: Company Logo Box --- */
+.company-logo-container {
+    width: 72px;
+    height: 72px;
+    background-color: #F7FAFC; /* Soft off-white canvas frame backing */
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0; /* Prevents the box wrapper from shrinking if text space gets tight */
+    overflow: hidden;
+    padding: 0.5rem;
+    box-sizing: border-box;
+}
+
+.company-logo-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Scales brand icons cleanly without distorting aspects */
+}
+
+/* --- Right Side: Information Cluster --- */
+.job-details-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    line-height: 1.4;
+}
+
+/* Main bold header bold sizing */
+.job-posting-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #000000;
+    margin: 0 0 0.2rem 0;
+}
+
+/* Slate neutral medium text lines */
+.company-name-text {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #718096;
+    margin: 0 0 0.15rem 0;
+}
+
+.job-location-text {
+    font-size: 0.95rem;
+    font-weight: 400;
+    color: #718096;
+    margin: 0 0 0.25rem 0;
+}
+
+/* Bold accent pricing text layer */
+.job-salary-text {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #4A5568;
+    margin: 0 0 0.35rem 0;
+}
+
+/* Small relative upload time context tracker indicator */
+.posted-time-badge {
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: #A0AEC0;
+}
+
+div#card-container {
+    height: 70vh;
+    width: 60vw;
+    border: 3px solid #EEEEEE;
+    border-radius: 12px;
+    display: flex;
+
+}
+
+div#left-card {
+    width: 50%;
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10%;
+    background-color: #393E46;
+    border-radius: 0 12px 12px 0;
+}
+
+div#left-card * {
+    color: #EEEEEE;
+}
+
+div#left-card h1 {
+    font-size: 3rem;
+}
+
+div#right-card {
+    width: 50%;
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+div#right-card form {
     display: flex;
     flex-direction: column;
 }
 
-body.login-page div#card-container div#right-card form {
-    margin-top: 6rem;
-}
-
-.form-group {
-    margin-bottom: 1.2rem;
-}
-
-.form-group input{
-    padding: 1rem;
-    margin-top: 1rem;
-    border-radius: 25px;
-    caret-color: red;
-}
-
-.form-group input:focus{
-    border: 2px solid black;
-    outline: none;
-    background-color: bisque;
-    box-shadow: 5px 5px black;
-}
-
-.submit-btn {
-    background-color: black;
-    color: white;
-    padding: 1rem;
-    border-radius: 25px;
+div#right-card .form-group {
+    display: flex;
+    flex-direction: column;
     width: 100%;
 }
 
-.submit-btn:hover {
-    cursor: pointer;
-    box-shadow: 5px 5px black;
-    background-color: white;
-    color: black;
+div#right-card input {
+
 }
-/* end -- login.html */
+
+div#btn-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+footer{
+    width: 100vw;
+    border-top: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+div.link-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem;
+    gap: 1rem;
+}
+
+div.link-wrapper a {
+    color: rgba(0, 0, 0, 0.5);
+    transition: color 0.1s ease-in;
+}
+
+div.link-wrapper a:hover {
+    color: rgba(0, 0, 0, 1);
+}
+
+div.rights-footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1.5rem;
+}
+
+/*For mobile screen*/
+@media screen and (max-width: 768px) {
+    header nav.nav-bar {
+        display: none;
+        top: 0;
+        padding: 2rem;
+        padding-top: 5rem;
+        flex-direction: column;
+        width: 100vw;
+        position: fixed;
+        z-index: 100;
+        flex-direction: column;
+        background-color: white;
+    }
+
+    header h1 {
+        margin-left: 1rem;
+        margin-right: 5rem;
+    }
+    header h1, header i {
+        z-index: 101;
+    }
+
+    i#hidden-btn {
+        padding-left: 1rem;
+    }
+
+    div#search-bar-container {
+        padding-left: 5%;
+        padding-right: 5%;
+    }
+
+    div#search-bar-container form {
+        flex-direction: column;
+    }
+
+    div#search-bar-container form button, div#search-bar-container form input{
+        width: 100%;
+    }
+
+    main {
+        padding: 0;
+    }
+
+    section {
+        min-width: 90vw;
+    }
+}
+
+@media screen and (min-width: 769px) {
+    i#hidden-btn {
+        display: none;
+    }
+}
