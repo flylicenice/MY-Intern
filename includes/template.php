@@ -1,87 +1,54 @@
-<?php
-$customerName    = 'John Doe';
-$customerAddress = '54321 Cloudy Road';
-$customerCity    = 'Cloudsville, CA 54321';
-$invoiceDate     = date('F d, Y');
-$items = [
-    [
-        'item'        => '001',
-        'description' => 'Web Design Services',
-        'quantity'    => 1,
-        'price'       => 1500.00
-    ],
-    [
-        'item'        => '002',
-        'description' => 'Hosting (12 months)',
-        'quantity'    => 1,
-        'price'       => 240.00
-    ],
-    // Add more items as needed
-];
-$totalDue = array_reduce($items, function($sum, $item) {
-    return $sum + ($item['quantity'] * $item['price']);
-}, 0);
-?>
-
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Invoice</title>
-    <style>
-        /* Minimal styling for clarity */
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        h1 { margin-bottom: 10px; }
-        .company-details, .customer-details {
-            display: inline-block;
-            width: 45%;
-            vertical-align: top;
-        }
-        .customer-details { text-align: right; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        .total { text-align: right; margin-top: 10px; }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Your Email</title>
 </head>
-<body>
-    <h1>Invoice</h1>
-
-    <div class="company-details">
-        <strong>Company Name</strong><br>
-        12345 Sunny Road<br>
-        Sunnyville, TX 12345
-    </div>
-
-    <div class="customer-details">
-        <strong><?= htmlspecialchars($customerName) ?></strong><br>
-        <?= htmlspecialchars($customerAddress) ?><br>
-        <?= htmlspecialchars($customerCity) ?>
-    </div>
-    <br style="clear: both;">
-
-    <p>Date: <?= htmlspecialchars($invoiceDate) ?></p>
-
-    <table>
+<body style="margin: 0; padding: 0; background-color: #F4F7F6; font-family: 'Segoe UI', Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased;">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="table-layout: fixed; background-color: #F4F7F6;">
         <tr>
-            <th>Item</th>
-            <th>Description</th>
-            <th>Quantity</th>
-            <th>Price</th>
-            <th>Line Total</th>
+            <td align="center" style="padding: 40px 10px;">
+                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 500px; background-color: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 12px; box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.03); overflow: hidden;">
+                    
+                    <tr>
+                        <td align="center" style="background-color: #111E4B; padding: 30px 20px;">
+                            <h1 style="margin: 0; color: #FFFFFF; font-size: 28px; font-weight: 800; letter-spacing: -0.5px;">MYIntern</h1>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td style="padding: 40px 30px; text-align: left;">
+                            <h2 style="margin: 0 0 16px 0; color: #1A202C; font-size: 20px; font-weight: 700;">Verify Your Email Address</h2>
+                            <p style="margin: 0 0 12px 0; color: #4A5568; font-size: 15px; line-height: 1.6;">Hi <strong>{USER_NAME}</strong>,</p>
+                            <p style="margin: 0 0 24px 0; color: #4A5568; font-size: 15px; line-height: 1.6;">Thank you for registering with the MYIntern Portal. Before you can begin exploring internship placements or reviewing candidate files, please confirm your email address by clicking the verification button below:</p>
+                            
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                    <td align="center" style="padding: 10px 0 30px 0;">
+                                        <a href="{VERIFICATION_URL}" target="_blank" style="display: inline-block; background-color: #00ADB5; color: #FFFFFF; font-size: 15px; font-weight: 700; text-decoration: none; padding: 12px 32px; border-radius: 8px; box-shadow: 0px 4px 6px rgba(0, 173, 181, 0.2); transition: background-color 0.2s ease;">Verify Account</a>
+                                    </td>
+                                </tr>
+                            </table>
+                            
+                            <div style="background-color: #F7FAFC; border-left: 4px solid #CBD5E0; padding: 12px 16px; margin-bottom: 24px; border-radius: 0 6px 6px 0;">
+                                <p style="margin: 0; color: #718096; font-size: 13px; line-height: 1.5;"><strong>Security notice:</strong> This secure verification link will expire in 24 hours. If you did not create an account on the MYIntern platform, please safely ignore this communication.</p>
+                            </div>
+                            
+                            <p style="margin: 0; color: #4A5568; font-size: 14px; line-height: 1.5;">Best regards,<br><strong style="color: #111E4B;">The MYIntern Academic Team</strong></p>
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td align="center" style="background-color: #F8FAFC; border-top: 1px solid #E2E8F0; padding: 20px; color: #A0AEC0; font-size: 12px; line-height: 1.4;">
+                            <p style="margin: 0 0 4px 0;">&copy; 2026 MYIntern Portal. All Rights Reserved.</p>
+                            <p style="margin: 0;">This is an automated operational notification. Please do not reply directly to this message.</p>
+                        </td>
+                    </tr>
+                    
+                </table>
+            </td>
         </tr>
-        <?php foreach($items as $item): ?>
-            <tr>
-                <td><?= htmlspecialchars($item['item']) ?></td>
-                <td><?= htmlspecialchars($item['description']) ?></td>
-                <td><?= htmlspecialchars($item['quantity']) ?></td>
-                <td>$<?= number_format($item['price'], 2) ?></td>
-                <td>$<?= number_format($item['quantity'] * $item['price'], 2) ?></td>
-            </tr>
-        <?php endforeach; ?>
     </table>
-
-    <div class="total">
-        <strong>Total Due: $<?= number_format($totalDue, 2) ?></strong>
-    </div>
 </body>
 </html>

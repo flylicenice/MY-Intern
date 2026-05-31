@@ -1,4 +1,5 @@
 <?php
+
 require_once "config/db.php";
 require_once "includes/session.php";
 
@@ -68,10 +69,11 @@ $loggedInStatus = isLoggedIn();
         </div>
     </main>
     
+    <div class="main-area" id="job-posting-area">
     <?php $i = 0;
     while ($i < 3):
     ?>
-        <div class="job-posting-card">
+        <div class="job-posting-card hide-word-ellipsis">
             <div class="company-logo-container">
                 <img src="assets/default-user.svg" alt="Company Logo" class="company-logo-img">
             </div>
@@ -87,6 +89,7 @@ $loggedInStatus = isLoggedIn();
     <?php $i++;
     endwhile;
     ?>
+    </div>
 
 
     <?php include("includes/footer.php"); ?>

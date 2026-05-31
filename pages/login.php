@@ -1,54 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <title>MYIntern | Login</title>
+    <link rel="stylesheet" href="../css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://gstatic.com" crossorigin>
     <link href="https://googleapis.com" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/4d8d735e30.js" crossorigin="anonymous"></script>
-    
-    <link rel="stylesheet" href="../css/style.css">
-    <script src="../js/auth.js"></script>
-    <title>MyIntern | Login</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
+<body class="auth-body">
 
-<body class="center">
-    <main class="main-content">
-        <div id="card-container">
-            <div id="left-card">
-                <a class="link" href="../index.html"><h1>MYIntern</h1></a>
+    <header class="auth-header">
+        <h1 class="brand-logo">MYIntern</h1>
+    </header>
 
-                <div id="btn-container">
-                    <a class="btn" href=""><strong>Student</strong></a>
-                    <a class="btn" href=""><strong>Lecturer</strong></a>
-                    <a class="btn" href=""><strong>Company</strong></a>
-                </div>
+    <main class="login-card-container">
+        <h2 class="card-title">Welcome Back!</h2>
+        
+        <form action="../actions/login_process.php" method="POST" class="login-form">
+            
+            <div class="field-wrapper">
+                <input type="email" name="email" id="email" placeholder="Email" required autocomplete="email">
             </div>
 
-            <div id="right-card">
-                <h1>Login</h1>
-
-                <form id="loginForm">
-                    <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" name="user-email" required">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Password</label>
-                        <input type="password" required>
-                    </div>
-
-                    <button type="submit" class="submit-btn" id="submitBtn">Login</button>
-                    <div id="responseMessage" style="margin-top: 10px;"></div>
-                </form>
+            <div class="field-wrapper password-wrapper">
+                <input type="password" name="password" id="password" placeholder="Password" required>
+                <i class='bx bx-show password-toggle-icon' id="togglePassword"></i>
             </div>
-        </div>
+
+            <button type="submit" name="submit_login" class="login-submit-btn">Login</button>
+            
+        </form>
     </main>
-
 </body>
-
 </html>

@@ -90,10 +90,19 @@ a.link-btn {
     border-radius: 12px;
 }
 
-main.wrapper {
+.wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+/* --- Center Side: Job Posting or Search Result --- */
+.main-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100vw;
 }
 
 .content-card {
@@ -117,7 +126,7 @@ div#search-bar-container {
     padding-bottom: 2rem;
 }
 
-form {
+.search-container {
     position: relative;
     display: flex;
     align-items: center;
@@ -204,22 +213,21 @@ main.main-content {
     box-sizing: border-box;
     width: 60%;/* Adjust this value based on your main wrapper container limits */
     background-color: #FFFFFF;
-    border: 1.5px solid #A0AEC0; /* Matches the clean gray outline border from your design image */
+    border: 2px solid #A0AEC0; /* Matches the clean gray outline border from your design image */
     border-radius: 12px; /* Smooth rounded interface edges */
     padding: 1.5rem;
-    margin-top: 1.5rem;
     margin-bottom: 1.5rem;
     display: flex;
     flex-direction: row;
     gap: 1.25rem; /* Precise horizontal separation between image and text block */
     align-items: flex-start;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    transition: border 0.2s ease-in;
+    transition: border 0.2s ease-in-out;
 }
 
 /* Subtle micro-interaction hover effect matching your current system guidelines */
 .job-posting-card:hover {
-    border: 3px solid #00ADB5;
+    border: 2px solid #000080;
     cursor: pointer;
 }
 
@@ -431,61 +439,243 @@ main.main-content {
     transform: scale(0.99);
 }
 
-div#card-container {
-    height: 70vh;
-    width: 60vw;
-    border: 3px solid #EEEEEE;
-    border-radius: 12px;
+/* --- Core Structural Settings for Multi-Column Split Screen --- */
+.signup-body {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #FFFFFF;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.signup-split-container {
     display: flex;
-
+    width: 100%;
+    height: 100%;
+    flex-direction: row;
 }
 
-div#left-card {
-    width: 50%;
-    padding: 3rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10%;
-    background-color: #393E46;
-    border-radius: 0 12px 12px 0;
-}
-
-div#left-card * {
-    color: #EEEEEE;
-}
-
-div#left-card h1 {
-    font-size: 3rem;
-}
-
-div#right-card {
-    width: 50%;
-    padding: 3rem;
+/* ================= LEFT COLUMN STYLING ================= */
+.role-selection-sidebar {
+    width: 35%; /* Golden ratio side distribution panel */
+    background-color: #E2C279; /* Exact soft corporate gold theme from image reference */
     display: flex;
     flex-direction: column;
+    padding: 4rem 3rem;
+    box-sizing: border-box;
+    justify-content: center;
     align-items: center;
 }
 
-div#right-card form {
-    display: flex;
-    flex-direction: column;
+.sidebar-logo {
+    font-size: 2.8rem;
+    font-weight: 800;
+    color: #000000;
+    margin: 0 0 3rem 0;
+    letter-spacing: -1px;
 }
 
-div#right-card .form-group {
+.role-toggle-group {
     display: flex;
     flex-direction: column;
     width: 100%;
+    max-width: 280px;
+    gap: 1rem;
 }
 
-div#right-card input {
-
+.toggle-heading {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #000000;
+    margin: 0 0 0.5rem 0;
+    text-align: center;
 }
 
-div#btn-container {
+.secondary-heading {
+    margin-top: 1.5rem;
+}
+
+/* Stylized Capsule Buttons from user visual designs */
+.role-nav-btn {
+    width: 100%;
+    background-color: #FFFFFF;
+    color: #333333;
+    font-size: 1.15rem;
+    font-weight: 500;
+    padding: 0.9rem;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.06);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.role-nav-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Highlight Indicator tracking user click parameters */
+.role-nav-btn.active {
+    background-color: #111E4B; /* Navy background indicator toggle state */
+    color: #FFFFFF;
+    font-weight: 600;
+}
+
+/* ================= RIGHT COLUMN FORM STYLING ================= */
+.signup-form-canvas {
+    width: 65%;
+    height: 100%;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
+    background-color: #FFFFFF;
+    padding: 2rem;
+    box-sizing: border-box;
+}
+
+.form-scroll-wrapper {
+    width: 100%;
+    max-width: 520px; /* Centers and matches element bounds */
+    max-height: 90vh;
+    overflow-y: auto; /* Ensures seamless entry if height gets compressed */
+    padding-right: 10px;
+}
+
+/* Clean custom scrollbar for right side form container */
+.form-scroll-wrapper::-webkit-scrollbar {
+    width: 6px;
+}
+.form-scroll-wrapper::-webkit-scrollbar-thumb {
+    background: #CBD5E0;
+    border-radius: 4px;
+}
+
+.form-title {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #000000;
+    text-align: center;
+    margin: 0 0 2.5rem 0;
+    letter-spacing: -0.5px;
+}
+
+/* Flex Grid Structure for Input Placement */
+.form-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+    width: 100%;
+    margin-bottom: 1.2rem;
+}
+
+.security-grid {
+    border-top: 1px dashed #E2E8F0;
+    padding-top: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.input-block {
+    flex: 1 1 calc(50% - 0.6rem); /* Creates side-by-side execution elements layout naturally */
+    min-width: 220px;
+}
+
+.input-block.full-width {
+    flex: 1 1 100%;
+}
+
+/* Input Frame Outlines */
+.input-block input, .select-wrapper select {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.9rem 1.2rem;
+    border: 1.5px solid #CBD5E0;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #2D3748;
+    background-color: #FFFFFF;
+    outline: none;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.02);
+    transition: all 0.15s ease-in-out;
+}
+
+/* Focus glow tracking indicators */
+.input-block input:focus, .select-wrapper select:focus {
+    border-color: #111E4B;
+    box-shadow: 0 0 0 4px rgba(17, 30, 75, 0.08);
+}
+
+/* Custom Dropdown Arrow alignment mechanisms */
+.select-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.select-wrapper select {
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    padding-right: 2.5rem;
+}
+
+.select-wrapper::after {
+    content: '\25BC';
+    font-size: 0.75rem;
+    color: #718096;
+    position: absolute;
+    right: 1.2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+/* Hide/Show logic for Multi-Role Framework panels */
+.role-conditional-fields {
+    display: none;
+    width: 100%;
+}
+
+.role-conditional-fields.active {
+    display: block;
+    animation: fadeInForm 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes fadeInForm {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ================= COMPACT SUBMIT ACTION BUTTON ================= */
+.form-action-row {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.signup-submit-btn {
+    background-color: #FFFFFF;
+    color: #333333;
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding: 0.8rem 3rem;
+    border: 1.5px solid #CBD5E0;
+    border-radius: 14px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    transition: all 0.15s ease;
+}
+
+.signup-submit-btn:hover {
+    background-color: #111E4B;
+    color: #FFFFFF;
+    border-color: #111E4B;
+    transform: scale(1.02);
 }
 
 footer{
@@ -565,6 +755,16 @@ div.rights-footer {
 
     section {
         min-width: 90vw;
+    }
+
+    .job-posting-card {
+        width: 80%;
+    }
+
+    .hide-word-ellipsis {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 }
 
