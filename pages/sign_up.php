@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Join MYIntern</title>
+    <title>MYIntern | Join Us</title>
     <link rel="stylesheet" href="../css/style.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
@@ -11,7 +11,7 @@
 
     <div class="signup-split-container">
         
-        <aside class="role-selection-sidebar">
+        <aside class="role-selection-sidebar" id="sign-up-sidebar">
             <h1 class="sidebar-logo">MYIntern</h1>
             
             <div class="role-toggle-group">
@@ -19,10 +19,6 @@
                 
                 <button type="button" class="role-nav-btn active" data-target-role="Student">
                     Student
-                </button>
-                
-                <button type="button" class="role-nav-btn" data-target-role="Lecturer">
-                    Lecturer
                 </button>
                 
                 <p class="toggle-heading secondary-heading">Or start hiring here!</p>
@@ -43,21 +39,19 @@
 
                     <div class="form-grid">
                         <div class="input-block full-width">
-                            <input type="text" name="fullname" placeholder="Full Name" required>
-                        </div>
-                        
-                        <div class="input-block full-width">
                             <input type="email" name="email" placeholder="Email Address" required>
-                        </div>
-
-                        <div class="input-block full-width">
-                            <input type="tel" name="phone_number" placeholder="Phone Number" required>
                         </div>
                     </div>
 
 
                     <div class="role-conditional-fields active" id="fields-Student">
                         <div class="form-grid">
+                            <div class="input-block full-width">
+                                <input type="text" name="fullname" placeholder="Full Name" required>
+                            </div>
+                            <div class="input-block full-width">
+                                <input type="tel" name="phone_number" placeholder="Phone Number" required>
+                            </div>
                             <div class="input-block">
                                 <input type="text" name="matric_no" placeholder="Matric No." required>
                             </div>
@@ -80,26 +74,51 @@
                         </div>
                     </div>
 
-
-                    <div class="role-conditional-fields" id="fields-Lecturer">
-                        <div class="form-grid">
-                            <div class="input-block">
-                                <input type="text" name="staff_id" placeholder="Staff ID Number">
-                            </div>
-                            <div class="input-block">
-                                <input type="text" name="department" placeholder="Academic Faculty Department">
-                            </div>
-                        </div>
-                    </div>
-
-
                     <div class="role-conditional-fields" id="fields-Company">
                         <div class="form-grid">
                             <div class="input-block full-width">
-                                <input type="text" name="company_name" placeholder="Company Name / Organization">
+                                <input type="text" name="registration_no" placeholder="Company Registration No.">
                             </div>
                             <div class="input-block full-width">
-                                <input type="text" name="company_address" placeholder="Corporate HQ Address Location">
+                                <input type="text" name="company_name" placeholder="Company Name">
+                            </div>
+                            <div class="input-block full-width">
+                                <input type="text" name="employee_size" placeholder="Employee Size e.g.: [100 - 200]">
+                            </div>
+                            <div class="input-block">
+                                <input type="text" name="unit" placeholder="Unit">
+                            </div>
+                            <div class="input-block">
+                                <input type="text" name="street" placeholder="Street">
+                            </div>
+                            <div class="input-block">
+                                <input type="text" name="postcode" placeholder="Postal Code">
+                            </div>
+                            <div class="input-block">
+                                <input type="text" name="city" placeholder="City">
+                            </div>
+                            <div class="input-block full-width">
+                                <div class="select-wrapper">
+                                    <select name="state" required>
+                                        <option value="" disabled selected>State</option>
+                                        <option value="Johor">Johor</option>
+                                        <option value="Kedah">Kedah</option>
+                                        <option value="Kelantan">Kelantan</option>
+                                        <option value="Kuala Lumpur">Kuala Lumpur</option>
+                                        <option value="Labuan">Labuan</option>
+                                        <option value="Melaka">Melaka</option>
+                                        <option value="Negeri Sembilan">Negeri Sembilan</option>
+                                        <option value="Pahang">Pahang</option>
+                                        <option value="Penang">Penang</option>
+                                        <option value="Perak">Perak</option>
+                                        <option value="Perlis">Perlis</option>
+                                        <option value="Putrajaya">Putrajaya</option>
+                                        <option value="Sabah">Sabah</option>
+                                        <option value="Sarawak">Sarawak</option>
+                                        <option value="Selangor">Selangor</option>
+                                        <option value="Terengganu">Terengganu</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>
