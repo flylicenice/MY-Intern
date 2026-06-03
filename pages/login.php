@@ -4,51 +4,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <title>MYIntern | Login</title>
+    <link rel="stylesheet" href="../css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://gstatic.com" crossorigin>
     <link href="https://googleapis.com" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/4d8d735e30.js" crossorigin="anonymous"></script>
-    
-    <link rel="stylesheet" href="../css/style.css">
-    <script src="../js/auth.js"></script>
-    <title>MyIntern | Login</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 
-<body class="center">
-    <main class="main-content">
-        <div id="card-container">
-            <div id="left-card">
-                <a class="link" href="../index.html"><h1>MYIntern</h1></a>
+<body class="signup-body">
 
-                <div id="btn-container">
-                    <a class="btn" href=""><strong>Student</strong></a>
-                    <a class="btn" href=""><strong>Lecturer</strong></a>
-                    <a class="btn" href=""><strong>Company</strong></a>
+    <div class="signup-split-container">
+
+        <aside class="role-selection-sidebar" id="login-sidebar">
+            <h1 class="sidebar-logo">MYIntern</h1>
+
+            <div class="role-toggle-group">
+                <p class="toggle-heading">Are you a...</p>
+
+                <button type="button" class="role-nav-btn active" data-target-role="Student">
+                    Student
+                </button>
+
+                <button type="button" class="role-nav-btn" data-target-role="Lecturer">
+                    Lecturer
+                </button>
+
+                <p class="toggle-heading secondary-heading">Or manage your company now!</p>
+
+                <button type="button" class="role-nav-btn" data-target-role="Company">
+                    Employer
+                </button>
+            </div>
+        </aside>
+
+        <main class="signup-form-canvas">
+    <div class="form-scroll-wrapper">
+        <h2 class="form-title">Welcome Back!</h2>
+        
+        <form action="../actions/login_process.php" method="POST" id="loginForm">
+            
+            <input type="hidden" name="role" id="userRoleInput" value="Student">
+
+            <div class="form-grid">
+                
+                <div class="input-block full-width">
+                    <input type="email" name="email" placeholder="Email Address" required autocomplete="username">
                 </div>
+
+                <div class="input-block full-width" style="position: relative;">
+                    <input type="password" name="password" id="loginPasswordInput" placeholder="Password" required autocomplete="current-password">
+                    <i class='bx bx-hide' id="togglePasswordVisibility"></i>
+                </div>
+
             </div>
 
-            <div id="right-card">
-                <h1>Login</h1>
-
-                <form id="loginForm">
-                    <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" name="user-email" required">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Password</label>
-                        <input type="password" required>
-                    </div>
-
-                    <button type="submit" class="submit-btn" id="submitBtn">Login</button>
-                    <div id="responseMessage" style="margin-top: 10px;"></div>
-                </form>
+            <div class="forgot-block">
+                <a href="forgot_password.php" style="color: #111E4B; text-decoration: none; font-weight: 500;">Forgot Password?</a>
+                <p style="color: #718096;">Don't have an account? <a href="sign_up.php" style="color: #E2C279; text-decoration: none; font-weight: 600;">Register here</a></p>
             </div>
+
+            <div class="form-action-row">
+                <button id="login-btn" type="submit" name="submit_login" class="signup-submit-btn">Login</button>
+            </div>
+
+            <?php if (isset($_GET['error'])): ?>
+        <div style="color: #9B1C1C; background-color: #FDE8E8; padding: 10px; margin-bottom: 15px; text-align: center; border-radius: 6px;">
+            <?php
+                if ($_GET['error'] === 'invalid_credentials') {
+                    echo "❌ Incorrect email address or password.";
+                } elseif ($_GET['error'] === 'empty_fields') {
+                    echo "❌ Please fill out all fields.";
+                } elseif ($_GET['error'] === 'account_disabled') {
+                    echo "⚠️ This account has been disabled or suspended.";
+                } elseif ($_GET['error'] === 'system_fault') {
+                    echo "⚠️ A database error occurred. Please try again later.";
+                } elseif ($_GET['error'] === 'unverified') {
+                    echo "⚠️ This account is not activated yet.";
+                }
+            ?>
         </div>
-    </main>
+    <?php endif; ?>
+        </form>
+    </div>
+</main>
 
-</body>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // --- 1. Keep Left Sidebar Role Selector Synchronized ---
+        const roleButtons = document.querySelectorAll(".role-nav-btn");
+        const roleInput = document.getElementById("userRoleInput");
+
+        roleButtons.forEach(button => {
+            button.addEventListener("click", function() {
+                roleButtons.forEach(btn => btn.classList.remove("active"));
+                this.classList.add("active");
+                
+                // Keep backend informed whether a Student, Lecturer, or Employer is attempting login
+                const selectedRole = this.getAttribute("data-target-role");
+                roleInput.value = selectedRole;
+            });
+        });
+
+        // --- 2. Interactive Password Eye Toggle Logic ---
+        const passwordField = document.getElementById("loginPasswordInput");
+        const visibilityToggle = document.getElementById("togglePasswordVisibility");
+
+        if (visibilityToggle && passwordField) {
+            visibilityToggle.addEventListener("click", function() {
+                if (passwordField.type === "password") {
+                    passwordField.type = "text";
+                    this.classList.replace("bx-hide", "bx-show");
+                } else {
+                    passwordField.type = "password";
+                    this.classList.replace("bx-show", "bx-hide");
+                }
+            });
+        }
+    });
+</script>
 
 </html>

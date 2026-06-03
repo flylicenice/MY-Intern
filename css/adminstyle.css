@@ -1,0 +1,251 @@
+:root {
+    --navy-blue: #111E4B;
+    --gold-accent: #E2C279;
+    --bg-canvas: #F8FAFC;
+    --border-color: #E2E8F0;
+    --text-dark: #1E293B;
+    --text-muted: #64748B;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Google Sans", sans-serif;
+    background-color: var(--bg-canvas);
+    color: var(--text-dark);
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* ================= SIDEBAR NAVIGATION PANEL ================= */
+.admin-sidebar {
+    width: 260px;
+    background-color: var(--navy-blue);
+    color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem 1.5rem;
+    box-sizing: border-box;
+}
+
+.sidebar-brand {
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin-bottom: 0.2rem;
+    letter-spacing: -0.5px;
+}
+
+.sidebar-subtext {
+    color: var(--gold-accent);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 3rem;
+    letter-spacing: 1px;
+}
+
+.nav-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.nav-item a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #E2E8F0;
+    text-decoration: none;
+    padding: 0.8rem 1rem;
+    border-radius: 10px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.nav-item.active a,
+.nav-item a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #FFFFFF;
+}
+
+.nav-item.active a {
+    border-left: 4px solid var(--gold-accent);
+    border-radius: 0 10px 10px 0;
+    padding-left: calc(1rem - 4px);
+}
+
+.logout-box {
+    margin-top: auto;
+}
+
+.logout-box a {
+    color: #FFAAAA;
+}
+
+/* ================= MAIN CONTENT AREA ================= */
+.dashboard-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    padding: 2.5rem;
+    box-sizing: border-box;
+}
+
+.header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2.5rem;
+}
+
+.header-row h1 {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+/* ================= METRIC CARDS GRID ================= */
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.metric-card {
+    background-color: #FFFFFF;
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+}
+
+.metric-info h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.metric-info p {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--navy-blue);
+}
+
+.metric-icon {
+    font-size: 2.5rem;
+    color: var(--gold-accent);
+    background-color: #FEFCE8;
+    padding: 0.5rem;
+    border-radius: 12px;
+}
+
+.metric-card:nth-child(2) .metric-icon {
+    color: #38BDF8;
+    background-color: #F0F9FF;
+}
+
+.metric-card:nth-child(3) .metric-icon {
+    color: #F43F5E;
+    background-color: #FFF1F2;
+}
+
+/* ================= DATA DATA TABLE BANNER ================= */
+.data-table-section {
+    background-color: #FFFFFF;
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+    padding: 1.5rem;
+}
+
+.table-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 0 0 1.5rem 0;
+}
+
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+th {
+    background-color: #F8FAFC;
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.95rem;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+.status-badge {
+    padding: 0.3rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: inline-block;
+    text-transform: capitalize;
+}
+
+.status-badge.pending {
+    background-color: #FEF3C7;
+    color: #D97706;
+}
+
+/* Action elements trigger states */
+.action-btn {
+    padding: 0.4rem 0.8rem;
+    border-radius: 8px;
+    border: none;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: transform 0.1s ease;
+}
+
+.action-btn:active {
+    transform: scale(0.96);
+}
+
+.btn-approve {
+    background-color: #DCFCE7;
+    color: #15803D;
+    margin-right: 0.5rem;
+}
+
+.btn-reject {
+    background-color: #FEE2E2;
+    color: #B91C1C;
+}

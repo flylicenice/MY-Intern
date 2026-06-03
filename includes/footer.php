@@ -1,6 +1,6 @@
 <footer>
     <div class="link-wrapper">
-        <a class="basic-link" href="#">About</a>
+        <a class="basic-link" href="/MYIntern/pages/about_us.php">About</a>
         <a class="basic-link" href="#">Contact</a>
         <a class="basic-link" href="#">Terms</a>
     </div>
