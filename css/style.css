@@ -61,7 +61,7 @@ header h1 {
 }
 
 .profile-container {
-    display: inline-flex;
+    display: flex;
     justify-content: flex-end;
     align-items: center;
     gap: 5px;
@@ -81,13 +81,17 @@ header h1 {
 
 a.link-btn {
     display: block;
-    min-width: 25%;
+    min-width: 100px;
     padding: 1rem;
-    background-color: #00ADB5;
+    background-color: #000080;
     text-align: center;
     color: white;
     font-weight: 800;
     border-radius: 12px;
+}
+
+.link-btn:hover {
+    background-color: #00ADB5;
 }
 
 .wrapper {
@@ -106,12 +110,18 @@ a.link-btn {
 }
 
 .content-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;    
+    gap: 3rem;
     margin-top: 3rem;
-    width: 60vw;
-    height: 80vh;
-    border: 1px solid black;
-    border-radius: 10px;
-    box-shadow: 0px 5px 3px rgba(0, 0, 0, 0.3);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
+    box-sizing: border-box;
+    min-width: 40vw;
+    min-height: 40vh;
+
 }
 
 div#search-bar-container {
@@ -546,8 +556,11 @@ main.main-content {
 }
 
 .form-scroll-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     width: 100%;
-    max-width: 520px; /* Centers and matches element bounds */
+    max-width: 600px; /* Centers and matches element bounds */
     max-height: 90vh;
     overflow-y: auto; /* Ensures seamless entry if height gets compressed */
     padding-right: 10px;
@@ -685,6 +698,13 @@ main.main-content {
     transform: scale(1.02);
 }
 
+#login-btn {
+    background-color: #111E4B;
+    color: #FFFFFF;
+    border-color: #111E4B;
+    width: 100%;
+}
+
 footer{
     width: 100vw;
     border-top: 1px solid rgba(0, 0, 0, 0.3);
@@ -726,8 +746,109 @@ i#togglePasswordVisibility {
     font-size: 1.25rem;
 }
 
+div.forgot-block {
+    display: flex; 
+    justify-content: space-between; 
+    margin: 0.5rem 0 1.5rem 0; 
+    font-size: 0.9rem;
+}
+
+div.blue-container {
+    background-color: #111E4B;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#about-container {
+    min-height: 10vh;
+    min-width: 100vw;
+}
+
+h1.about-title {
+    color: white;
+}
+
+div#info-wrapper {
+    margin-top: 5rem;
+    margin-bottom: 5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+div#role-wrapper {
+    min-width: 90vw;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    padding: 2rem;
+    background: linear-gradient(-90deg, #FFF7CD, #FDC3A1, #FB9B8F, #F57799);
+
+}
+
+div.role-card {
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
+    border-radius: 12px;
+    min-width: 30%;
+    padding: 1.5rem;
+    background-color: white;
+}
+
+div.role-svg-container {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 1rem;
+}
+
+img.role-pic {
+    width: 50px;
+    height: 50px;
+}
+
+div#statistics-wrapper {
+    background: linear-gradient(90deg, #8F87F1, #C68EFD, #E9A5F1, #FED2E2);
+    display: flex;
+    margin-top: 2rem;
+    border-radius: 12px;
+    padding: 1rem;
+    gap: 1rem;
+    width: 60vw;
+    margin-bottom: 2rem;
+}
+
+div.statistics-card {
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
+    border-radius: 12px;
+    padding: 2rem;
+    width: 30%;
+    text-align: center;
+}
+
+h1.stats {
+    text-align: center;
+    color: white;
+    font-size: 5rem;
+}
+
+
+/* Forgot Password */
+div.input-wrapper {
+    width: 100%;
+}
+
+form#forgot-password {
+    width: 80%;
+}
+
 /*For mobile screen*/
 @media screen and (max-width: 768px) {
+    header {
+        gap: 20px;
+    }
+
     header nav.nav-bar {
         display: none;
         top: 0;
@@ -741,10 +862,19 @@ i#togglePasswordVisibility {
         background-color: white;
     }
 
-    header h1 {
-        margin-left: 1rem;
-        margin-right: 5rem;
+    
+    .link-btn {
+        padding: 0.5rem;
+        font-size: 0.8rem;
+        min-width: 80px;
+        height: 20px;
     }
+
+    .profile-container {
+        border: 1px solid black;
+        flex-direction: column;
+    }
+
     header h1, header i {
         z-index: 101;
     }
@@ -754,12 +884,12 @@ i#togglePasswordVisibility {
     }
 
     div#search-bar-container {
-        padding-left: 5%;
-        padding-right: 5%;
+        padding: 0%;
     }
 
     div#search-bar-container form {
         flex-direction: column;
+        width: 80%;
     }
 
     div#search-bar-container form button, div#search-bar-container form input{

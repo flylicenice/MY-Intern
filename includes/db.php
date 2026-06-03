@@ -11,10 +11,10 @@ try {
     $conn = new mysqli($servername, $username, $password, $dbname);
 
     if ($conn->connect_error) {
-        header("Location: /MyIntern/includes/error.php");
+        header("Location: /MyIntern/includes/error.php?error=database-error");
         exit();
     }
 } catch (Exception $e) {
-    header("Location: /MyIntern/includes/error.php");
+    header("Location: /MyIntern/includes/error.php?error=exception-occur");
     exit();
 }

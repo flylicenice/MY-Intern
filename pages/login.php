@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MYIntern | Login</title>
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 
@@ -56,15 +59,32 @@
 
             </div>
 
-            <div style="display: flex; justify-content: space-between; margin: 0.5rem 0 1.5rem 0; font-size: 0.9rem;">
+            <div class="forgot-block">
                 <a href="forgot_password.php" style="color: #111E4B; text-decoration: none; font-weight: 500;">Forgot Password?</a>
-                <span style="color: #718096;">Don't have an account? <a href="sign_up.php" style="color: #E2C279; text-decoration: none; font-weight: 600;">Register here</a></span>
+                <p style="color: #718096;">Don't have an account? <a href="sign_up.php" style="color: #E2C279; text-decoration: none; font-weight: 600;">Register here</a></p>
             </div>
 
             <div class="form-action-row">
-                <button type="submit" name="submit_login" class="signup-submit-btn" style="background-color: #111E4B; color: #FFFFFF; border-color: #111E4B; width: 100%;">Login</button>
+                <button id="login-btn" type="submit" name="submit_login" class="signup-submit-btn">Login</button>
             </div>
 
+            <?php if (isset($_GET['error'])): ?>
+        <div style="color: #9B1C1C; background-color: #FDE8E8; padding: 10px; margin-bottom: 15px; text-align: center; border-radius: 6px;">
+            <?php
+                if ($_GET['error'] === 'invalid_credentials') {
+                    echo "❌ Incorrect email address or password.";
+                } elseif ($_GET['error'] === 'empty_fields') {
+                    echo "❌ Please fill out all fields.";
+                } elseif ($_GET['error'] === 'account_disabled') {
+                    echo "⚠️ This account has been disabled or suspended.";
+                } elseif ($_GET['error'] === 'system_fault') {
+                    echo "⚠️ A database error occurred. Please try again later.";
+                } elseif ($_GET['error'] === 'unverified') {
+                    echo "⚠️ This account is not activated yet.";
+                }
+            ?>
+        </div>
+    <?php endif; ?>
         </form>
     </div>
 </main>

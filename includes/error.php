@@ -1,24 +1,13 @@
 <?php
-// Get the status code from the server
-$status = $_SERVER['REDIRECT_STATUS'] ?? 404;
 
-// Define friendly messages for common errors
-$codes = [
-    403 => ['Forbidden', 'You don\'t have permission to access this page.'],
-    404 => ['Page Not Found', 'The page you are looking for doesn\'t exist.'],
-    500 => ['Internal Server Error', 'Something went wrong on our end.'],
-];
-
-// Fallback for unknown codes
-$title = $codes[$status][0] ?? "Error $status";
-$message = $codes[$status][1] ?? "An unexpected error occurred.";
+$error = $_GET['error'];
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title><?php echo $title; ?></title>
+    <title>MYIntern | Error</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://gstatic.com" crossorigin>
     <link href="https://googleapis.com" rel="stylesheet">
@@ -39,6 +28,10 @@ $message = $codes[$status][1] ?? "An unexpected error occurred.";
 
         h3 {
             font-size: 2rem;
+        }
+
+        h3#error-msg {
+            color: red;
         }
 
         h2 {
@@ -71,6 +64,10 @@ $message = $codes[$status][1] ?? "An unexpected error occurred.";
     <h3>MYIntern</h3>
     <h1>Oops!</h1>
     <h2>Looks like there is an error.</h2>
-    <a id="home-btn" href="/MyIntern">Back to Home</a>
+    <h3 id="error-msg"><?php if(isset($error)) {
+        echo $error; 
+        } ?>
+    </h3>
+    <a id="home-btn" href="javascript:history.back()">Back</a>
 </body>
 </html>

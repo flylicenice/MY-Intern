@@ -1,7 +1,7 @@
 <?php
 
 // Connect the database first and open the session
-require_once '../config/db.php'; 
+require_once '../includes/db.php'; 
 require_once '../includes/session.php';
 
 // Only POST method and is submit by the submit_register button
@@ -16,20 +16,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_register'])) {
 
     // Error handlung
     if (!$email || empty($password) || empty($confirm_password) || empty($role)) {
-        header("Location: ../pages/login.php?error=empty_fields");
+        header("Location: ../includes/error.php?error=empty_fields");
         exit();
     }
 
     // Error handling
     if ($password !== $confirm_password) {
-        header("Location: ../pages/login.php?error=password_mismatch");
+        header("Location: ../includes/error.php?error=password_mismatch");
         exit();
     }
 
     // Error handling
     $allowed_roles = ['Student', 'Company'];
     if (!in_array($role, $allowed_roles)) {
-        header("Location: ../pages/login.php?error=invalid_role");
+        header("Location: ../includes/error.php?error=invalid_role");
         exit();
     }
 
@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_register'])) {
 
         //Error ahndling
         if (empty($matric_number) || empty($full_name) || empty($identification_no) || empty($course) || empty($phone_number)) {
-            header("Location: ../pages/login.php?error=empty_student_fields");
+            header("Location: ../includes/error.php?error=empty_student_fields");
             exit();
         }
     }
@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_register'])) {
 
         // Error handling
         if (empty($company_name)) {
-            header("Location: ../pages/login.php?error=empty_company_fields");
+            header("Location: ../includes/error.php?error=empty_company_fields");
             exit();
         }
     }
@@ -71,6 +71,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_register'])) {
     /* --- This whole block is for safely insert data into database --- */
 
     try {
+        $verification_code = bin2hex(random_bytes(32)); 
+        $code_expires_at = date('Y-m-d H:i:s', strtotime('+24 hours'));
+        $verification_link = "http://localhost/MYIntern/actions/verify_email.php?code=" . $verification_code . "&email=" . urlencode($email);
+            
         // Turn off auto-commit to begin a secure multi-table transaction block
         $conn->begin_transaction();
 
@@ -80,15 +84,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_register'])) {
         $check_stmt->bind_param("s", $email);
         $check_stmt->execute();
         if ($check_stmt->get_result()->num_rows > 0) {
-            header("Location: ../pages/login.php?error=email_taken");
+            header("Location: ../includes/error.php?error=email_taken");
             exit();
         }
         $hashed_password = password_hash($password, PASSWORD_BCRYPT);
 
         // STEP A: Insert core authentication credentials into USER table first
-        $user_sql = "INSERT INTO user (email, password, role, status, time_created) VALUES (?, ?, ?, ?, NOW())";
+        $user_sql = "INSERT INTO user (email, password, role, status, time_created, verification_code, code_expires_at) VALUES (?, ?, ?, ?, NOW(), ?, ?)";
         $user_stmt = $conn->prepare($user_sql);
-        $user_stmt->bind_param("ssss", $email, $hashed_password, $role, $status);
+        $user_stmt->bind_param("ssssss", $email, $hashed_password, $role, $status, $verification_code, $code_expires_at);
         $user_stmt->execute();
         
         // Grab the auto-incremented primary key ID from step A, so system knows where to continue
@@ -115,10 +119,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_register'])) {
         // Commit all changes to the database at hte same time
         $conn->commit();
 
-        // Execution success! Safely redirect to your login layout
-        header("Location: ../pages/login.php?signup=success");
-        exit();
+        require_once "../includes/send_verification_email.php";
+        $emailSent = sendVerificationEmail($email, $full_name, $verification_link);
 
+        if ($emailSent) {
+            header("Location: ../pages/login.php?signup=success");
+            exit();
+        } else {
+            header("Location: ../includes/error.php?email_error=failed_to_send");
+            exit();
+        }
+    
     } catch (Exception $e) {
         // Rollback structural database states if an unexpected failure occurs
         $conn->rollback();
@@ -127,7 +138,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_register'])) {
         error_log("Critical Registration Fail: " . $e->getMessage());
         
         // Route safely to your unified web error template panel
-        header("Location: ../pages/login.php?error=system_failure");
+        header("Location: ../includes/error.php?error=system_failure");
         exit();
     }
 

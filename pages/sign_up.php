@@ -27,6 +27,12 @@
                     Employer
                 </button>
             </div>
+
+            <div style="margin-top: 3rem; text-align: center;">
+                <p>Already have an account?</p>
+                <br>
+                <strong><a style="color: #5DF8D8;" href="login.php">Login here</a></strong>
+            </div>
         </aside>
 
         <main class="signup-form-canvas">
