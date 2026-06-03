@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/script.js"></script>
     <title>MYIntern | About Us</title>
 </head>
 <body class="center">
     <?php include("../includes/header_guest.php") ?>
     
-    <div class="blue-container title-container" id="about-container">
+    <div class="blue-container" id="about-container">
         <h1 class="about-title">About Us</h1>
     </div>
 
