@@ -28,7 +28,7 @@ $loggedInStatus = isLoggedIn();
 
 <body class="center">
 
-    <?php 
+    <?php
     if ($loggedInStatus) {
         include("includes/header_user.php");
     } else {
@@ -71,7 +71,16 @@ $loggedInStatus = isLoggedIn();
         ?>
     </div>
 
+    <div class="pagination-wrapper-container">
+        <p>Pages</p>
+
+        <?php $i = 1; while ($i < 9): ?>
+            <a class="pagination-number" href=""><?php echo $i ?></a>
+        <?php $i++; endwhile; ?>
+    </div>
+
 
     <?php include("includes/footer.php"); ?>
-    </body>
+</body>
+
 </html>

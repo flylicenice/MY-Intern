@@ -43,19 +43,19 @@ header h1 {
     margin-right: 25%;
 }
 
-.nav-bar a {
+a.blue-link {
     font-weight: 1000;
     color: var(--link-unactive-color);
     text-underline-offset: 10px;
     transition: color 0.1s ease-in;
 }
 
-.nav-bar a.active {
+a.blue-link.active {
     color: var(--link-active-color);
     text-decoration: 3px var(--link-active-color) underline;
 }
 
-.nav-bar a:hover {
+a.blue-link:hover {
     color: var(--link-active-color);
     text-decoration: 3px var(--link-active-color) underline;
 }
@@ -65,6 +65,32 @@ header h1 {
     justify-content: flex-end;
     align-items: center;
     gap: 5px;
+    cursor: pointer;
+}
+
+.dropdown-menu {
+    display: none;
+}
+
+.dropdown-menu.show{
+    position: absolute;
+    left: 70%;
+    top: 8%;
+
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem;
+    min-width: 5%;
+    box-sizing: border-box;
+
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+    border-radius: 12px;
+    background-color: white;
+}
+
+.dropdown-menu.show a{
+    font-weight: 500;
+    margin: 1rem;
 }
 
 .profile-avatar {
@@ -77,6 +103,27 @@ header h1 {
 .dropdown-arrow {
     width: 20px;
     height: 20px;
+
+    transition: transform 0.2s ease;
+}
+
+.dropdown-arrow.show{
+    transform: rotate(180deg);
+}
+
+a.white-link {
+    font-weight: 1000;
+    color: white;
+    text-underline-offset: 10px;
+    transition: color 0.1s ease-in;
+}
+
+a.white-link.active {
+    text-decoration: 3px white underline;
+}
+
+a.white-link:hover {
+    text-decoration: 3px white underline;
 }
 
 a.link-btn {
@@ -130,7 +177,7 @@ div#search-bar-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #222831;
+    background-color: #111E4B;
     padding-left: 20%;
     padding-right: 20%;
     padding-bottom: 2rem;
@@ -308,7 +355,24 @@ main.main-content {
     color: #A0AEC0;
 }
 
-/* --- Global Body Framework for Auth Pages --- */
+div.pagination-wrapper-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 2rem;
+}
+
+div.pagination-wrapper-container a.pagination-number{
+    text-align: center;
+}
+
+.pagination-number:hover {
+    text-decoration: 3px solid underline black;
+}
+
+.pagination-number.active {
+    text-decoration: 3px solid underline black ;
+}
+
 .auth-body {
     margin: 0;
     padding: 0;
@@ -325,7 +389,6 @@ main.main-content {
     box-sizing: border-box;
 }
 
-/* --- Top Left Brand Architecture --- */
 .auth-header {
     position: absolute;
     top: 1px;
@@ -351,7 +414,6 @@ main.main-content {
     margin-top: 0.1rem;
 }
 
-/* --- Centralized Login Card Panel --- */
 .login-card-container {
     background-color: #FFFFFF;
     border: 1.5px solid #CBD5E0; /* Clean distinct gray border outline */
@@ -372,7 +434,6 @@ main.main-content {
     margin: 0 0 2rem 0;
 }
 
-/* --- Form Field Control Mechanics --- */
 .login-form {
     display: flex;
     flex-direction: column;
@@ -390,7 +451,7 @@ main.main-content {
     width: 100%;
     box-sizing: border-box;
     padding: 0.9rem 1.2rem;
-    border: 1.5px solid #718096; /* Darker gray interior boundary box outlines */
+    border: 1.5px solid #718096;
     border-radius: 10px;
     font-size: 1.05rem;
     font-weight: 500;
@@ -399,13 +460,11 @@ main.main-content {
     transition: all 0.2s ease;
 }
 
-/* Smooth Focus Rings matching our standard user experience framework */
 .field-wrapper input:focus {
     border-color: #093C5D;
     box-shadow: 0 0 0 3px rgba(9, 60, 93, 0.1);
 }
 
-/* Handle specific spacing requirements for password field with toggle icon overlay */
 .password-wrapper input {
     padding-right: 3rem; 
 }
@@ -425,31 +484,29 @@ main.main-content {
     color: #093C5D;
 }
 
-/* --- Solid Deep Navy Login Button Component --- */
 .login-submit-btn {
     width: 100%;
     box-sizing: border-box;
-    background-color: #111E4B; /* Precise Dark Corporate Navy Hex value */
+    background-color: #111E4B;
     color: #FFFFFF;
     font-size: 1.1rem;
     font-weight: 600;
     padding: 0.9rem;
     border: none;
-    border-radius: 24px; /* Perfectly round oval capsule border style from image layout */
+    border-radius: 24px;
     margin-top: 2rem;
     cursor: pointer;
     transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
 .login-submit-btn:hover {
-    background-color: #0B1433; /* Slightly darker shade for premium hover interaction feedback */
+    background-color: #0B1433;
 }
 
 .login-submit-btn:active {
     transform: scale(0.99);
 }
 
-/* --- Core Structural Settings for Multi-Column Split Screen --- */
 .signup-body {
     margin: 0;
     padding: 0;
@@ -468,7 +525,6 @@ main.main-content {
     flex-direction: row;
 }
 
-/* ================= LEFT COLUMN STYLING ================= */
 .role-selection-sidebar {
     width: 35%;
     display: flex;
@@ -515,7 +571,6 @@ main.main-content {
     margin-top: 1.5rem;
 }
 
-/* Stylized Capsule Buttons from user visual designs */
 .role-nav-btn {
     width: 100%;
     background-color: #FFFFFF;
@@ -535,14 +590,12 @@ main.main-content {
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* Highlight Indicator tracking user click parameters */
 .role-nav-btn.active {
-    background-color: #111E4B; /* Navy background indicator toggle state */
+    background-color: #111E4B;
     color: #FFFFFF;
     font-weight: 600;
 }
 
-/* ================= RIGHT COLUMN FORM STYLING ================= */
 .signup-form-canvas {
     width: 65%;
     height: 100%;
@@ -560,13 +613,12 @@ main.main-content {
     flex-direction: column;
     align-items: center;
     width: 100%;
-    max-width: 600px; /* Centers and matches element bounds */
+    max-width: 600px;
     max-height: 90vh;
-    overflow-y: auto; /* Ensures seamless entry if height gets compressed */
+    overflow-y: auto;
     padding-right: 10px;
 }
 
-/* Clean custom scrollbar for right side form container */
 .form-scroll-wrapper::-webkit-scrollbar {
     width: 6px;
 }
@@ -584,7 +636,6 @@ main.main-content {
     letter-spacing: -0.5px;
 }
 
-/* Flex Grid Structure for Input Placement */
 .form-grid {
     display: flex;
     flex-wrap: wrap;
@@ -600,7 +651,7 @@ main.main-content {
 }
 
 .input-block {
-    flex: 1 1 calc(50% - 0.6rem); /* Creates side-by-side execution elements layout naturally */
+    flex: 1 1 calc(50% - 0.6rem);
     min-width: 220px;
 }
 
@@ -608,7 +659,6 @@ main.main-content {
     flex: 1 1 100%;
 }
 
-/* Input Frame Outlines */
 .input-block input, .select-wrapper select {
     width: 100%;
     box-sizing: border-box;
@@ -624,13 +674,11 @@ main.main-content {
     transition: all 0.15s ease-in-out;
 }
 
-/* Focus glow tracking indicators */
 .input-block input:focus, .select-wrapper select:focus {
     border-color: #111E4B;
     box-shadow: 0 0 0 4px rgba(17, 30, 75, 0.08);
 }
 
-/* Custom Dropdown Arrow alignment mechanisms */
 .select-wrapper {
     position: relative;
     width: 100%;
@@ -654,7 +702,6 @@ main.main-content {
     pointer-events: none;
 }
 
-/* Hide/Show logic for Multi-Role Framework panels */
 .role-conditional-fields {
     display: none;
     width: 100%;
@@ -670,7 +717,6 @@ main.main-content {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* ================= COMPACT SUBMIT ACTION BUTTON ================= */
 .form-action-row {
     width: 100%;
     display: flex;
@@ -757,7 +803,15 @@ div.blue-container {
     background-color: #111E4B;
     display: flex;
     align-items: center;
+    justify-content: flex-start;
+}
+
+div.link-container {
+    margin-left: 26%;
+    padding: 0.5%;
+    display: flex;
     justify-content: center;
+    gap: 5rem;
 }
 
 #about-container {
@@ -785,7 +839,6 @@ div#role-wrapper {
     justify-content: space-between;
     padding: 2rem;
     background: linear-gradient(-90deg, #FFF7CD, #FDC3A1, #FB9B8F, #F57799);
-
 }
 
 div.role-card {
@@ -873,6 +926,7 @@ form#forgot-password {
     .profile-container {
         border: 1px solid black;
         flex-direction: column;
+        cursor: pointer;
     }
 
     header h1, header i {
