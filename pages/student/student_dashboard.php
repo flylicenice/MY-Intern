@@ -26,6 +26,8 @@ $user_choice = $_GET['page'] ?? 'application';
         } else if (isset($user_choice) && $user_choice === "evaluation") {
             include("student_evaluation.php");
         }
+
+        include("../../includes/footer.php");
     ?>
 </body>
 </html>
