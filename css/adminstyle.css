@@ -496,3 +496,50 @@ tr:last-child td {
     padding: 1rem;
     margin: 1rem;
 }
+
+.status-badge {
+    padding: 6px 12px;
+    border-radius: 4px; 
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    display: inline-block;
+    text-align: center;
+}
+
+
+.status-badge.verified {
+    background-color: #d1fae5 !important;
+    color: #065f46 !important;
+}
+
+.status-badge.pending {
+    background-color: #fef3c7;
+    color: #92400e;
+}
+
+.status-badge.rejected {
+    background-color: #fee2e2;
+    color: #991b1b;
+}
+
+
+.btn-verify:disabled {
+    background-color: #cbd5e0 !important;
+    color: #718096 !important;
+    cursor: not-allowed !important;
+}
+
+
+.faculty-drawer-fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #fff;
+    z-index: 1000;
+    overflow-y: auto;
+    padding: 40px;
+    display: none; 
+}

@@ -1,5 +1,6 @@
 <?php
 require_once '../../includes/session.php';
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,6 +19,8 @@ require_once '../../includes/session.php';
     <script src="../../js/script.js"></script>
     <link href='../../css/adminstyle.css' rel="stylesheet">
 </head>
+
+
 
 <body>
 
@@ -51,8 +54,8 @@ require_once '../../includes/session.php';
         } else if ($currentPage === "student") {
             include("manage_student.php");
         } else if ($currentPage === "lecturer") {
-            include("manage_lecturer.php");
-        } else if ($currentPage === "company") {
+            include("manage_lecturers.php");
+        } else if ($currentPage === "employer") {
             include("manage_company.php");
         }
     ?>
