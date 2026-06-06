@@ -46,6 +46,7 @@ $lecturers = [
     <div class="header-row">
         <div>
             <h1>Manage Lecturer</h1>
+            
             <p>Total lecturers : <span id="lecturer-total-count"><?php echo count($lecturers); ?></span> lecturers</p>
         </div>
     </div>
@@ -202,5 +203,6 @@ function closeFacultyDrawer() {
     document.getElementById('facultyDetailsDrawer').style.display = 'none';
     document.body.style.overflow = 'auto';
 }
+
 
 </script>
