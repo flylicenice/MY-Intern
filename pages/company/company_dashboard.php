@@ -16,7 +16,7 @@ require_once '../../includes/session.php';
 
     <aside class="sidebar">
         <div class="sidebar-brand">MYIntern</div>
-        <div class="sidebar-subtext">Admin</div>
+        <div class="sidebar-subtext">Company</div>
 
         <ul class="nav-menu">
             <li class="nav-item active">
