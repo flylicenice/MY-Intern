@@ -16,7 +16,7 @@ require_once '../../includes/session.php';
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
     <script src="../../js/chart.js"></script>
     <script src="../../js/script.js"></script>
-    <link href='../../css/adminstyle.css' rel="stylesheet">
+    <link href='../../css/style2.css' rel="stylesheet">
 </head>
 
 <body>

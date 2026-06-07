@@ -20,7 +20,7 @@ require_once '../../includes/session.php';
 
         <ul class="nav-menu">
             <li class="nav-item active">
-                <a   href="?page=main"><i class='bx bxs-dashboard'></i> Dashboard</a>
+                <a href="?page=main"><i class='bx bxs-dashboard'></i> Dashboard</a>
             </li>
             <li class="nav-item">
                 <a href="?page=student"><i class='bx bxs-user-detail'></i> Manage Students</a>
