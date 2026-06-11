@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MyIntern – Company Module</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --brand: #7C6A5E;
+    --brand-light: #F5F0EC;
+    --brand-mid: #C4A98A;
+    --accent: #3B2F2A;
+    --sidebar-bg: #2E2420;
+    --sidebar-text: #D6C8BF;
+    --sidebar-active: #7C6A5E;
+    --bg: #F7F4F1;
+    --surface: #FFFFFF;
+    --border: #E5DED8;
+    --text-primary: #1A1210;
+    --text-secondary: #7A6E68;
+    --text-muted: #ABA49D;
+    --star-filled: #E9A43A;
+    --star-empty: #D9D0CA;
+    --success: #3A7D5A;
+    --success-bg: #EBF6F0;
+    --warn: #B87333;
+    --warn-bg: #FBF1E6;
+    --info: #3A5A8A;
+    --info-bg: #EBF0F9;
+    --danger: #A33A3A;
+    --danger-bg: #FBEBEB;
+    --sidebar-w: 200px;
+    --topbar-h: 52px;
+    --radius: 10px;
+    --radius-sm: 6px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--text-primary);
+    background: var(--bg);
+  }
+
+  body { min-height: 100vh; background: var(--bg); }
+
+  /* ── LAYOUT ── */
+  .shell { display: flex; height: 100vh; overflow: hidden; }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    width: var(--sidebar-w);
+    background: var(--sidebar-bg);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    padding: 0 0 24px;
+  }
+  .sidebar-logo {
+    padding: 18px 20px 20px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: -0.3px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    margin-bottom: 8px;
+  }
+  .sidebar-logo span { color: var(--brand-mid); }
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 20px;
+    color: var(--sidebar-text);
+    font-size: 13.5px;
+    cursor: pointer;
+    border-radius: 0;
+    transition: background 0.15s, color 0.15s;
+    text-decoration: none;
+    border-left: 3px solid transparent;
+  }
+  .nav-item:hover { background: rgba(255,255,255,0.05); color: #fff; }
+  .nav-item.active {
+    background: rgba(124,106,94,0.18);
+    color: #fff;
+    border-left: 3px solid var(--brand-mid);
+    font-weight: 500;
+  }
+  .nav-icon { width: 16px; opacity: 0.75; flex-shrink: 0; }
+  .nav-item.active .nav-icon { opacity: 1; }
+  .sidebar-bottom {
+    margin-top: auto;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding-top: 12px;
+  }
+  .nav-item.small { font-size: 13px; padding: 7px 20px; }
+
+  /* ── MAIN ── */
+  .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+  /* ── TOP BAR ── */
+  .topbar {
+    height: var(--topbar-h);
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    gap: 12px;
+    flex-shrink: 0;
+  }
+  .search-wrap {
+    flex: 1;
+    max-width: 380px;
+    position: relative;
+  }
+  .search-wrap input {
+    width: 100%;
+    padding: 8px 36px 8px 14px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    font-size: 13px;
+    line-height: 1.4;
+    background: var(--bg);
+    color: var(--text-primary);
+    outline: none;
+    transition: border 0.15s;
+    font-family: inherit;
+  }
+  .search-wrap input:focus { border-color: var(--brand); }
+  .search-wrap svg { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: var(--text-muted); pointer-events: none; }
+  .topbar-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+  .avatar {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: var(--brand);
+    color: #fff;
+    font-size: 12px; font-weight: 600;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+  }
+
+  /* ── PAGE AREA ── */
+  .page-area {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px;
+    display: none;
+  }
+  .page-area.active { display: block; }
+
+  /* ── TAB BAR ── */
+  .tab-bar {
+    display: flex;
+    gap: 0;
+    border-bottom: 1.5px solid var(--border);
+    margin-bottom: 22px;
+  }
+  .tab-btn {
+    padding: 8px 18px;
+    font-size: 13.5px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    border: none;
+    background: none;
+    border-bottom: 2.5px solid transparent;
+    margin-bottom: -1.5px;
+    font-family: inherit;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .tab-btn.active { color: var(--brand); border-bottom-color: var(--brand); font-weight: 500; }
+  .tab-btn:hover { color: var(--text-primary); }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+  }
+  .card-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+  }
+
+  /* ── DASHBOARD ── */
+  .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 20px; }
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .stat-label { font-size: 12px; color: var(--text-muted); font-weight: 500; letter-spacing: 0.3px; text-transform: uppercase; }
+  .stat-value { font-size: 28px; font-weight: 600; color: var(--text-primary); line-height: 1.1; }
+  .stat-sub { font-size: 12px; color: var(--text-secondary); }
+  .stat-up { color: var(--success); font-weight: 500; }
+
+  /* chart area */
+  .chart-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    margin-top: 20px;
+  }
+  .chart-title { font-size: 13px; font-weight: 500; color: var(--text-secondary); margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.4px; }
+  .chart-svg { width: 100%; height: 140px; }
+
+  /* ── JOB LISTING ── */
+  .job-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 13px 0;
+    border-bottom: 1px solid var(--border);
+    gap: 12px;
+  }
+  .job-row:last-child { border-bottom: none; }
+  .job-title-text { font-size: 13.5px; font-weight: 500; color: var(--text-primary); }
+  .job-meta { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    font-size: 11.5px;
+    font-weight: 500;
+    padding: 3px 9px;
+    border-radius: 20px;
+  }
+  .badge-green { background: var(--success-bg); color: var(--success); }
+  .badge-warn { background: var(--warn-bg); color: var(--warn); }
+  .badge-info { background: var(--info-bg); color: var(--info); }
+  .badge-gray { background: var(--brand-light); color: var(--brand); }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid transparent;
+    font-family: inherit;
+    transition: opacity 0.15s, background 0.15s;
+  }
+  .btn:hover { opacity: 0.85; }
+  .btn-primary { background: var(--brand); color: #fff; }
+  .btn-outline { background: transparent; border-color: var(--border); color: var(--text-primary); }
+  .btn-sm { padding: 5px 11px; font-size: 12px; }
+  .btn-danger { background: var(--danger-bg); color: var(--danger); border-color: var(--danger-bg); }
+
+  /* ── APPLICATION ── */
+  .app-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .app-row:last-child { border-bottom: none; }
+  .app-avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--brand-light);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 600; color: var(--brand); flex-shrink: 0;
+  }
+  .app-name { font-size: 13.5px; font-weight: 500; }
+  .app-detail { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+  .app-actions { margin-left: auto; display: flex; gap: 8px; }
+  .empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-muted);
+    font-size: 13px;
+  }
+  .empty-icon { font-size: 32px; margin-bottom: 8px; }
+
+  /* ── POST JOB FORM ── */
+  .form-section { margin-bottom: 22px; }
+  .form-section-title { font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.4px; }
+  .form-row { display: grid; gap: 12px; margin-bottom: 12px; }
+  .form-row.cols-2 { grid-template-columns: 1fr 1fr; }
+  .form-row.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .form-row.cols-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+  .form-group { display: flex; flex-direction: column; gap: 5px; }
+  label { font-size: 12px; font-weight: 500; color: var(--text-secondary); }
+  input[type=text], input[type=date], input[type=number], select, textarea {
+    padding: 8px 11px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    color: var(--text-primary);
+    background: var(--bg);
+    font-family: inherit;
+    outline: none;
+    transition: border 0.15s;
+  }
+  input:focus, select:focus, textarea:focus { border-color: var(--brand); background: var(--surface); }
+  textarea { resize: vertical; min-height: 80px; }
+  .form-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 24px; }
+
+  /* ── MY INTERNS ── */
+  .intern-table { width: 100%; border-collapse: collapse; }
+  .intern-table th {
+    text-align: left;
+    font-size: 11.5px;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 0 12px 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .intern-table td { padding: 11px 12px; border-bottom: 1px solid var(--border); font-size: 13px; }
+  .intern-table tr:last-child td { border-bottom: none; }
+  .intern-table tr:hover td { background: var(--brand-light); }
+
+  /* ── EVALUATION ── */
+  .eval-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+  }
+  .eval-name { font-size: 18px; font-weight: 600; margin-bottom: 2px; }
+  .eval-role { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; }
+  .eval-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .eval-section { }
+  .eval-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary); margin-bottom: 8px; }
+  .stars { display: flex; gap: 4px; margin-bottom: 6px; }
+  .star { font-size: 18px; }
+  .star.filled { color: var(--star-filled); }
+  .star.empty { color: var(--star-empty); }
+  .eval-comment { font-size: 13px; color: var(--text-secondary); font-style: italic; line-height: 1.5; }
+  .eval-textarea {
+    width: 100%;
+    padding: 8px 11px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-family: inherit;
+    font-size: 13px;
+    min-height: 70px;
+    resize: vertical;
+    color: var(--text-primary);
+    background: var(--bg);
+  }
+
+  /* ── MISC ── */
+  .page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; }
+  .page-title { font-size: 17px; font-weight: 600; color: var(--text-primary); }
+
+  /* scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  /* SUB-TABS within a tab (used in Application) */
+  .sub-tab-bar { display: flex; gap: 6px; margin-bottom: 18px; flex-wrap: wrap; }
+  .sub-tab-btn {
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-size: 12.5px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-secondary);
+    font-family: inherit;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+  }
+  .sub-tab-btn.active { background: var(--brand); color: #fff; border-color: var(--brand); }
+
+  /* progress bar */
+  .progress-wrap { background: var(--border); border-radius: 4px; height: 5px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--brand); border-radius: 4px; }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- ── SIDEBAR ── -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">My<span>Intern</span></div>
+
+    <nav>
+      <a class="nav-item active" onclick="navigate('dashboard', this)">
+        <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M3 4a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H4a1 1 0 01-1-1V4zm0 8a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H4a1 1 0 01-1-1v-4zm8-8a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1V4zm0 8a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z"/></svg>
+        Dashboard
+      </a>
+      <a class="nav-item" onclick="navigate('jobs', this)">
+        <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M6 6V5a3 3 0 016 0v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 012 0v1H8V5zm1 5a1 1 0 011-1 1 1 0 010 2 1 1 0 01-1-1z" clip-rule="evenodd"/><path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z"/></svg>
+        Jobs
+      </a>
+      <a class="nav-item" onclick="navigate('application', this)">
+        <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/></svg>
+        Application
+      </a>
+      <a class="nav-item" onclick="navigate('myinterns', this)">
+        <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v1h8v-1zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-1a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v1h-3zM4.75 14.094A5.973 5.973 0 004 17v1H1v-1a3 3 0 013.75-2.906z"/></svg>
+        My Interns
+      </a>
+    </nav>
+
+
+  </aside>
+
+  <!-- ── MAIN ── -->
+  <div class="main">
+
+    <!-- TOP BAR -->
+    <header class="topbar">
+      <div class="search-wrap">
+        <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg>
+        <input type="text" placeholder="Search..." />
+      </div>
+      <div class="topbar-right">
+        <div class="avatar">TC</div>
+      </div>
+    </header>
+
+    <!-- ═══════════════════════════════════════
+         PAGE: DASHBOARD
+    ═══════════════════════════════════════ -->
+    <div class="page-area active" id="page-dashboard">
+      <div class="page-header">
+        <span class="page-title">Dashboard</span>
+        <span style="font-size:12px;color:var(--text-muted)">June 2025</span>
+      </div>
+
+      <div class="stat-grid">
+        <div class="stat-card">
+          <span class="stat-label">Total Applications</span>
+          <span class="stat-value">247</span>
+          <span class="stat-sub stat-up">↑ 12% this month</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Active Jobs</span>
+          <span class="stat-value">8</span>
+          <span class="stat-sub">3 closing soon</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Hired Interns</span>
+          <span class="stat-value">14</span>
+          <span class="stat-sub stat-up">↑ 2 this cycle</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Pending Review</span>
+          <span class="stat-value">31</span>
+          <span class="stat-sub" style="color:var(--warn)">Needs attention</span>
+        </div>
+      </div>
+
+      <div class="chart-wrap">
+        <div class="chart-title">Application Volume — Last 6 Months</div>
+        <svg class="chart-svg" viewBox="0 0 600 140" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#7C6A5E" stop-opacity="0.18"/>
+              <stop offset="100%" stop-color="#7C6A5E" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <!-- grid lines -->
+          <line x1="40" y1="20" x2="580" y2="20" stroke="#E5DED8" stroke-width="0.8"/>
+          <line x1="40" y1="50" x2="580" y2="50" stroke="#E5DED8" stroke-width="0.8"/>
+          <line x1="40" y1="80" x2="580" y2="80" stroke="#E5DED8" stroke-width="0.8"/>
+          <line x1="40" y1="110" x2="580" y2="110" stroke="#E5DED8" stroke-width="0.8"/>
+          <!-- y labels -->
+          <text x="32" y="23" text-anchor="end" font-size="10" fill="#ABA49D">80</text>
+          <text x="32" y="53" text-anchor="end" font-size="10" fill="#ABA49D">60</text>
+          <text x="32" y="83" text-anchor="end" font-size="10" fill="#ABA49D">40</text>
+          <text x="32" y="113" text-anchor="end" font-size="10" fill="#ABA49D">20</text>
+          <!-- area -->
+          <path d="M80,90 C130,85 160,55 200,48 C240,42 280,70 320,60 C360,50 400,30 450,25 C490,22 530,28 560,24 L560,110 L80,110 Z" fill="url(#areaGrad)"/>
+          <!-- line -->
+          <path d="M80,90 C130,85 160,55 200,48 C240,42 280,70 320,60 C360,50 400,30 450,25 C490,22 530,28 560,24" fill="none" stroke="#7C6A5E" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          <!-- dots -->
+          <circle cx="80" cy="90" r="3.5" fill="#7C6A5E"/>
+          <circle cx="200" cy="48" r="3.5" fill="#7C6A5E"/>
+          <circle cx="320" cy="60" r="3.5" fill="#7C6A5E"/>
+          <circle cx="450" cy="25" r="3.5" fill="#7C6A5E"/>
+          <circle cx="560" cy="24" r="3.5" fill="#7C6A5E"/>
+          <!-- x labels -->
+          <text x="80" y="130" text-anchor="middle" font-size="10" fill="#ABA49D">Jan</text>
+          <text x="200" y="130" text-anchor="middle" font-size="10" fill="#ABA49D">Feb</text>
+          <text x="320" y="130" text-anchor="middle" font-size="10" fill="#ABA49D">Mar</text>
+          <text x="450" y="130" text-anchor="middle" font-size="10" fill="#ABA49D">Apr</text>
+          <text x="560" y="130" text-anchor="middle" font-size="10" fill="#ABA49D">May</text>
+        </svg>
+      </div>
+
+      <div style="margin-top:20px; display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+        <div class="card">
+          <div class="card-title">Application Status</div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div>
+              <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text-secondary);margin-bottom:4px;"><span>Pending</span><span>31</span></div>
+              <div class="progress-wrap"><div class="progress-fill" style="width:38%;background:var(--warn)"></div></div>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text-secondary);margin-bottom:4px;"><span>Interview</span><span>52</span></div>
+              <div class="progress-wrap"><div class="progress-fill" style="width:55%;background:var(--info)"></div></div>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text-secondary);margin-bottom:4px;"><span>Offer</span><span>18</span></div>
+              <div class="progress-wrap"><div class="progress-fill" style="width:25%;background:var(--brand)"></div></div>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--text-secondary);margin-bottom:4px;"><span>Accepted</span><span>14</span></div>
+              <div class="progress-wrap"><div class="progress-fill" style="width:18%;background:var(--success)"></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">Recent Activity</div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div style="display:flex;gap:10px;align-items:flex-start;">
+              <div style="width:7px;height:7px;border-radius:50%;background:var(--brand-mid);margin-top:4px;flex-shrink:0;"></div>
+              <div><div style="font-size:12.5px;font-weight:500;">New application received</div><div style="font-size:11.5px;color:var(--text-muted);">Tam Kai Dit — Software Eng. · 2h ago</div></div>
+            </div>
+            <div style="display:flex;gap:10px;align-items:flex-start;">
+              <div style="width:7px;height:7px;border-radius:50%;background:var(--success);margin-top:4px;flex-shrink:0;"></div>
+              <div><div style="font-size:12.5px;font-weight:500;">Offer accepted</div><div style="font-size:11.5px;color:var(--text-muted);">Farah Nadia — UX Design · 5h ago</div></div>
+            </div>
+            <div style="display:flex;gap:10px;align-items:flex-start;">
+              <div style="width:7px;height:7px;border-radius:50%;background:var(--info);margin-top:4px;flex-shrink:0;"></div>
+              <div><div style="font-size:12.5px;font-weight:500;">Interview scheduled</div><div style="font-size:11.5px;color:var(--text-muted);">Reza Arif — Data Science · 1d ago</div></div>
+            </div>
+            <div style="display:flex;gap:10px;align-items:flex-start;">
+              <div style="width:7px;height:7px;border-radius:50%;background:var(--warn);margin-top:4px;flex-shrink:0;"></div>
+              <div><div style="font-size:12.5px;font-weight:500;">New job posted</div><div style="font-size:11.5px;color:var(--text-muted);">Frontend Intern — React · 2d ago</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════
+         PAGE: JOBS
+    ═══════════════════════════════════════ -->
+    <div class="page-area" id="page-jobs">
+      <div class="page-header">
+        <span class="page-title">Jobs</span>
+        <button class="btn btn-primary" onclick="switchJobTab('post')">+ Post Job</button>
+      </div>
+
+      <div class="tab-bar">
+        <button class="tab-btn active" onclick="switchJobTab('all', this)" id="job-tab-all">All Jobs</button>
+        <button class="tab-btn" onclick="switchJobTab('post', this)" id="job-tab-post">Post Job</button>
+        <button class="tab-btn" onclick="switchJobTab('drafts', this)" id="job-tab-drafts">Drafts</button>
+      </div>
+
+      <!-- All Jobs -->
+      <div id="jobs-all">
+        <div class="card">
+          <div class="card-title">All Job Postings</div>
+          <div class="job-row">
+            <div>
+              <div class="job-title-text">Part-time Intern (UI) – Software Engineering to React / React (PRCTSE)</div>
+              <div class="job-meta">Posted 12 Jun 2025 · 8 applicants</div>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;flex-shrink:0;">
+              <span class="badge badge-green">Active</span>
+              <button class="btn btn-outline btn-sm">View</button>
+            </div>
+          </div>
+          <div class="job-row">
+            <div>
+              <div class="job-title-text">Part-time Intern (BE) – Software Engineering to React / React (SEPRSE)</div>
+              <div class="job-meta">Posted 5 Jun 2025 · 14 applicants</div>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;flex-shrink:0;">
+              <span class="badge badge-green">Active</span>
+              <button class="btn btn-outline btn-sm">View</button>
+            </div>
+          </div>
+          <div class="job-row">
+            <div>
+              <div class="job-title-text">Full-time Intern – Data Science & Analytics</div>
+              <div class="job-meta">Posted 28 May 2025 · 21 applicants</div>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;flex-shrink:0;">
+              <span class="badge badge-warn">Closing</span>
+              <button class="btn btn-outline btn-sm">View</button>
+            </div>
+          </div>
+          <div class="job-row">
+            <div>
+              <div class="job-title-text">UX/UI Design Intern – Mobile Product Team</div>
+              <div class="job-meta">Posted 20 May 2025 · 5 applicants</div>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;flex-shrink:0;">
+              <span class="badge badge-info">Draft</span>
+              <button class="btn btn-outline btn-sm">Edit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Post Job Form -->
+      <div id="jobs-post" style="display:none;">
+        <div class="card">
+          <div class="form-section">
+            <div class="form-section-title">Basic Info</div>
+            <div class="form-row cols-4">
+              <div class="form-group"><label>Job Title</label><input type="text" placeholder="e.g. Software Intern" /></div>
+              <div class="form-group"><label>Department</label><select><option>Engineering</option><option>Design</option><option>Data</option><option>Marketing</option></select></div>
+              <div class="form-group"><label>Duration</label><input type="text" placeholder="e.g. 3 months" /></div>
+              <div class="form-group"><label>Working Hours</label><input type="text" placeholder="e.g. 20h/week" /></div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <div class="form-section-title">The Content</div>
+            <div class="form-row cols-2">
+              <div class="form-group"><label>Job Description</label><textarea placeholder="Describe the role, responsibilities and day-to-day tasks..."></textarea></div>
+              <div class="form-group"><label>Requirements / Skills</label><textarea placeholder="List required skills, qualifications and experience..."></textarea></div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <div class="form-section-title">Logistics</div>
+            <div class="form-row cols-3">
+              <div class="form-group"><label>Duration</label><input type="text" placeholder="e.g. Jun – Aug 2025" /></div>
+              <div class="form-group"><label>Application Deadline</label><input type="date" /></div>
+              <div class="form-group"><label>Number of Slots</label><input type="number" placeholder="e.g. 2" min="1" /></div>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button class="btn btn-outline" onclick="switchJobTab('all')">Save as Draft</button>
+            <button class="btn btn-primary" onclick="switchJobTab('all')">Post Job</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Drafts -->
+      <div id="jobs-drafts" style="display:none;">
+        <div class="card">
+          <div class="card-title">Drafts</div>
+          <div class="job-row">
+            <div>
+              <div class="job-title-text">UX/UI Design Intern – Mobile Product Team</div>
+              <div class="job-meta">Last edited 20 May 2025</div>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;flex-shrink:0;">
+              <button class="btn btn-outline btn-sm">Edit</button>
+              <button class="btn btn-primary btn-sm">Publish</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════
+         PAGE: APPLICATION
+    ═══════════════════════════════════════ -->
+    <div class="page-area" id="page-application">
+      <div class="page-header">
+        <span class="page-title">Application</span>
+      </div>
+
+      <div class="tab-bar">
+        <button class="tab-btn active" onclick="switchAppTab('pending', this)">Pending</button>
+        <button class="tab-btn" onclick="switchAppTab('interview', this)">Interview</button>
+        <button class="tab-btn" onclick="switchAppTab('offer', this)">Offer</button>
+        <button class="tab-btn" onclick="switchAppTab('acceptance', this)">Acceptance</button>
+      </div>
+
+      <!-- Pending -->
+      <div id="app-pending">
+        <div class="card">
+          <div class="card-title">Pending Applications</div>
+          <div class="empty-state">
+            <div class="empty-icon">📋</div>
+            <div style="font-weight:500;margin-bottom:4px;color:var(--text-secondary);">No pending applications</div>
+            <div>All caught up! New applications will appear here.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interview -->
+      <div id="app-interview" style="display:none;">
+        <div class="card">
+          <div class="card-title">Interview Stage</div>
+          <div class="app-row">
+            <div class="app-avatar">TK</div>
+            <div>
+              <div class="app-name">Tam Kai Dit</div>
+              <div class="app-detail">Software Engineering Intern · Applied 12 Jun 2025</div>
+            </div>
+            <div class="app-actions">
+              <button class="btn btn-outline btn-sm">View Profile</button>
+              <button class="btn btn-primary btn-sm">Move to Offer</button>
+            </div>
+          </div>
+          <div class="app-row">
+            <div class="app-avatar">FN</div>
+            <div>
+              <div class="app-name">Farah Nadia</div>
+              <div class="app-detail">UX Design Intern · Applied 9 Jun 2025</div>
+            </div>
+            <div class="app-actions">
+              <button class="btn btn-outline btn-sm">View Profile</button>
+              <button class="btn btn-primary btn-sm">Move to Offer</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Offer -->
+      <div id="app-offer" style="display:none;">
+        <div class="card">
+          <div class="card-title">Offer Stage</div>
+          <div class="app-row">
+            <div class="app-avatar">RA</div>
+            <div>
+              <div class="app-name">Reza Arif</div>
+              <div class="app-detail">Data Science Intern · Offer sent 10 Jun 2025</div>
+            </div>
+            <div class="app-actions">
+              <span class="badge badge-warn">Awaiting response</span>
+              <button class="btn btn-outline btn-sm">Withdraw</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Acceptance -->
+      <div id="app-acceptance" style="display:none;">
+        <div class="card">
+          <div class="card-title">Accepted</div>
+          <div class="app-row">
+            <div class="app-avatar">NF</div>
+            <div>
+              <div class="app-name">Nurul Farhana</div>
+              <div class="app-detail">Software Engineering Intern · Starts 1 Jul 2025</div>
+            </div>
+            <div class="app-actions">
+              <span class="badge badge-green">Confirmed</span>
+              <button class="btn btn-outline btn-sm">View Letter</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════
+         PAGE: MY INTERNS
+    ═══════════════════════════════════════ -->
+    <div class="page-area" id="page-myinterns">
+      <div class="page-header">
+        <span class="page-title">My Interns</span>
+      </div>
+
+      <div class="tab-bar">
+        <button class="tab-btn active" onclick="switchInternTab('list', this)">My Interns</button>
+        <button class="tab-btn" onclick="switchInternTab('eval', this)">Evaluation</button>
+      </div>
+
+      <!-- Interns list -->
+      <div id="intern-list">
+        <div class="card">
+          <div class="card-title">All Interns</div>
+          <table class="intern-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Department</th>
+                <th>Duration</th>
+                <th>Start Date</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><div style="display:flex;align-items:center;gap:8px;"><div class="app-avatar" style="width:28px;height:28px;font-size:11px;">TK</div><span style="font-weight:500;">Tam Kai Dit</span></div></td>
+                <td>Engineering</td>
+                <td>3 months</td>
+                <td>1 Jul 2025</td>
+                <td><span class="badge badge-green">In Job</span></td>
+                <td><button class="btn btn-outline btn-sm" onclick="switchInternTab('eval')">Evaluate</button></td>
+              </tr>
+              <tr>
+                <td><div style="display:flex;align-items:center;gap:8px;"><div class="app-avatar" style="width:28px;height:28px;font-size:11px;">FN</div><span style="font-weight:500;">Farah Nadia</span></div></td>
+                <td>Design</td>
+                <td>6 months</td>
+                <td>15 Jun 2025</td>
+                <td><span class="badge badge-green">In Job</span></td>
+                <td><button class="btn btn-outline btn-sm" onclick="switchInternTab('eval')">Evaluate</button></td>
+              </tr>
+              <tr>
+                <td><div style="display:flex;align-items:center;gap:8px;"><div class="app-avatar" style="width:28px;height:28px;font-size:11px;">RA</div><span style="font-weight:500;">Reza Arif</span></div></td>
+                <td>Data Science</td>
+                <td>3 months</td>
+                <td>1 Aug 2025</td>
+                <td><span class="badge badge-warn">Pending Start</span></td>
+                <td><button class="btn btn-outline btn-sm" disabled style="opacity:0.4;cursor:not-allowed;">Evaluate</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Evaluation -->
+      <div id="intern-eval" style="display:none;">
+        <div class="eval-card">
+          <div style="display:flex;align-items:center;gap:14px;margin-bottom:20px;">
+            <div class="app-avatar" style="width:48px;height:48px;font-size:15px;font-weight:600;">TK</div>
+            <div>
+              <div class="eval-name">TAM KAI DIT</div>
+              <div class="eval-role">Software Engineering Intern · Engineering</div>
+            </div>
+            <button class="btn btn-outline btn-sm" style="margin-left:auto;" onclick="switchInternTab('list')">← Back</button>
+          </div>
+
+          <div class="eval-grid">
+            <div class="eval-section">
+              <div class="eval-label">Punctuality &amp; Discipline</div>
+              <div class="stars" id="stars-punctuality" data-rating="3">
+                <span class="star filled" onclick="setStars('punctuality',1)">★</span>
+                <span class="star filled" onclick="setStars('punctuality',2)">★</span>
+                <span class="star filled" onclick="setStars('punctuality',3)">★</span>
+                <span class="star empty" onclick="setStars('punctuality',4)">★</span>
+                <span class="star empty" onclick="setStars('punctuality',5)">★</span>
+              </div>
+            </div>
+
+            <div class="eval-section">
+              <div class="eval-label">Technical Competence</div>
+              <div class="stars" id="stars-technical" data-rating="4">
+                <span class="star filled" onclick="setStars('technical',1)">★</span>
+                <span class="star filled" onclick="setStars('technical',2)">★</span>
+                <span class="star filled" onclick="setStars('technical',3)">★</span>
+                <span class="star filled" onclick="setStars('technical',4)">★</span>
+                <span class="star empty" onclick="setStars('technical',5)">★</span>
+              </div>
+            </div>
+
+            <div class="eval-section">
+              <div class="eval-label">Communication Skill</div>
+              <div class="stars" id="stars-communication" data-rating="3">
+                <span class="star filled" onclick="setStars('communication',1)">★</span>
+                <span class="star filled" onclick="setStars('communication',2)">★</span>
+                <span class="star filled" onclick="setStars('communication',3)">★</span>
+                <span class="star empty" onclick="setStars('communication',4)">★</span>
+                <span class="star empty" onclick="setStars('communication',5)">★</span>
+              </div>
+            </div>
+
+            <div class="eval-section">
+              <div class="eval-label">Employer Comments</div>
+              <textarea class="eval-textarea" placeholder="Write your comments about this intern's performance..."></textarea>
+            </div>
+          </div>
+
+          <div style="border-top:1px solid var(--border);margin-top:24px;padding-top:18px;display:flex;justify-content:flex-end;gap:10px;">
+            <button class="btn btn-outline">Save Draft</button>
+            <button class="btn btn-primary">Submit Evaluation</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end .main -->
+</div><!-- end .shell -->
+
+<script>
+  function navigate(page, el) {
+    document.querySelectorAll('.page-area').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + page).classList.add('active');
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    if (el) el.classList.add('active');
+  }
+
+  function switchJobTab(tab, el) {
+    ['all','post','drafts'].forEach(t => {
+      document.getElementById('jobs-' + t).style.display = t === tab ? 'block' : 'none';
+    });
+    document.querySelectorAll('#page-jobs .tab-btn').forEach(b => b.classList.remove('active'));
+    const tabBtn = document.getElementById('job-tab-' + tab);
+    if (tabBtn) tabBtn.classList.add('active');
+  }
+
+  function switchAppTab(tab, el) {
+    ['pending','interview','offer','acceptance'].forEach(t => {
+      document.getElementById('app-' + t).style.display = t === tab ? 'block' : 'none';
+    });
+    document.querySelectorAll('#page-application .tab-btn').forEach(b => b.classList.remove('active'));
+    if (el) el.classList.add('active');
+  }
+
+  function switchInternTab(tab, el) {
+    document.getElementById('intern-list').style.display = tab === 'list' ? 'block' : 'none';
+    document.getElementById('intern-eval').style.display = tab === 'eval' ? 'block' : 'none';
+    document.querySelectorAll('#page-myinterns .tab-btn').forEach(b => b.classList.remove('active'));
+    const btns = document.querySelectorAll('#page-myinterns .tab-btn');
+    if (tab === 'list' && btns[0]) btns[0].classList.add('active');
+    if (tab === 'eval' && btns[1]) btns[1].classList.add('active');
+  }
+
+  function setStars(category, rating) {
+    const container = document.getElementById('stars-' + category);
+    if (!container) return;
+    container.dataset.rating = rating;
+    const stars = container.querySelectorAll('.star');
+    stars.forEach((s, i) => {
+      s.className = 'star ' + (i < rating ? 'filled' : 'empty');
+    });
+  }
+</script>
+</body>
+</html>
