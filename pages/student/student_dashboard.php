@@ -1,6 +1,7 @@
 <?php
 
 $user_choice = $_GET['page'] ?? 'application';
+
 ?>
 
 <!DOCTYPE html>
@@ -9,16 +10,33 @@ $user_choice = $_GET['page'] ?? 'application';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../css/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/MYIntern/css/style.css">
     <script src="/MYIntern/js/script.js"></script>
+    <script src="/MYIntern/js/chart.js"></script>
     <title>MYIntern | Student Dashboard</title>
 </head>
 
 <body>
-    <?php 
-        include("../../includes/header_user.php");
-        include("../../includes/student_dashboard_header.php"); 
+    <?php
+    include("../../includes/header_user.php");
+    ?>
 
+    <div class="blue-container" id="student-nav-container">
+        <div class="link-container">
+            <a class="white-link" href="?page=application">Application</a>
+            <a class="white-link" href="?page=e-log">E-Log</a>
+            <a class="white-link" href="?page=evaluation">Evaluation</a>
+        </div>
+    </div>
+
+
+    <main class="main-area">
+        <?php
         if (isset($user_choice) && $user_choice === "application") {
             include("student_application.php");
         } else if (isset($user_choice) && $user_choice === "e-log") {
@@ -26,8 +44,11 @@ $user_choice = $_GET['page'] ?? 'application';
         } else if (isset($user_choice) && $user_choice === "evaluation") {
             include("student_evaluation.php");
         }
-
-        include("../../includes/footer.php");
+        ?>
+    </main>
+    <?php
+    include("../../includes/footer.php");
     ?>
 </body>
+
 </html>

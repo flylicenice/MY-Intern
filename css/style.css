@@ -2,6 +2,15 @@
     --menu-color: #0c0908;
     --link-unactive-color: #696969;
     --link-active-color: #000080;
+    --border-color: #E2E8F0;
+    --text-muted: #64748B;
+    --text-label: #1A202C;
+    --border-input: #A0AEC0;
+    --btn-teal: #00A3C4;
+    --banner-gold: #DCBC77;      /* The warm gold background color from the image */
+    --card-outer-bg: #D9D9D9;    /* Light grey outer framing container card */
+    --text-headline: #000000;
+    --border-radius-main: 12px;
 }
 
 body.center {
@@ -72,7 +81,7 @@ a.blue-link:hover {
     display: none;
 }
 
-.dropdown-menu.show{
+.dropdown-menu.show {
     position: absolute;
     left: 70%;
     top: 8%;
@@ -88,7 +97,7 @@ a.blue-link:hover {
     background-color: white;
 }
 
-.dropdown-menu.show a{
+.dropdown-menu.show a {
     font-weight: 500;
     margin: 1rem;
 }
@@ -107,7 +116,7 @@ a.blue-link:hover {
     transition: transform 0.2s ease;
 }
 
-.dropdown-arrow.show{
+.dropdown-arrow.show {
     transform: rotate(180deg);
 }
 
@@ -150,16 +159,18 @@ a.link-btn {
 
 /* --- Center Side: Job Posting or Search Result --- */
 .main-area {
+    margin-top: 3rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100vw;
+    height: 100vh;
 }
 
 .content-card {
     display: flex;
     flex-direction: column;
-    align-items: center;    
+    align-items: center;
     gap: 3rem;
     margin-top: 3rem;
     padding: 2rem;
@@ -199,7 +210,7 @@ form i {
     background-color: transparent;
 }
 
-input.basic-textfield{
+input.basic-textfield {
     background-color: white;
     font-weight: bold;
     border: 2px solid #222831;
@@ -211,7 +222,7 @@ input.basic-textfield{
 }
 
 input::placeholder {
-    font-size: 0.8rem;  
+    font-size: 0.8rem;
 }
 
 input:focus {
@@ -220,7 +231,7 @@ input:focus {
 }
 
 input:-webkit-autofill,
-input:-webkit-autofill:hover, 
+input:-webkit-autofill:hover,
 input:-webkit-autofill:focus {
     -webkit-box-shadow: 0 0 0px 1000px white inset !important;
     -webkit-text-fill-color: #000000 !important;
@@ -239,7 +250,7 @@ input:-webkit-autofill:focus {
     width: 10%;
 }
 
-button.btn {
+.btn {
     cursor: pointer;
     text-align: center;
     font-weight: 800;
@@ -253,51 +264,46 @@ button.btn {
     transition: background-color 0.1s ease-in;
 }
 
-button.btn:hover {
+.btn:hover {
     background-color: #00C4C2;
 }
 
-main.main-content {
+.main-content {
     height: 100vh;
-    border: 1px solid black;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-/* --- Job Posting Card Layout --- */
 .job-posting-card {
     box-sizing: border-box;
-    width: 60%;/* Adjust this value based on your main wrapper container limits */
+    width: 60%;
     background-color: #FFFFFF;
-    border: 2px solid #A0AEC0; /* Matches the clean gray outline border from your design image */
-    border-radius: 12px; /* Smooth rounded interface edges */
+    border: 2px solid #A0AEC0;
+    border-radius: 12px;
     padding: 1.5rem;
     margin-bottom: 1.5rem;
     display: flex;
     flex-direction: row;
-    gap: 1.25rem; /* Precise horizontal separation between image and text block */
+    gap: 1.25rem;
     align-items: flex-start;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     transition: border 0.2s ease-in-out;
 }
 
-/* Subtle micro-interaction hover effect matching your current system guidelines */
 .job-posting-card:hover {
     border: 2px solid #000080;
     cursor: pointer;
 }
 
-/* --- Left Side: Company Logo Box --- */
 .company-logo-container {
     width: 72px;
     height: 72px;
-    background-color: #F7FAFC; /* Soft off-white canvas frame backing */
+    background-color: #F7FAFC;
     border-radius: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-shrink: 0; /* Prevents the box wrapper from shrinking if text space gets tight */
+    flex-shrink: 0;
     overflow: hidden;
     padding: 0.5rem;
     box-sizing: border-box;
@@ -306,10 +312,9 @@ main.main-content {
 .company-logo-img {
     width: 100%;
     height: 100%;
-    object-fit: contain; /* Scales brand icons cleanly without distorting aspects */
+    object-fit: contain;
 }
 
-/* --- Right Side: Information Cluster --- */
 .job-details-container {
     display: flex;
     flex-direction: column;
@@ -317,7 +322,6 @@ main.main-content {
     line-height: 1.4;
 }
 
-/* Main bold header bold sizing */
 .job-posting-title {
     font-size: 1.25rem;
     font-weight: 700;
@@ -325,7 +329,6 @@ main.main-content {
     margin: 0 0 0.2rem 0;
 }
 
-/* Slate neutral medium text lines */
 .company-name-text {
     font-size: 0.95rem;
     font-weight: 500;
@@ -340,7 +343,6 @@ main.main-content {
     margin: 0 0 0.25rem 0;
 }
 
-/* Bold accent pricing text layer */
 .job-salary-text {
     font-size: 0.9rem;
     font-weight: 600;
@@ -348,7 +350,6 @@ main.main-content {
     margin: 0 0 0.35rem 0;
 }
 
-/* Small relative upload time context tracker indicator */
 .posted-time-badge {
     font-size: 0.75rem;
     font-weight: 400;
@@ -361,7 +362,7 @@ div.pagination-wrapper-container {
     margin-bottom: 2rem;
 }
 
-div.pagination-wrapper-container a.pagination-number{
+div.pagination-wrapper-container a.pagination-number {
     text-align: center;
 }
 
@@ -370,7 +371,7 @@ div.pagination-wrapper-container a.pagination-number{
 }
 
 .pagination-number.active {
-    text-decoration: 3px solid underline black ;
+    text-decoration: 3px solid underline black;
 }
 
 .signup-body {
@@ -488,6 +489,7 @@ div.pagination-wrapper-container a.pagination-number{
 .form-scroll-wrapper::-webkit-scrollbar {
     width: 6px;
 }
+
 .form-scroll-wrapper::-webkit-scrollbar-thumb {
     background: #CBD5E0;
     border-radius: 4px;
@@ -525,7 +527,8 @@ div.pagination-wrapper-container a.pagination-number{
     flex: 1 1 100%;
 }
 
-.input-block input, .select-wrapper select {
+.input-block input,
+.select-wrapper select {
     width: 100%;
     box-sizing: border-box;
     padding: 0.9rem 1.2rem;
@@ -540,7 +543,8 @@ div.pagination-wrapper-container a.pagination-number{
     transition: all 0.15s ease-in-out;
 }
 
-.input-block input:focus, .select-wrapper select:focus {
+.input-block input:focus,
+.select-wrapper select:focus {
     border-color: #111E4B;
     box-shadow: 0 0 0 4px rgba(17, 30, 75, 0.08);
 }
@@ -579,8 +583,15 @@ div.pagination-wrapper-container a.pagination-number{
 }
 
 @keyframes fadeInForm {
-    from { opacity: 0; transform: translateY(4px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .form-action-row {
@@ -617,7 +628,7 @@ div.pagination-wrapper-container a.pagination-number{
     width: 100%;
 }
 
-footer{
+footer {
     width: 100vw;
     border-top: 1px solid rgba(0, 0, 0, 0.3);
 }
@@ -659,9 +670,9 @@ i#togglePasswordVisibility {
 }
 
 div.forgot-block {
-    display: flex; 
-    justify-content: space-between; 
-    margin: 0.5rem 0 1.5rem 0; 
+    display: flex;
+    justify-content: space-between;
+    margin: 0.5rem 0 1.5rem 0;
     font-size: 0.9rem;
 }
 
@@ -748,7 +759,6 @@ h1.stats {
     font-size: 5rem;
 }
 
-
 /* Forgot Password */
 div.input-wrapper {
     width: 100%;
@@ -756,6 +766,452 @@ div.input-wrapper {
 
 form#forgot-password {
     width: 80%;
+}
+
+.chart-section {
+    margin-bottom: 5rem;
+}
+
+.metric-card {
+    background-color: #FFFFFF;
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+    min-height: 100%;
+    min-width: 80vw;
+}
+
+.metric-info h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.chart {
+    width: 100%;
+    height: 100%;
+}
+
+.square-profile-container {
+    position: absolute;
+    left: 25%;
+    top: 13%;
+    max-width: 100px;
+    max-height: 100px;
+    background-color: white;
+    border: 5px solid white;
+    border-radius: 12px;
+}
+
+.square-profile-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.two-column-grid-form {
+    margin-top: 5rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 5rem;
+    row-gap: 1.5rem;
+    width: 50vw;
+}
+
+.input-field-block {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.input-field-block label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-label);
+}
+
+.input-field-block input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid var(--border-input);
+    border-radius: 8px;
+    /* Matching the soft inputs rounded curves */
+    font-size: 0.95rem;
+    color: #2D3748;
+    background-color: #FFFFFF;
+    outline: none;
+    box-sizing: border-box;
+}
+
+/* Styling for files row with upload iconography indicator */
+.custom-file-input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.upload-icon-indicator {
+    position: absolute;
+    right: 16px;
+    color: #4A5568;
+    font-size: 1.15rem;
+    cursor: pointer;
+}
+
+/* Centered Button Row (Breaks out of the 2-column flow) */
+.form-actions-row-centered {
+    grid-column: span 2;
+    /* Spans across both columns to clear the row grid */
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.teal-action-btn {
+    background-color: var(--btn-teal);
+    color: #FFFFFF;
+    border: none;
+    padding: 10px 45px;
+    /* Clean horizontal wide footprint button link */
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.15s ease-in-out;
+}
+
+.teal-action-btn:hover {
+    background-color: #0086A1;
+}
+
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+.form-label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.form-select,
+.form-textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1.5px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.15s ease;
+}
+
+.form-select:focus,
+.form-textarea:focus {
+    border-color: var(--navy-blue);
+}
+
+/* Drag & Drop Upload Zone */
+.upload-dropzone {
+    border: 2px dashed #CBD5E1;
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+    background-color: #F8FAFC;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.upload-dropzone:hover,
+.upload-dropzone.dragover {
+    border-color: var(--navy-blue);
+    background-color: #F0F4F8;
+}
+
+.upload-dropzone i {
+    font-size: 2.5rem;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+}
+
+.upload-dropzone p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.upload-dropzone strong {
+    color: var(--navy-blue);
+}
+
+/* Hide the default generic file input button text natively */
+.hidden-file-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.file-selected-name {
+    margin-top: 0.75rem;
+    font-size: 0.85rem;
+    color: var(--success-green);
+    font-weight: 600;
+    display: none;
+}
+
+.data-table-section {
+    background-color: #FFFFFF;
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+    padding: 1.5rem;
+    width: 80vw;
+    overflow-y: auto;
+    margin-bottom: 3rem;;
+}
+
+.table-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 0 0 1.5rem 0;
+}
+
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+th {
+    background-color: #F8FAFC;
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.95rem;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+.null-row {
+    text-align: center; 
+    color: var(--text-muted); 
+    padding: 2rem;
+}
+
+.status-badge {
+    padding: 0.3rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.status-badge.pending {
+    background-color: #FEF3C7;
+    color: #D97706;
+}
+
+.status-badge.viewed {
+    background-color: #443199;
+    color: white;
+}
+
+.status-badge.active {
+    background-color: #DCFCE7;
+    color: #15803D;
+}
+
+.status-badge.at-risk {
+    background-color: #FF0052;
+    color: white;
+}
+
+/* Action elements trigger states */
+.action-btn {
+    padding: 0.4rem 0.8rem;
+    border-radius: 8px;
+    border: none;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: transform 0.1s ease;
+}
+
+.action-btn:active {
+    transform: scale(0.96);
+}
+
+.action-btn:hover {
+    transform: scale(1.04);
+}
+
+.btn-approve {
+    background-color: #DCFCE7;
+    color: #15803D;
+    margin-right: 0.5rem;
+}
+
+.btn-reject {
+    background-color: #FEE2E2;
+    color: #B91C1C;
+}
+
+.btn-view {
+    background-color: #7AE2CF;
+    color: white;
+}
+
+/* Search Bar */
+.top-bar {
+    margin-bottom: 1rem;
+    width: 100%;
+}
+
+.top-bar input { 
+    width: 60%;
+    padding: 10px 10px 10px 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.top-bar input:focus {
+    border-color: var(--navy-blue);
+}
+
+.dashboard-tabs-banner {
+    background-color: var(--banner-gold);
+    padding: 1.5rem 2rem;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.tabs-container {
+    display: flex;
+    gap: 1rem;
+    max-width: 1100px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.sub-nav-tab {
+    text-decoration: none;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #000000;
+    background-color: #FFFFFF;
+    padding: 12px 28px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    transition: transform 0.15s, background-color 0.15s;
+}
+
+/* The active state styling matches the highlighted tab from your image */
+.sub-nav-tab.active {
+    background-color: #CCD36F; /* Distinct lime-tinted accent color */
+    color: #FFFFFF;
+}
+
+.sub-nav-tab:hover:not(.active) {
+    transform: translateY(-1px);
+    background-color: #F7FAFC;
+}
+
+/* 2. Main Workspace Layout Elements */
+.dashboard-content-wrapper {
+    width: 60%;
+    height: 60%;
+    margin: 2.5rem auto;
+    padding: 0 1.5rem;
+}
+
+/* Gray Outer Frame Box */
+.evaluation-outer-card {
+    background-color: var(--card-outer-bg);
+    border-radius: var(--border-radius-main);
+    padding: 2.5rem;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.student-greeting-title {
+    margin: 0 0 1.5rem 0;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-headline);
+    letter-spacing: -0.02em;
+}
+
+/* White Content Container Box */
+.evaluation-inner-container {
+    background-color: #FFFFFF;
+    border-radius: var(--border-radius-main);
+    min-height: 400px; /* Provides ample viewport height */
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Securely pins the message to top and button to bottom */
+    box-sizing: border-box;
+}
+
+.empty-state-notice {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #000000;
+}
+
+/* 3. Action Buttons */
+.button-alignment-row {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.download-pdf-btn {
+    background-color: #FFFFFF;
+    color: #2D3748;
+    border: 1px solid #E2E8F0;
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 10px 24px;
+    border-radius: 8px;
+    cursor: not-allowed; /* Styled disabled behavior matching your empty-state state */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+    opacity: 0.8;
 }
 
 /*For mobile screen*/
@@ -777,7 +1233,7 @@ form#forgot-password {
         background-color: white;
     }
 
-    
+
     .link-btn {
         padding: 0.5rem;
         font-size: 0.8rem;
@@ -791,7 +1247,8 @@ form#forgot-password {
         cursor: pointer;
     }
 
-    header h1, header i {
+    header h1,
+    header i {
         z-index: 101;
     }
 
@@ -808,7 +1265,8 @@ form#forgot-password {
         width: 80%;
     }
 
-    div#search-bar-container form button, div#search-bar-container form input{
+    div#search-bar-container form button,
+    div#search-bar-container form input {
         width: 100%;
     }
 

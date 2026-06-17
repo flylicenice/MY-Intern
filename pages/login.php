@@ -7,8 +7,8 @@
     <title>MYIntern | Login</title>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://gstatic.com" crossorigin>
-    <link href="https://googleapis.com" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 
@@ -39,89 +39,89 @@
         </aside>
 
         <main class="signup-form-canvas">
-    <div class="form-scroll-wrapper">
-        <h2 class="form-title">Welcome Back!</h2>
-        
-        <form action="../actions/login_process.php" method="POST" id="loginForm">
-            
-            <input type="hidden" name="role" id="userRoleInput" value="Student">
+            <div class="form-scroll-wrapper">
+                <h2 class="form-title">Welcome Back!</h2>
 
-            <div class="form-grid">
-                
-                <div class="input-block full-width">
-                    <input type="email" name="email" placeholder="Email Address" required autocomplete="username">
-                </div>
+                <form action="../actions/login_process.php" method="POST" id="loginForm">
 
-                <div class="input-block full-width" style="position: relative;">
-                    <input type="password" name="password" id="loginPasswordInput" placeholder="Password" required autocomplete="current-password">
-                    <i class='bx bx-hide' id="togglePasswordVisibility"></i>
-                </div>
+                    <input type="hidden" name="role" id="userRoleInput" value="Student">
 
+                    <div class="form-grid">
+
+                        <div class="input-block full-width">
+                            <input type="email" name="email" placeholder="Email Address" required autocomplete="username">
+                        </div>
+
+                        <div class="input-block full-width" style="position: relative;">
+                            <input type="password" name="password" id="loginPasswordInput" placeholder="Password" required autocomplete="current-password">
+                            <i class='bx bx-hide' id="togglePasswordVisibility"></i>
+                        </div>
+
+                    </div>
+
+                    <div class="forgot-block">
+                        <a href="forgot_password.php" style="color: #111E4B; text-decoration: none; font-weight: 500;">Forgot Password?</a>
+                        <p style="color: #718096;">Don't have an account? <a href="sign_up.php" style="color: #E2C279; text-decoration: none; font-weight: 600;">Register here</a></p>
+                    </div>
+
+                    <div class="form-action-row">
+                        <button id="login-btn" type="submit" name="submit_login" class="signup-submit-btn">Login</button>
+                    </div>
+
+                    <?php if (isset($_GET['error'])): ?>
+                        <div style="color: #9B1C1C; background-color: #FDE8E8; padding: 10px; margin-bottom: 15px; text-align: center; border-radius: 6px;">
+                            <?php
+                            if ($_GET['error'] === 'invalid_credentials') {
+                                echo "❌ Incorrect email address or password.";
+                            } elseif ($_GET['error'] === 'empty_fields') {
+                                echo "❌ Please fill out all fields.";
+                            } elseif ($_GET['error'] === 'account_disabled') {
+                                echo "⚠️ This account has been disabled or suspended.";
+                            } elseif ($_GET['error'] === 'system_fault') {
+                                echo "⚠️ A database error occurred. Please try again later.";
+                            } elseif ($_GET['error'] === 'unverified') {
+                                echo "⚠️ This account is not activated yet.";
+                            }
+                            ?>
+                        </div>
+                    <?php endif; ?>
+                </form>
             </div>
+        </main>
 
-            <div class="forgot-block">
-                <a href="forgot_password.php" style="color: #111E4B; text-decoration: none; font-weight: 500;">Forgot Password?</a>
-                <p style="color: #718096;">Don't have an account? <a href="sign_up.php" style="color: #E2C279; text-decoration: none; font-weight: 600;">Register here</a></p>
-            </div>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                // --- 1. Keep Left Sidebar Role Selector Synchronized ---
+                const roleButtons = document.querySelectorAll(".role-nav-btn");
+                const roleInput = document.getElementById("userRoleInput");
 
-            <div class="form-action-row">
-                <button id="login-btn" type="submit" name="submit_login" class="signup-submit-btn">Login</button>
-            </div>
+                roleButtons.forEach(button => {
+                    button.addEventListener("click", function() {
+                        roleButtons.forEach(btn => btn.classList.remove("active"));
+                        this.classList.add("active");
 
-            <?php if (isset($_GET['error'])): ?>
-        <div style="color: #9B1C1C; background-color: #FDE8E8; padding: 10px; margin-bottom: 15px; text-align: center; border-radius: 6px;">
-            <?php
-                if ($_GET['error'] === 'invalid_credentials') {
-                    echo "❌ Incorrect email address or password.";
-                } elseif ($_GET['error'] === 'empty_fields') {
-                    echo "❌ Please fill out all fields.";
-                } elseif ($_GET['error'] === 'account_disabled') {
-                    echo "⚠️ This account has been disabled or suspended.";
-                } elseif ($_GET['error'] === 'system_fault') {
-                    echo "⚠️ A database error occurred. Please try again later.";
-                } elseif ($_GET['error'] === 'unverified') {
-                    echo "⚠️ This account is not activated yet.";
+                        // Keep backend informed whether a Student, Lecturer, or Employer is attempting login
+                        const selectedRole = this.getAttribute("data-target-role");
+                        roleInput.value = selectedRole;
+                    });
+                });
+
+                // --- 2. Interactive Password Eye Toggle Logic ---
+                const passwordField = document.getElementById("loginPasswordInput");
+                const visibilityToggle = document.getElementById("togglePasswordVisibility");
+
+                if (visibilityToggle && passwordField) {
+                    visibilityToggle.addEventListener("click", function() {
+                        if (passwordField.type === "password") {
+                            passwordField.type = "text";
+                            this.classList.replace("bx-hide", "bx-show");
+                        } else {
+                            passwordField.type = "password";
+                            this.classList.replace("bx-show", "bx-hide");
+                        }
+                    });
                 }
-            ?>
-        </div>
-    <?php endif; ?>
-        </form>
-    </div>
-</main>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // --- 1. Keep Left Sidebar Role Selector Synchronized ---
-        const roleButtons = document.querySelectorAll(".role-nav-btn");
-        const roleInput = document.getElementById("userRoleInput");
-
-        roleButtons.forEach(button => {
-            button.addEventListener("click", function() {
-                roleButtons.forEach(btn => btn.classList.remove("active"));
-                this.classList.add("active");
-                
-                // Keep backend informed whether a Student, Lecturer, or Employer is attempting login
-                const selectedRole = this.getAttribute("data-target-role");
-                roleInput.value = selectedRole;
             });
-        });
-
-        // --- 2. Interactive Password Eye Toggle Logic ---
-        const passwordField = document.getElementById("loginPasswordInput");
-        const visibilityToggle = document.getElementById("togglePasswordVisibility");
-
-        if (visibilityToggle && passwordField) {
-            visibilityToggle.addEventListener("click", function() {
-                if (passwordField.type === "password") {
-                    passwordField.type = "text";
-                    this.classList.replace("bx-hide", "bx-show");
-                } else {
-                    passwordField.type = "password";
-                    this.classList.replace("bx-show", "bx-hide");
-                }
-            });
-        }
-    });
-</script>
+        </script>
 
 </html>
