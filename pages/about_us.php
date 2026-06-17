@@ -1,16 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link rel="stylesheet" href="../css/style.css">
     <script src="../js/script.js"></script>
     <title>MYIntern | About Us</title>
 </head>
+
 <body class="center">
     <?php include("../includes/header_guest.php") ?>
-    
+
     <div class="blue-container" id="about-container">
         <h1 class="about-title">About Us</h1>
     </div>
@@ -83,4 +88,5 @@
     <?php include("../includes/footer.php"); ?>
 
 </body>
+
 </html>

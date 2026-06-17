@@ -5,12 +5,13 @@ $error = $_GET['error'];
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>MYIntern | Error</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://gstatic.com" crossorigin>
-    <link href="https://googleapis.com" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap" rel="stylesheet">
+    <title>MYIntern | Error</title>
     <style>
         body {
             height: 100vh;
@@ -22,7 +23,9 @@ $error = $_GET['error'];
             font-family: "Google Sans", sans-serif;
         }
 
-        h1, h2, h3 {
+        h1,
+        h2,
+        h3 {
             line-height: 0.2;
         }
 
@@ -42,7 +45,7 @@ $error = $_GET['error'];
             font-size: 6rem;
         }
 
-        a#home-btn{
+        a#home-btn {
             display: block;
             padding: 2rem;
             margin-right: 80%;
@@ -60,14 +63,16 @@ $error = $_GET['error'];
         }
     </style>
 </head>
+
 <body>
     <h3>MYIntern</h3>
     <h1>Oops!</h1>
     <h2>Looks like there is an error.</h2>
-    <h3 id="error-msg"><?php if(isset($error)) {
-        echo $error; 
-        } ?>
+    <h3 id="error-msg"><?php if (isset($error)) {
+                            echo $error;
+                        } ?>
     </h3>
     <a id="home-btn" href="javascript:history.back()">Back</a>
 </body>
+
 </html>

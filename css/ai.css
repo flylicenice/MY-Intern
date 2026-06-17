@@ -1,0 +1,283 @@
+/* Core Structural Context Elements */
+.recruitment-workspace {
+    max-width: 1150px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.workspace-header, .workspace-header-stack {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.75rem;
+}
+
+.workspace-header-stack {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+}
+
+.page-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #111E4B; /* Core Brand UI Navy Blue */
+    margin: 0;
+}
+
+.page-subtitle {
+    font-size: 0.9rem;
+    color: #718096;
+    margin: 4px 0 0 0;
+}
+
+/* Primary Form Filtering Box Component */
+.filter-control-card {
+    background-color: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    padding: 1.25rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.filter-label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #4A5568;
+}
+
+.main-filter-dropdown {
+    padding: 8px 14px;
+    border-radius: 6px;
+    border: 1px solid #CBD5E0;
+    font-family: inherit;
+    font-size: 0.9rem;
+    color: #2D3748;
+    min-width: 320px;
+}
+
+/* Centralized Data Table Blocks Container Layout */
+.card-table-container {
+    background-color: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+}
+
+.table-context-indicator {
+    padding: 12px 20px;
+    background-color: #F8FAFC;
+    border-bottom: 1px solid #E2E8F0;
+    font-size: 0.85rem;
+    color: #4A5568;
+}
+
+.custom-dashboard-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.custom-dashboard-table th {
+    background-color: #F7FAFC;
+    color: #4A5568;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 14px 20px;
+    border-bottom: 1px solid #E2E8F0;
+    text-align: left;
+}
+
+.custom-dashboard-table td {
+    padding: 16px 20px;
+    border-bottom: 1px solid #E2E8F0;
+    font-size: 0.9rem;
+    color: #2D3748;
+    vertical-align: middle;
+}
+
+/* Unique Context Helper Rules */
+.font-highlight { font-weight: 700; color: #111E4B; }
+.uni-text { display: block; font-weight: 600; color: #2D3748; }
+.sub-course-text { font-size: 0.75rem; color: #718096; }
+
+.cv-link-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: #E53E3E; /* High-contrast indicator for PDF actions */
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.cv-link-action:hover { text-decoration: underline; }
+
+/* Custom Semantic Status Badge Micro Components */
+.status-badge {
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 20px;
+    display: inline-block;
+}
+.state-blue   { background-color: #EBF8FF; color: #2B6CB0; }
+.state-teal   { background-color: #E6FFFA; color: #234E52; }
+.state-yellow { background-color: #FEFCBF; color: #744210; }
+.state-green  { background-color: #C6F6D5; color: #22543D; }
+
+/* Core Primary Application Actions Trigger Buttons Configuration */
+.btn-primary-action {
+    background-color: #111E4B;
+    color: #FFFFFF;
+    border: none;
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 10px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-destructive-action {
+    background-color: #FFF5F5;
+    color: #C53030;
+    border: 1px solid #FEB2B2;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.8rem;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+.btn-destructive-action:hover { background-color: #E53E3E; color: #FFFFFF; }
+
+.action-decision-buttons-row {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+}
+
+.btn-micro-approve, .btn-micro-decline {
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+}
+.btn-micro-approve { background-color: #111E4B; color: #FFFFFF; }
+.btn-micro-decline { background-color: #EDF2F7; color: #4A5568; }
+.action-completed-text { font-size: 0.8rem; color: #A0AEC0; font-style: italic; }
+
+/* Modal Form Core Interface Blocks */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(17, 30, 75, 0.4); /* Dynamic tint filter mapping brand colors */
+    z-index: 1000;
+    display: flex; justify-content: center; align-items: center;
+}
+
+.modal-box {
+    background-color: #FFFFFF;
+    border-radius: 12px;
+    width: 100%; max-width: 500px;
+    padding: 1.75rem;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.modal-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 1.5rem;
+}
+.modal-header h3 { margin: 0; color: #111E4B; font-size: 1.2rem; }
+.close-modal-btn { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #A0AEC0; }
+
+.form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 1.25rem; }
+.form-row-dual { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.form-group label { font-size: 0.85rem; font-weight: 600; color: #4A5568; }
+.form-group input, .form-group select { padding: 8px 12px; border-radius: 6px; border: 1px solid #CBD5E0; font-family: inherit; }
+
+.modal-footer-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 1.5rem; }
+.btn-cancel { background-color: #EDF2F7; color: #4A5568; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 600; }
+.btn-submit-save { background-color: #111E4B; color: #FFFFFF; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 600; }
+
+/* Container Layout Setup */
+.dashboard-analytics-workspace {
+    max-width: 1150px;
+    margin: 1.5rem auto;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.analytics-header {
+    margin-bottom: 2rem;
+}
+
+.section-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #111E4B; /* Brand Navy from image_45d466.png */
+    margin: 0;
+}
+
+.section-subtitle {
+    font-size: 0.88rem;
+    color: #718096;
+    margin: 4px 0 0 0;
+}
+
+/* Fluid CSS Grid System */
+.charts-grid-layout {
+    display: grid;
+    grid-template-columns: 2fr 1.25fr;
+    gap: 1.75rem;
+}
+
+/* Individual Responsive Chart Display Box Elements */
+.chart-card-wrapper {
+    background-color: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+}
+
+.chart-card-wrapper.large-span {
+    grid-column: span 1;
+}
+
+.chart-card-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #2D3748;
+    margin: 0 0 1.25rem 0;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.chart-canvas-box {
+    position: relative;
+    width: 100%;
+    height: 260px; /* Constrains height to ensure alignment across different screen formats */
+}
+
+/* Responsive adjustments for viewport downscaling */
+@media (max-width: 900px) {
+    .charts-grid-layout {
+        grid-template-columns: 1fr;
+    }
+    .chart-card-wrapper.large-span {
+        grid-column: span 1;
+    }
+}

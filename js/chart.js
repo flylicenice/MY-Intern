@@ -7,6 +7,10 @@ function drawCharts() {
     const lecturerChart = $('#lecturerChart')[0];
     const companyChart = $('#companyChart')[0];
     const allStudentsChart = $("#allStudentsChart")[0];
+    const studentApplicationChart = $("#studentApplicationChart")[0];
+    const assignedInternChart = $('#assignedInternsChart')[0];
+    const monthlyVolumeChart = $('#monthlyVolumeChart')[0];
+    const vacancyPerformanceChart = $("#vacancyPerformanceChart")[0];
 
     if (studentChart) {
         new Chart(studentChart, {
@@ -46,7 +50,7 @@ function drawCharts() {
                     y: {
                         grid: {
                             display: true
-                        }, 
+                        },
                         ticks: {
                             font: { size: 10 },
                             stepSize: 100
@@ -85,7 +89,7 @@ function drawCharts() {
                 datasets: [{
                     label: 'Total Number of Lecturer',
                     data: [45, 60],
-                    backgroundColor: [ '#E2E8F0', '#111E4B']
+                    backgroundColor: ['#E2E8F0', '#111E4B']
                 }],
             },
             options: {
@@ -103,13 +107,124 @@ function drawCharts() {
                 datasets: [{
                     label: 'Registered Students',
                     data: [100, 200],
-                    backgroundColor: [ '#E2E8F0', '#111E4B']
+                    backgroundColor: ['#E2E8F0', '#111E4B']
                 }],
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-            } 
+            }
+        });
+    }
+
+    if (studentApplicationChart) {
+        new Chart(studentApplicationChart, {
+            type: "bar",
+            data: {
+                labels: ['Viewed', 'Approved', 'Rejected'],
+                datasets: [{
+                    label: 'Applied Jobs',
+                    data: [10, 20, 5],
+                    backgroundColor: ['rgba(255, 99, 132, 0.2)', 'rgba(255, 159, 64, 0.2)', 'rgba(255, 205, 86, 0.2)'],
+                    borderColor: ['rgba(255, 99, 132)', 'rgba(255, 159, 64)', 'rgba(255, 205, 86)'],
+                    borderWidth: 1
+                }],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+            }
+        });
+    }
+
+    if (assignedInternChart) {
+        new Chart(assignedInternChart, {
+            type: 'doughnut',
+            data: {
+                labels: ['Start Applying', 'Not Applying', 'Placed'],
+                datasets: [{
+                    data: [4, 1, 1], // Pull dynamically from your total caseload numbers (e.g., 6 total)
+                    backgroundColor: [
+                        '#111E4B', // Brand Navy blue from image_4a2bca.png
+                        '#CCD36F', // Lime Accent from image_cf7b07.png
+                        '#A0AEC0'  /* Neutral Grey */
+                    ],
+                    borderWidth: 2,
+                    borderColor: '#ffffff'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '75%', // Creates a premium, clean thin ring shape
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            boxWidth: 12,
+                            padding: 15,
+                            font: { family: 'sans-serif', size: 12, weight: '500' }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    if (monthlyVolumeChart) {
+        new Chart(monthlyVolumeChart, {
+            type: 'bar',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Total Applications Received',
+                    data: [12, 19, 8, 15, 24, 32],
+                    backgroundColor: "#111E4B",
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { beginAtZero: true, grid: { color: '#E2E8F0' } },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+    }
+
+    if (vacancyPerformanceChart) {
+        new Chart(vacancyPerformanceChart, {
+            type: 'bar',
+            data: {
+                labels: ['Software Engineer Intern', 'Data Analyst Intern', 'UI/UX Designer Intern'],
+                datasets: [{
+                    label: 'Applicants Registered',
+                    data: [15, 9, 6],
+                    backgroundColor: "#111E4B",
+                    borderRadius: 4,
+                    barThickness: 18
+                }]
+            },
+            options: {
+                indexAxis: 'y', // Flips layout matrix horizontally
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 3
+                        }
+                    },
+                    y: {
+                        grid: { display: false }
+                    }
+                } // Properly containing both x and y structures
+            }
         });
     }
 }

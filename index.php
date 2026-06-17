@@ -14,8 +14,8 @@ $loggedInStatus = isLoggedIn();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://gstatic.com" crossorigin>
-    <link href="https://googleapis.com" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/4d8d735e30.js" crossorigin="anonymous"></script>
 
     <link href="assets/logo.svg" type="image/svg+xml" rel="icon">
@@ -74,9 +74,11 @@ $loggedInStatus = isLoggedIn();
     <div class="pagination-wrapper-container">
         <p>Pages</p>
 
-        <?php $i = 1; while ($i < 9): ?>
+        <?php $i = 1;
+        while ($i < 9): ?>
             <a class="pagination-number" href=""><?php echo $i ?></a>
-        <?php $i++; endwhile; ?>
+        <?php $i++;
+        endwhile; ?>
     </div>
 
 
