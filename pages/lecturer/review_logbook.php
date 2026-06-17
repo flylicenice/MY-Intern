@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../css/adminstyle.css">
+    <link rel="stylesheet" href="../../css/unistyle.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap" rel="stylesheet">
@@ -12,7 +12,6 @@
 <body class="center-center">
     <section class="review-logbook-section">
     
-    <!-- 1. Student Context Profile Banner (Read-Only) -->
     <div class="student-context-banner">
         <div class="student-profile-meta">
             <div class="avatar-placeholder">
@@ -25,13 +24,11 @@
         </div>
     </div>
 
-    <!-- 2. Section Header Title -->
     <div class="section-title-bar">
         <h3 class="component-subtitle">Submitted Logbooks</h3>
         <p class="component-desc-text">View logbooks that have been submitted by students.</p>
     </div>
 
-    <!-- 3. Read-Only Logbook Status Timeline Table -->
     <div class="table-responsive">
         <table class="lecturer-review-table">
             <thead>
@@ -44,7 +41,6 @@
             </thead>
             <tbody>
                 <?php 
-                    // Mock data array simulating weekly submission records for this specific student
                     $weeklyLogs = [
                         1 => ['status' => 'Submitted', 'date' => '12 Mar 2026', 'file' => 'log_w1.pdf'],
                         2 => ['status' => 'Submitted', 'date' => '19 Mar 2026', 'file' => 'log_w2.pdf'],
@@ -71,12 +67,10 @@
                     </td>
                     <td style="text-align: right; padding-right: 24px;">
                         <?php if($logData['status'] === 'Submitted'): ?>
-                            <!-- Allowed Action: View Only Mode Link Layout -->
                             <a class="lecturer-view-btn" href="view_pdf_viewer.php?file=<?php echo $logData['file']; ?>" target="_blank">
                                 <i class='bx bx-show-alt'></i> View Logbook
                             </a>
                         <?php else: ?>
-                            <!-- Disabled State: Student has not uploaded anything yet -->
                             <span class="view-btn-disabled">
                                 <i class='bx bx-lock-alt'></i> Unavailable
                             </span>

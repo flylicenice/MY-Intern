@@ -14,7 +14,6 @@
 body {
     margin: 0;
     padding: 0;
-    font-family: "Google Sans", sans-serif;
     background-color: var(--bg-canvas);
     color: var(--text-dark);
     display: flex;
@@ -81,11 +80,11 @@ body {
 
 .login-card-container {
     background-color: #FFFFFF;
-    border: 1.5px solid #CBD5E0; /* Clean distinct gray border outline */
+    border: 1.5px solid #CBD5E0;
     border-radius: 16px;
     padding: 2.5rem 2.2rem;
     width: 100%;
-    max-width: 380px; /* Perfectly scales to match image proportions */
+    max-width: 380px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04);
     box-sizing: border-box;
     text-align: center;
@@ -239,7 +238,6 @@ body {
     color: #FFAAAA;
 }
 
-/* ================= MAIN CONTENT AREA ================= */
 .dashboard-container {
     flex: 1;
     display: flex;
@@ -263,7 +261,6 @@ body {
     letter-spacing: -0.5px;
 }
 
-/* ================= METRIC CARDS GRID ================= */
 .metrics-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -365,7 +362,6 @@ tr:last-child td {
     color: #15803D;
 }
 
-/* Action elements trigger states */
 .action-btn {
     padding: 0.4rem 0.8rem;
     border-radius: 8px;
@@ -428,7 +424,6 @@ tr:last-child td {
     border-color: var(--navy-blue);
 }
 
-/* Drop-down container */
 .absolute-relative-container {
     position: relative;
 }
@@ -688,7 +683,6 @@ tr:last-child td {
     background-color: #1F3273;
 }
 
-/* Layout Positioning */
 .global-monitoring-section {
     max-width: 1100px;
     margin: 0 auto 2rem auto;
@@ -710,7 +704,6 @@ tr:last-child td {
     width: 160px;
 }
 
-/* Status Pill Indicators Styles */
 .status-pill-badge {
     font-size: 0.75rem;
     font-weight: 700;
@@ -721,28 +714,24 @@ tr:last-child td {
     display: inline-block;
 }
 
-/* 1. PLACED Status: Soft clean pastel green */
 .status-pill-badge.status-placed {
     background-color: #E6FFFA;
     color: #234E52;
     border: 1px solid #B2F5EA;
 }
 
-/* 2. STILL APPLYING Status: Soft clean pastel blue/teal */
 .status-pill-badge.status-applying {
     background-color: #EBF8FF;
     color: #2B6CB0;
     border: 1px solid #BEE3F8;
 }
 
-/* 3. NOT APPLYING Status: Vibrant high-visibility amber/red alert */
 .status-pill-badge.status-none {
     background-color: #FFF5F5;
     color: #C53030;
     border: 1px solid #FEB2B2;
 }
 
-/* Custom Interactive Filter Pills Controls Row */
 .status-filter-pills-row {
     display: flex;
     gap: 8px;
@@ -761,14 +750,14 @@ tr:last-child td {
 }
 
 .filter-pill.active, .filter-pill:hover {
-    background-color: #111E4B; /* Brand primary navy */
+    background-color: #111E4B;
     color: #FFFFFF;
     border-color: #111E4B;
 }
 
-/* Quick View Context Action Layout Anchors */
+
 .table-view-action-btn {
-    background-color: #00A3C4; /* Custom action teal */
+    background-color: #00A3C4;
     color: #FFFFFF;
     text-decoration: none;
     padding: 6px 16px;
@@ -778,7 +767,7 @@ tr:last-child td {
 }
 
 .table-view-action-btn-alert {
-    background-color: #DD6B20; /* Attention Orange */
+    background-color: #DD6B20;
     color: #FFFFFF;
     text-decoration: none;
     padding: 6px 16px;
@@ -788,7 +777,7 @@ tr:last-child td {
 }
 
 .table-view-action-btn-alert {
-    background-color: #DD6B20; /* Attention Orange */
+    background-color: #DD6B20;
     color: #FFFFFF;
     text-decoration: none;
     padding: 6px 16px;
@@ -797,17 +786,14 @@ tr:last-child td {
     font-weight: 500;
 }
 
-/* Layout Container Adjustments */
 .review-logbook-section {
     max-width: 1100px;
     margin: 2rem auto;
     padding: 0 1.5rem;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
-/* 1. Student Info Context Banner Box */
 .student-context-banner {
-    background-color: #111E4B; /* Core corporate navy brand color */
+    background-color: #111E4B;
     color: #FFFFFF;
     border-radius: 12px;
     padding: 1.5rem 2rem;
@@ -869,11 +855,10 @@ tr:last-child td {
 .company-name-text {
     font-size: 1rem;
     font-weight: 700;
-    color: #CCD36F; /* Highlight accent color color */
+    color: #CCD36F;
     margin-top: 2px;
 }
 
-/* 2. Text Titles Elements */
 .section-title-bar {
     margin-bottom: 1.25rem;
 }
@@ -891,7 +876,6 @@ tr:last-child td {
     color: #718096;
 }
 
-/* 3. Read Only Datatable Theme Styles */
 .lecturer-review-table {
     width: 100%;
     border-collapse: collapse;
@@ -924,7 +908,6 @@ tr:last-child td {
     color: #111E4B;
 }
 
-/* 4. Semantic Status Badges (Pills Variant) */
 .status-badge-inline {
     font-size: 0.8rem;
     font-weight: 700;
@@ -943,13 +926,12 @@ tr:last-child td {
     color: #718096;
 }
 
-/* 5. Custom Button State Styles Rules */
 .lecturer-view-btn {
     display: inline-flex;
     align-items: center;
     gap: 6px;
     background-color: #FFFFFF;
-    color: #00A3C4; /* Clear interactive action teal line */
+    color: #00A3C4;
     border: 1px solid #00A3C4;
     text-decoration: none;
     padding: 8px 16px;
@@ -981,7 +963,6 @@ tr:last-child td {
     margin: 4px 0 0 0;
 }
 
-/* Roster Table Styling */
 .lecturer-students-table {
     width: 100%;
     border-collapse: collapse;
@@ -1016,12 +997,11 @@ tr:last-child td {
     color: #111E4B;
 }
 
-/* Progress Bar Visual Components */
 .progress-wrapper {
     display: flex;
     flex-direction: column;
     gap: 4px;
-    width: 160px; /* Secure bar sizing space footprint */
+    width: 160px;
 }
 
 .progress-text {
@@ -1040,24 +1020,23 @@ tr:last-child td {
 
 .progress-bar-fill {
     height: 100%;
-    background-color: #00A3C4; /* Action Teal indicator shade */
+    background-color: #00A3C4;
     border-radius: 10px;
 }
 
 .progress-bar-fill.complete {
-    background-color: #48BB78; /* Clean semantic green for finished cycles */
+    background-color: #48BB78;
 }
 
 .progress-bar-fill.warning {
-    background-color: #E53E3E; /* Red flag alert indicator for slow submitters */
+    background-color: #E53E3E;
 }
 
-/* Action Trigger Button Anchor */
 .action-view-log-btn {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    background-color: #111E4B; /* Matching primary branding button weight */
+    background-color: #111E4B;
     color: #FFFFFF;
     text-decoration: none;
     padding: 8px 16px;
@@ -1069,7 +1048,7 @@ tr:last-child td {
 }
 
 .action-view-log-btn:hover {
-    background-color: #1F3273; /* Richer navy tone hover transition */
+    background-color: #1F3273;
 }
 
 .action-view-log-btn i {
@@ -1083,17 +1062,14 @@ tr:last-child td {
     align-items: center
 }
 
-    /* Layout Global Structural Wrappers */
 .evaluation-upload-section {
     max-width: 1100px;
     margin: 2.5rem auto;
     padding: 0 1.5rem;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
-/* 1. Student Identity Context Frame Header Card */
 .evaluation-student-header {
-    background-color: #111E4B; /* Core Brand Navy text alignment styling */
+    background-color: #111E4B;
     color: #FFFFFF;
     border-radius: 12px;
     padding: 1.5rem 2rem;
@@ -1119,7 +1095,7 @@ tr:last-child td {
     justify-content: center;
     align-items: center;
     font-size: 1.6rem;
-    color: #CCD36F; /* Structural crisp highlight accent tint */
+    color: #CCD36F;
 }
 
 .intern-display-name {
@@ -1159,7 +1135,6 @@ tr:last-child td {
     margin-top: 2px;
 }
 
-/* 2. Responsive Dual Layout Column Matrix Grid */
 .evaluation-grid-layout {
     display: grid;
     grid-template-columns: 1fr 1.25fr;
@@ -1188,7 +1163,6 @@ tr:last-child td {
     margin: 0 0 1.5rem 0;
 }
 
-/* 3. Word Document Template Link Card */
 .download-template-box {
     display: flex;
     align-items: center;
@@ -1201,7 +1175,7 @@ tr:last-child td {
 
 .file-icon-box {
     font-size: 1.8rem;
-    color: #2B6CB0; /* Document slate blue indicator */
+    color: #2B6CB0;
 }
 
 .file-details {
@@ -1235,7 +1209,6 @@ tr:last-child td {
     background-color: #E2E8F0;
 }
 
-/* 4. Interactive Drag and Drop Component Container */
 .drag-drop-interactive-zone {
     position: relative;
     border: 2px dashed #CBD5E0;
@@ -1252,7 +1225,6 @@ tr:last-child td {
     background-color: #F7FAFC;
 }
 
-/* Secure invisible absolute pointer covering to protect input targeting field clicks */
 .drag-drop-interactive-zone input[type="file"] {
     position: absolute;
     top: 0;
@@ -1278,7 +1250,7 @@ tr:last-child td {
 }
 
 .browse-text-highlight {
-    color: #00A3C4; /* Design system action teal color line link */
+    color: #00A3C4;
     font-weight: 600;
     text-decoration: underline;
 }
@@ -1289,7 +1261,6 @@ tr:last-child td {
     margin: 0;
 }
 
-/* 5. Primary Execution Submission Button */
 .form-action-row {
     margin-top: 1.5rem;
     display: flex;
@@ -1300,7 +1271,6 @@ tr:last-child td {
     background-color: #111E4B;
     color: #FFFFFF;
     border: none;
-    font-family: inherit;
     font-size: 0.9rem;
     font-weight: 600;
     padding: 12px 24px;

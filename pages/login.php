@@ -72,15 +72,15 @@
                         <div style="color: #9B1C1C; background-color: #FDE8E8; padding: 10px; margin-bottom: 15px; text-align: center; border-radius: 6px;">
                             <?php
                             if ($_GET['error'] === 'invalid_credentials') {
-                                echo "❌ Incorrect email address or password.";
+                                echo "Incorrect email address or password.";
                             } elseif ($_GET['error'] === 'empty_fields') {
-                                echo "❌ Please fill out all fields.";
+                                echo "Please fill out all fields.";
                             } elseif ($_GET['error'] === 'account_disabled') {
-                                echo "⚠️ This account has been disabled or suspended.";
+                                echo "This account has been disabled or suspended.";
                             } elseif ($_GET['error'] === 'system_fault') {
-                                echo "⚠️ A database error occurred. Please try again later.";
+                                echo "A database error occurred. Please try again later.";
                             } elseif ($_GET['error'] === 'unverified') {
-                                echo "⚠️ This account is not activated yet.";
+                                echo "This account is not activated yet.";
                             }
                             ?>
                         </div>
@@ -91,7 +91,6 @@
 
         <script>
             document.addEventListener("DOMContentLoaded", function() {
-                // --- 1. Keep Left Sidebar Role Selector Synchronized ---
                 const roleButtons = document.querySelectorAll(".role-nav-btn");
                 const roleInput = document.getElementById("userRoleInput");
 
@@ -100,13 +99,11 @@
                         roleButtons.forEach(btn => btn.classList.remove("active"));
                         this.classList.add("active");
 
-                        // Keep backend informed whether a Student, Lecturer, or Employer is attempting login
                         const selectedRole = this.getAttribute("data-target-role");
                         roleInput.value = selectedRole;
                     });
                 });
 
-                // --- 2. Interactive Password Eye Toggle Logic ---
                 const passwordField = document.getElementById("loginPasswordInput");
                 const visibilityToggle = document.getElementById("togglePasswordVisibility");
 

@@ -7,10 +7,18 @@
     --text-label: #1A202C;
     --border-input: #A0AEC0;
     --btn-teal: #00A3C4;
-    --banner-gold: #DCBC77;      /* The warm gold background color from the image */
-    --card-outer-bg: #D9D9D9;    /* Light grey outer framing container card */
+    --banner-gold: #DCBC77;
+    --card-outer-bg: #D9D9D9;
     --text-headline: #000000;
     --border-radius-main: 12px;
+    --navy-blue: #111E4B;
+    --gold-accent: #E2C279;
+    --bg-canvas: #F8FAFC;
+    --border-color: #E2E8F0;
+    --text-dark: #1E293B;
+    --text-muted: #64748B;
+    --success-green: #10B981;
+    --warning-amber: #F59E0B;
 }
 
 body.center {
@@ -759,7 +767,6 @@ h1.stats {
     font-size: 5rem;
 }
 
-/* Forgot Password */
 div.input-wrapper {
     width: 100%;
 }
@@ -841,7 +848,6 @@ form#forgot-password {
     padding: 12px 16px;
     border: 1px solid var(--border-input);
     border-radius: 8px;
-    /* Matching the soft inputs rounded curves */
     font-size: 0.95rem;
     color: #2D3748;
     background-color: #FFFFFF;
@@ -849,7 +855,6 @@ form#forgot-password {
     box-sizing: border-box;
 }
 
-/* Styling for files row with upload iconography indicator */
 .custom-file-input-container {
     position: relative;
     display: flex;
@@ -864,10 +869,8 @@ form#forgot-password {
     cursor: pointer;
 }
 
-/* Centered Button Row (Breaks out of the 2-column flow) */
 .form-actions-row-centered {
     grid-column: span 2;
-    /* Spans across both columns to clear the row grid */
     display: flex;
     justify-content: center;
     margin-top: 2rem;
@@ -878,7 +881,6 @@ form#forgot-password {
     color: #FFFFFF;
     border: none;
     padding: 10px 45px;
-    /* Clean horizontal wide footprint button link */
     border-radius: 8px;
     font-size: 0.95rem;
     font-weight: 500;
@@ -918,7 +920,6 @@ form#forgot-password {
     border-color: var(--navy-blue);
 }
 
-/* Drag & Drop Upload Zone */
 .upload-dropzone {
     border: 2px dashed #CBD5E1;
     border-radius: 12px;
@@ -952,7 +953,6 @@ form#forgot-password {
     color: var(--navy-blue);
 }
 
-/* Hide the default generic file input button text natively */
 .hidden-file-input {
     position: absolute;
     top: 0;
@@ -979,7 +979,8 @@ form#forgot-password {
     padding: 1.5rem;
     width: 80vw;
     overflow-y: auto;
-    margin-bottom: 3rem;;
+    margin-bottom: 3rem;
+    ;
 }
 
 .table-title {
@@ -1020,8 +1021,8 @@ tr:last-child td {
 }
 
 .null-row {
-    text-align: center; 
-    color: var(--text-muted); 
+    text-align: center;
+    color: var(--text-muted);
     padding: 2rem;
 }
 
@@ -1053,7 +1054,6 @@ tr:last-child td {
     color: white;
 }
 
-/* Action elements trigger states */
 .action-btn {
     padding: 0.4rem 0.8rem;
     border-radius: 8px;
@@ -1096,7 +1096,7 @@ tr:last-child td {
     width: 100%;
 }
 
-.top-bar input { 
+.top-bar input {
     width: 60%;
     padding: 10px 10px 10px 10px;
     border: 1px solid var(--border-color);
@@ -1138,9 +1138,8 @@ tr:last-child td {
     transition: transform 0.15s, background-color 0.15s;
 }
 
-/* The active state styling matches the highlighted tab from your image */
 .sub-nav-tab.active {
-    background-color: #CCD36F; /* Distinct lime-tinted accent color */
+    background-color: #CCD36F;
     color: #FFFFFF;
 }
 
@@ -1149,7 +1148,6 @@ tr:last-child td {
     background-color: #F7FAFC;
 }
 
-/* 2. Main Workspace Layout Elements */
 .dashboard-content-wrapper {
     width: 60%;
     height: 60%;
@@ -1157,7 +1155,6 @@ tr:last-child td {
     padding: 0 1.5rem;
 }
 
-/* Gray Outer Frame Box */
 .evaluation-outer-card {
     background-color: var(--card-outer-bg);
     border-radius: var(--border-radius-main);
@@ -1174,15 +1171,14 @@ tr:last-child td {
     letter-spacing: -0.02em;
 }
 
-/* White Content Container Box */
 .evaluation-inner-container {
     background-color: #FFFFFF;
     border-radius: var(--border-radius-main);
-    min-height: 400px; /* Provides ample viewport height */
+    min-height: 400px;
     padding: 2.5rem;
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Securely pins the message to top and button to bottom */
+    justify-content: space-between;
     box-sizing: border-box;
 }
 
@@ -1193,7 +1189,6 @@ tr:last-child td {
     color: #000000;
 }
 
-/* 3. Action Buttons */
 .button-alignment-row {
     display: flex;
     justify-content: center;
@@ -1209,88 +1204,232 @@ tr:last-child td {
     font-weight: 600;
     padding: 10px 24px;
     border-radius: 8px;
-    cursor: not-allowed; /* Styled disabled behavior matching your empty-state state */
+    cursor: not-allowed;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
     opacity: 0.8;
 }
 
-/*For mobile screen*/
-@media screen and (max-width: 768px) {
-    header {
-        gap: 20px;
-    }
-
-    header nav.nav-bar {
-        display: none;
-        top: 0;
-        padding: 2rem;
-        padding-top: 5rem;
-        flex-direction: column;
-        width: 100vw;
-        position: fixed;
-        z-index: 100;
-        flex-direction: column;
-        background-color: white;
-    }
-
-
-    .link-btn {
-        padding: 0.5rem;
-        font-size: 0.8rem;
-        min-width: 80px;
-        height: 20px;
-    }
-
-    .profile-container {
-        border: 1px solid black;
-        flex-direction: column;
-        cursor: pointer;
-    }
-
-    header h1,
-    header i {
-        z-index: 101;
-    }
-
-    i#hidden-btn {
-        padding-left: 1rem;
-    }
-
-    div#search-bar-container {
-        padding: 0%;
-    }
-
-    div#search-bar-container form {
-        flex-direction: column;
-        width: 80%;
-    }
-
-    div#search-bar-container form button,
-    div#search-bar-container form input {
-        width: 100%;
-    }
-
-    main {
-        padding: 0;
-    }
-
-    section {
-        min-width: 90vw;
-    }
-
-    .job-posting-card {
-        width: 80%;
-    }
-
-    .hide-word-ellipsis {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
+.top-navbar {
+    background-color: #FFFFFF;
+    border-bottom: 1px solid var(--border-color);
+    padding: 1rem 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-@media screen and (min-width: 769px) {
-    i#hidden-btn {
-        display: none;
-    }
+.brand-logo {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--navy-blue);
+    text-decoration: none;
+}
+
+.user-badge {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 500;
+}
+
+.workspace-container {
+    width: 80vw;
+    margin: 2.5rem auto;
+    padding: 0 1.5rem;
+    box-sizing: border-box;
+}
+
+.welcome-banner {
+    margin-bottom: 2rem;
+}
+
+.welcome-banner h1 {
+    margin: 0;
+    font-size: 1.8rem;
+    color: var(--navy-blue);
+}
+
+.welcome-banner p {
+    margin: 0.3rem 0 0 0;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+
+.layout-grid {
+    align-items: start;
+    width: 100%;
+}
+
+.card-panel {
+    background-color: #FFFFFF;
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.01);
+}
+
+.card-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 0 0 1.5rem 0;
+    color: var(--navy-blue);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+.form-label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.form-select,
+.form-textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1.5px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.15s ease;
+}
+
+.form-select:focus,
+.form-textarea:focus {
+    border-color: var(--navy-blue);
+}
+
+.upload-dropzone {
+    border: 2px dashed #CBD5E1;
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+    background-color: #F8FAFC;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.upload-dropzone:hover,
+.upload-dropzone.dragover {
+    border-color: var(--navy-blue);
+    background-color: #F0F4F8;
+}
+
+.upload-dropzone i {
+    font-size: 2.5rem;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+}
+
+.upload-dropzone p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.upload-dropzone strong {
+    color: var(--navy-blue);
+}
+
+.hidden-file-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.file-selected-name {
+    margin-top: 0.75rem;
+    font-size: 0.85rem;
+    color: var(--success-green);
+    font-weight: 600;
+    display: none;
+}
+
+.submit-btn {
+    width: 30%;
+    background-color: var(--navy-blue);
+    color: #FFFFFF;
+    border: none;
+    padding: 0.85rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    margin-top: 0.5rem;
+    margin-left: 35%;
+}
+
+.submit-btn:hover {
+    background-color: #0b1433;
+}
+
+.history-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    margin-top: 0.5rem;
+}
+
+.history-table th {
+    background-color: #F8FAFC;
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.history-table td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.9rem;
+}
+
+.history-table tr:last-child td {
+    border-bottom: none;
+}
+
+.badge-status {
+    padding: 0.25rem 0.6rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.badge-status.approved {
+    background-color: #D1FAE5;
+    color: #065F46;
+}
+
+.badge-status.pending {
+    background-color: #FEF3C7;
+    color: #92400E;
+}
+
+.download-link {
+    color: var(--navy-blue);
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.download-link:hover {
+    text-decoration: underline;
 }

@@ -84,7 +84,6 @@
             const fileSelectedName = document.getElementById("fileSelectedName");
             const fileNameSpan = document.getElementById("fileNameSpan");
 
-            // Event listener checking when manual file selection triggers change changes properties
             fileInput.addEventListener("change", function() {
                 if (this.files.length > 0) {
                     fileNameSpan.textContent = this.files[0].name;
@@ -92,7 +91,6 @@
                 }
             });
 
-            // Handle UI drag and drop visual highlights matching state mutations
             ['dragenter', 'dragover'].forEach(eventName => {
                 dropzone.addEventListener(eventName, (e) => {
                     e.preventDefault();
