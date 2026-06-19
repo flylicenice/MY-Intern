@@ -15,8 +15,8 @@ require_once '../../includes/session.php';
     <script src="https://cdn.canvasjs.com/ga/canvasjs.min.js"></script>
     <script src="../../js/script.js"></script>
     <script src="../../js/chart.js"></script>
-    <link href='../../css/adminstyle.css' rel="stylesheet">
-    <link href='../../css/ai.css' rel="stylesheet">
+    <link href='../../css/unistyle.css' rel="stylesheet">
+    <link href="../../css/additionalstyle.css" rel="stylesheet">
 </head>
 <body>
 
@@ -25,6 +25,9 @@ require_once '../../includes/session.php';
         <div class="sidebar-subtext">Company</div>
 
         <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="?page=main"><i class='bx bx-task'></i> Dashboard</a>
+            </li>
             <li class="nav-item">
                 <a href="?page=job"><i class='bx bx-task'></i> Job Posting</a>
             </li>

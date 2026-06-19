@@ -18,19 +18,19 @@ if (isset($_GET['code']) && isset($_GET['email'])) {
             $update_stmt->bind_param("s", $email);
             $update_stmt->execute();
 
-            header("Location: /MYIntern/pages/login.php?verification=success");
+            header("Location: ../pages/login.php?verification=success");
             exit();
         } else {
-            header("Location: /MYIntern/pages/login.php?verification=expired");
+            header("Location: ../pages/login.php?verification=expired");
             exit();
         }
 
     } catch (Exception $e) {
         error_log("Email Link Activation Error: " . $e->getMessage());
-        header("Location: /MYIntern/pages/login.php?verification=system_error");
+        header("Location: ../pages/login.php?verification=system_error");
         exit();
     }
 } else {
-    header("Location: /MYIntern/pages/login.php");
+    header("Location: ../pages/login.php");
     exit();
 }   

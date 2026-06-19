@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_register'])) {
     $role = trim($_POST['role']); // Student, Lecturer, or Company
     $status = 'pending';
 
-    // Error handlung
+    // Error handling
     if (!$email || empty($password) || empty($confirm_password) || empty($role)) {
         header("Location: ../includes/error.php?error=empty_fields");
         exit();
@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_register'])) {
         $identification_no = trim($_POST['ic_no']);
         $course            = trim($_POST['course']);
         $phone_number      = trim($_POST['phone_number']);
-        $intern_status     = 'Inactive'; // Default standard start state
+        $intern_status     = 'Inactive'; 
 
         //Error ahndling
         if (empty($matric_number) || empty($full_name) || empty($identification_no) || empty($course) || empty($phone_number)) {
@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_register'])) {
 
     // Get role specifiv value: Company
     elseif ($role === 'Company') {
-        $registration_no   = trim($_POST['registration_no']); // Fallbacks based on form configurations
+        $registration_no   = trim($_POST['registration_no']);
         $company_name      = trim($_POST['company_name']);
         $employee_size = trim($_POST['employee_size']);
         $unit = trim($_POST['unit']);
@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_register'])) {
         $postcode = trim($_POST['postcode']);
         $city = trim($_POST['city']);
         $state = trim($_POST['state']);
-        $verification_status = 'pending'; // Base baseline review status
+        $verification_status = 'pending';
 
         // Error handling
         if (empty($company_name)) {
@@ -68,14 +68,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_register'])) {
         }
     }
 
-    /* --- This whole block is for safely insert data into database --- */
-
     try {
         $verification_code = bin2hex(random_bytes(32)); 
         $code_expires_at = date('Y-m-d H:i:s', strtotime('+24 hours'));
-        $verification_link = "http://localhost/MYIntern/actions/verify_email.php?code=" . $verification_code . "&email=" . urlencode($email);
+        $verification_link = "http://localhost/MYIntern/includes/verify_email.php?code=" . $verification_code . "&email=" . urlencode($email);
             
-        // Turn off auto-commit to begin a secure multi-table transaction block
         $conn->begin_transaction();
 
         // Check whether email is taken already
@@ -89,16 +86,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_register'])) {
         }
         $hashed_password = password_hash($password, PASSWORD_BCRYPT);
 
-        // STEP A: Insert core authentication credentials into USER table first
         $user_sql = "INSERT INTO user (email, password, role, status, time_created, verification_code, code_expires_at) VALUES (?, ?, ?, ?, NOW(), ?, ?)";
         $user_stmt = $conn->prepare($user_sql);
         $user_stmt->bind_param("ssssss", $email, $hashed_password, $role, $status, $verification_code, $code_expires_at);
         $user_stmt->execute();
         
-        // Grab the auto-incremented primary key ID from step A, so system knows where to continue
         $new_user_id = $conn->insert_id;
 
-        // STEP B: Insert detailed records into the matching child tables
         //Student
         if ($role === 'Student') {
             $student_sql = "INSERT INTO student (matric_number, full_name, identification_no, course, phone_number, intern_status, user_id) 
@@ -116,7 +110,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_register'])) {
             $company_stmt->execute();
         }
 
-        // Commit all changes to the database at hte same time
         $conn->commit();
 
         require_once "../includes/send_verification_email.php";
@@ -131,19 +124,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_register'])) {
         }
     
     } catch (Exception $e) {
-        // Rollback structural database states if an unexpected failure occurs
         $conn->rollback();
-        
-        // Log technical system properties to your private error logs
-        error_log("Critical Registration Fail: " . $e->getMessage());
-        
-        // Route safely to your unified web error template panel
         header("Location: ../includes/error.php?error=system_failure");
         exit();
     }
 
 } else {
-    // Block immediate manual direct-URL directory execution access attempts
     header("Location: ../pages/login.php");
     exit();
 }

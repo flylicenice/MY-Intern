@@ -1,7 +1,5 @@
 <?php
-//require_once '../../includes/session.php';
 
-// Mock Data Array for Testing Company Details
 $companies = [
     [
         'id' => 'C001',
@@ -151,9 +149,9 @@ function filterCompanyTable() {
     operationalRows.forEach(row => {
         if (row.id === 'null-state-row') return;
 
-        const companyId = row.cells[0].innerText.toLowerCase(); //to get ID
-        const companyName = row.cells[1].innerText.toLowerCase(); // to get Name
-        const rowStatus = row.getAttribute('data-status'); // to get status from data attribute
+        const companyId = row.cells[0].innerText.toLowerCase();
+        const companyName = row.cells[1].innerText.toLowerCase();
+        const rowStatus = row.getAttribute('data-status');
 
         const matchesStatus = (statusConstraint === 'all' || rowStatus === statusConstraint);
         const matchesSearch = (companyId.includes(searchFieldQuery) || companyName.includes(searchFieldQuery));

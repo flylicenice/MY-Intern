@@ -8,7 +8,7 @@
 
 
     <div class="profile-container">
-        <a class="link-btn" href="/MYIntern/pages/sign_up.php">Sign Up</a>
-        <a class="link-btn" href="/MYIntern/pages/login.php">Login</a>
+        <a class="teal-action-btn" href="/MYIntern/pages/sign_up.php">Sign Up</a>
+        <a class="teal-action-btn" href="/MYIntern/pages/login.php">Login</a>
     </div>
 </header>

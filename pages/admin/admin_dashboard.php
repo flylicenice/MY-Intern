@@ -16,7 +16,7 @@ require_once '../../includes/session.php';
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
     <script src="../../js/chart.js"></script>
     <script src="../../js/script.js"></script>
-    <link href='../../css/adminstyle.css' rel="stylesheet">
+    <link href='../../css/unistyle.css' rel="stylesheet">
 </head>
 
 <body>
@@ -37,6 +37,9 @@ require_once '../../includes/session.php';
             </li>
             <li class="nav-item">
                 <a href="?page=employer"><i class='bx bxs-briefcase'></i> Verify Employers</a>
+            </li>
+            <li class="nav-item">
+                <a href="?page=admin"><i class='bx bxs-briefcase'></i> Add Admin</a>
             </li>
             <li class="nav-item logout-box">
                 <a href="../../includes/logout.php"><i class='bx bx-log-out'></i> Log Out</a>

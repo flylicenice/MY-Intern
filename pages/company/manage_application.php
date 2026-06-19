@@ -1,11 +1,9 @@
 <section class="recruitment-workspace">
-    <!-- Component Header -->
     <div class="workspace-header-stack">
         <h2 class="page-title">Manage Applications</h2>
         <p class="page-subtitle">Filter applications by specific active roles to evaluate candidate profiles and update their hiring statuses.</p>
     </div>
 
-    <!-- Active Filter Selection Card -->
     <div class="filter-control-card">
         <label for="job_filter" class="filter-label">Select Job Posting:</label>
         <select id="job_filter" class="main-filter-dropdown" onchange="this.form.submit()">
@@ -14,7 +12,6 @@
         </select>
     </div>
 
-    <!-- Screen Candidates Ledger Matrix -->
     <div class="card-table-container">
         <div class="table-context-indicator">
             Showing candidates for: <strong>Software Engineer Intern</strong>
@@ -31,7 +28,6 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Candidate 1 Row -->
                 <tr>
                     <td class="font-highlight">TAM KAI DIT</td>
                     <td>
@@ -55,7 +51,6 @@
                     </td>
                 </tr>
 
-                <!-- Candidate 2 Row -->
                 <tr>
                     <td class="font-highlight">Arissa </td>
                     <td>

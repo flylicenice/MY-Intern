@@ -42,7 +42,7 @@
             <div class="form-scroll-wrapper">
                 <h2 class="form-title">Join MYIntern!</h2>
                 
-                <form action="../actions/sign_up_process.php" method="POST" id="registrationForm">
+                <form action="../includes/sign_up_process.php" method="POST" id="registrationForm">
                     
                     <input type="hidden" name="role" id="userRoleInput" value="Student">
 
@@ -132,7 +132,6 @@
                         </div>
                     </div>
 
-
                     <div class="form-grid security-grid">
                         <div class="input-block">
                             <input type="password" name="password" placeholder="Password" required>
@@ -160,32 +159,25 @@
 
             roleButtons.forEach(button => {
                 button.addEventListener("click", function() {
-                    // Remove active style marker from previous button
                     roleButtons.forEach(btn => btn.classList.remove("active"));
                     
-                    // Activate clicked option styling
                     this.classList.add("active");
                     
-                    // Grab current value string target (Student, Lecturer, or Company)
                     const selectedRole = this.getAttribute("data-target-role");
                     roleInput.value = selectedRole;
 
-                    // Hide all conditional form sections completely
                     allConditionalBlocks.forEach(block => {
                         block.classList.remove("active");
                         
-                        // Disable underlying inputs so they aren't marked as "required" when hidden
                         block.querySelectorAll("input, select").forEach(input => {
                             input.removeAttribute("required");
                         });
                     });
 
-                    // Activate targeted view blocks
                     const targetBlock = document.getElementById(`fields-${selectedRole}`);
                     if (targetBlock) {
                         targetBlock.classList.add("active");
                         
-                        // Turn required markers back on for user entries
                         targetBlock.querySelectorAll("input, select").forEach(input => {
                             input.setAttribute("required", "required");
                         });

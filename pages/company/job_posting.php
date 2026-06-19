@@ -1,5 +1,4 @@
 <section class="recruitment-workspace">
-    <!-- Component Header Action -->
     <div class="workspace-header">
         <div>
             <h2 class="page-title">Manage Job Postings</h2>
@@ -10,7 +9,6 @@
         </button>
     </div>
 
-    <!-- Active Job Postings Table Grid -->
     <div class="card-table-container">
         <table class="custom-dashboard-table">
             <thead>
@@ -23,7 +21,6 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Row 1 -->
                 <tr>
                     <td class="font-highlight">Software Engineer Intern</td>
                     <td>Engineering Team</td>
@@ -35,7 +32,7 @@
                         </button>
                     </td>
                 </tr>
-                <!-- Row 2 -->
+
                 <tr>
                     <td class="font-highlight">UI/UX Designer Intern</td>
                     <td>Product & Creative Design</td>
@@ -52,7 +49,6 @@
     </div>
 </section>
 
-<!-- Pop-up Modal Form Overlay for Adding a New Job -->
 <div class="modal-overlay" id="addJobModal" style="display: none;">
     <div class="modal-box">
         <div class="modal-header">

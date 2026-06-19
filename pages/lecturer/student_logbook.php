@@ -1,6 +1,5 @@
 <main class="dashboard-container">
     <section class="data-table-section">
-    <!-- Component Header -->
     <div class="table-header-flex" style="margin-bottom: 1.5rem;">
         <div>
             <h2 class="table-title">My Assigned Interns</h2>
@@ -8,7 +7,6 @@
         </div>
     </div>
 
-    <!-- Active Roster Table -->
     <div class="table-responsive">
         <table class="lecturer-students-table">
             <thead>
@@ -22,7 +20,6 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Student Row 1 -->
                 <tr>
                     <td class="font-bold">D032410113</td>
                     <td class="student-name-cell">TAM KAI DIT</td>
@@ -46,7 +43,6 @@
                     </td>
                 </tr>
 
-                <!-- Student Row 2 -->
                 <tr>
                     <td class="font-bold">D032410024</td>
                     <td class="student-name-cell">Adelina Binti Mansor</td>
@@ -70,7 +66,6 @@
                     </td>
                 </tr>
 
-                <!-- Student Row 3 -->
                 <tr>
                     <td class="font-bold">D032410155</td>
                     <td class="student-name-cell">Lim Wei Jie</td>
