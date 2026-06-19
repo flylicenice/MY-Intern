@@ -64,22 +64,44 @@ function drawCharts() {
         });
     }
 
-    if (lecturerChart) {
-        new Chart(lecturerChart, {
-            type: "doughnut",
-            data: {
-                labels: ['Active', 'Inactive'],
-                datasets: [{
-                    label: 'Total Number of Lecturer',
-                    data: [45, 60],
-                }],
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false
-            }
-        });
-    }
+
+const lecturerChart = document.getElementById("lecturerChart");
+if (lecturerChart) {
+    new Chart(lecturerChart, {
+        type: "doughnut",
+        data: {
+            labels: ['Active', 'Inactive'],
+            datasets: [{
+                label: 'Total Number of Lecturer',
+                data: [45, 60], 
+            }],
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false
+        }
+    });
+}
+
+const studentChartCanvas = document.getElementById("assignedInternsChart");
+if (studentChartCanvas) {
+    new Chart(studentChartCanvas, {
+        type: "pie",
+        data: {
+            labels: ['Placed', 'Still Applying', 'Not Applying'],
+            datasets: [{
+                data: [
+                    studentChartCanvas.dataset.placed,
+                    studentChartCanvas.dataset.applying,
+                    studentChartCanvas.dataset.notapplying
+                ],
+                backgroundColor: ['#4CAF50', '#FFC107', '#F44336']
+            }]
+        }
+    });
+}
+
+
 
     if (companyChart) {
         new Chart(companyChart, {
