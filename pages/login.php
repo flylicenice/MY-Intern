@@ -42,7 +42,7 @@
             <div class="form-scroll-wrapper">
                 <h2 class="form-title">Welcome Back!</h2>
 
-                <form action="../actions/login_process.php" method="POST" id="loginForm">
+                <form action="../includes/login_process.php" method="POST" id="loginForm">
 
                     <input type="hidden" name="role" id="userRoleInput" value="Student">
 

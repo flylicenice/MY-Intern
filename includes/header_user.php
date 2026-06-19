@@ -1,9 +1,8 @@
 <header>
-    <i id="hidden-btn" class="fa-solid fa-bars fa-2sm"></i>
     <h1>MYIntern</h1>
     <nav class="nav-bar">
         <a class="blue-link active" href="/MYIntern/index.php">Job</a>
-        <a class="blue-link" href="/MYIntern/pages/student/student_dashboard.php">My Dashboard</a>
+        <a class="blue-link" href="/MYIntern/pages/student/student_dashboard.php?page=application">My Dashboard</a>
     </nav>
 
 

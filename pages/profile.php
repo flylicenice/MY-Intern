@@ -1,3 +1,15 @@
+<?php
+
+include("../includes/get_profile_data.php");
+
+$courseName = "";
+if ($course === "DCS") {
+    $courseName = "Diploma Computer Science";
+} else if ($course === "BITD") {
+    $courseName = "Bachelor of Database Programming";
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,6 +31,9 @@
     <div class="blue-container" id="about-container">
         <div class="square-profile-container">
             <img src="../assets/default-user.svg" alt="profile-pic" width=96 height=96 />
+            <form method="POST" action="../includes/upload_profile_pic.php">
+                <input type="file" id="profile-upload" name="profile-pic" accept="image/*">
+            </form>
         </div>
     </div>
 
@@ -26,32 +41,32 @@
         <form class="two-column-grid-form">
             <div class="input-field-block">
                 <label for="student_name">Name</label>
-                <input type="text" id="student_name" value="TAM KAI DIT" readonly>
+                <input type="text" id="student_name" value="<?php echo $name; ?>" readonly>
             </div>
 
             <div class="input-field-block">
                 <label for="student_email">Email</label>
-                <input type="email" id="student_email" value="d032410113@student.utem.edu.my" readonly>
+                <input type="email" id="student_email" value="<?php echo $email ?>" readonly>
             </div>
 
             <div class="input-field-block">
                 <label for="student_phone">Phone Number</label>
-                <input type="text" id="student_phone" value="011-1234 5678">
+                <input type="text" id="student_phone" value="<?php echo $phoneNo; ?>">
             </div>
 
             <div class="input-field-block">
                 <label for="student_ic">Identification No.</label>
-                <input type="text" id="student_ic" value="012345-05-0123">
+                <input type="text" id="student_ic" value="<?php echo $IC; ?>">
             </div>
 
             <div class="input-field-block">
                 <label for="student_matric_no">Matric Number</label>
-                <input type="text" id="student_matric_no" value="D032410113">
+                <input type="text" id="student_matric_no" value="<?php echo $matricNo; ?>">
             </div>
 
             <div class="input-field-block">
                 <label for="student_course">Course</label>
-                <input type="text" id="student_course" value="Diploma Computer Science" readonly>
+                <input type="text" id="student_course" value="<?php echo $courseName; ?>" readonly>
             </div>
 
             <div class="form-group">
@@ -68,8 +83,13 @@
                 </div>
             </div>
 
+            <div class="input-field-block">
+                <label for="student_course">Intern Status</label>
+                <input type="text" id="student_course" value="<?php echo $internStatus; ?>" readonly>
+            </div>
+
             <div class="form-actions-row-centered">
-                <button type="submit" class="teal-action-btn">Edit</button>
+                <button type="submit" class="teal-action-btn">Update</button>
             </div>
         </form>
     </main>

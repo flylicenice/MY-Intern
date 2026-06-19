@@ -91,6 +91,7 @@ function triggerShowNotification() {
 
 function showDetailsPanel() {
     const detailPanel = $(".details-section");
+
     const viewBtn = $(".btn-view");
     const closeBtn = $("#closeDetailsBtn");
 
@@ -101,6 +102,7 @@ function showDetailsPanel() {
 
         closeBtn.on("click", function () {
             detailPanel.hide();
+            jobDetailPanel.hide();
         });
     }
 }
@@ -163,6 +165,23 @@ function openAddLecturerWindow() {
     );
 }
 
+function showJobDetailsPanel() {
+    const jobCard = $(".job-posting-card");
+    const jobDetailPanel = $(".job-details-panel");
+    const closeBtn = $("#closeDetailsBtn");
+
+    if (closeBtn && jobCard && jobDetailPanel) {
+        jobDetailPanel.hide();
+        closeBtn.on("click", function() {
+            jobDetailPanel.hide();
+        });
+        
+        jobCard.on("click", function() {
+            jobDetailPanel.show();
+        });
+    }
+}
+
 $(document).ready(function () {
     linkActive();
     triggerDropDownMenu();
@@ -174,4 +193,5 @@ $(document).ready(function () {
     openFacultyDrawer(data);
     closeFacultyDrawer();
     openAddLecturerWindow();
+    showJobDetailsPanel();
 });

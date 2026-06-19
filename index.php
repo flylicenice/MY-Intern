@@ -17,10 +17,8 @@ $loggedInStatus = isLoggedIn();
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/4d8d735e30.js" crossorigin="anonymous"></script>
-
     <link href="assets/logo.svg" type="image/svg+xml" rel="icon">
-    <script src="js/button.js"></script>
-    <script src="js/animation"></script>
+    <script src="js/script.js"></script>
     <link rel="stylesheet" href="css/style.css">
 
     <title>MYIntern | Home</title>
@@ -44,7 +42,7 @@ $loggedInStatus = isLoggedIn();
 
                 <input class="basic-textfield" id="location-search" type="search" placeholder="Enter city or region">
 
-                <button class="btn" id="go-btn" type="submit">GO</button>
+                <button class="teal-action-btn" id="go-btn" type="submit">GO</button>
             </form>
         </div>
     </main>
@@ -82,5 +80,39 @@ $loggedInStatus = isLoggedIn();
     </div>
 
     <?php include("includes/footer.php"); ?>
+
+    <div class="job-details-panel">
+        <div class="profile-avatar">
+            <img src="assets/default-user.svg" alt="profile-pic" height=40px width=40px>
+        </div>
+
+        <div class="details-container">
+            <div></div>
+            <p class="job-posting-title"><?php echo "Internship - System Engineer" ?></p>
+
+            <div class="job-posting-details">
+                <p>Google Sdn. Bhd.</p>
+                <p>Location: Selangor</p>
+                <p>Allowance: RM 1000 - RM 1500 per month</p>
+                <p>Posted a month ago</p>
+            </div>
+        </div>
+
+        <button class="submit-btn">Apply Now</button>
+
+        <div class="job-posting-description">
+            <p><?php $i = 0;
+                while ($i < 50) {
+                    echo "This is the description and we love it";
+                    $i++;
+                } ?></p>
+        </div>
+
+        <button class="action-btn" id="closeDetailsBtn" type="button" onclick="showJobDetailsPanel()">&times;</button>
+
+        <div class="job-company-block">
+            
+        </div>
+    </div>
 </body>
 </html>

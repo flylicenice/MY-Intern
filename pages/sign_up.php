@@ -42,7 +42,7 @@
             <div class="form-scroll-wrapper">
                 <h2 class="form-title">Join MYIntern!</h2>
                 
-                <form action="../actions/sign_up_process.php" method="POST" id="registrationForm">
+                <form action="../includes/sign_up_process.php" method="POST" id="registrationForm">
                     
                     <input type="hidden" name="role" id="userRoleInput" value="Student">
 

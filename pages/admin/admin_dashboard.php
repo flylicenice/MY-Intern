@@ -38,6 +38,9 @@ require_once '../../includes/session.php';
             <li class="nav-item">
                 <a href="?page=employer"><i class='bx bxs-briefcase'></i> Verify Employers</a>
             </li>
+            <li class="nav-item">
+                <a href="?page=admin"><i class='bx bxs-briefcase'></i> Add Admin</a>
+            </li>
             <li class="nav-item logout-box">
                 <a href="../../includes/logout.php"><i class='bx bx-log-out'></i> Log Out</a>
             </li>

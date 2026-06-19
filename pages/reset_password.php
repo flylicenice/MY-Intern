@@ -15,7 +15,7 @@
             <h1>Reset Your Password</h1>
             <p style="color: rgba(0, 0, 0, 0.5);">Please enter the password that you want to reset.</p>
 
-        <form id="forgot-password">
+        <form id="forgot-password" action="../includes/reset_password_process.php" method="POST">
             <div class="input-wrapper form-grid">
                 <div class="input-block full-width">
                     <input type="password" name="first-password" placeholder="Password">

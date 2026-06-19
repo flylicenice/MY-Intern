@@ -17,10 +17,10 @@
         <h1>Forgot Password</h1>
         <p style="color: rgba(0, 0, 0, 0.5);">Please enter the email that you previously signed in with.</p>
 
-        <form id="forgot-password">
+        <form id="forgot-password" method="POST" action="../includes/forgot_password_process.php">
             <div class="input-wrapper form-grid">
                 <div class="input-block full-width">
-                    <input type="text" name="email" placeholder="Email">
+                    <input type="text" name="email" placeholder="Email" required>
                 </div>
 
                 <div class="form-action-row">
