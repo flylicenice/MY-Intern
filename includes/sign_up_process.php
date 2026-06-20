@@ -15,8 +15,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_register'])) {
     $status = 'pending';
 
     // Error handling
-    if (!$email || empty($password) || empty($confirm_password) || empty($role)) {
+    if (empty($password) || empty($confirm_password) || empty($role)) {
         header("Location: ../includes/error.php?error=empty_fields");
+        exit();
+    } 
+
+    if (!$email) {
+        header("Location: ../includes/error.php?error=wrong-format");
         exit();
     }
 

@@ -79,7 +79,7 @@ $companies = [
         </div>
 
         <div class="details-card" style="margin-top: 20px; border: 1px solid #e2e8f0; border-radius: 8px; background: #fff; padding: 20px;">
-            <h2 class="table-title" style="color: #1e3a8a; margin-bottom: 15px;">Company Details</h2>
+            <h2 class="table-title" style="margin-bottom: 15px;">Company Details</h2>
             
             <div class="top-bar" style="margin-bottom: 15px;">
                 <input type="text" id="tableSearchInput" placeholder="Search by name, ID..." onkeyup="filterCompanyTable()" style="padding: 8px 12px; width: 280px; border: 1px solid #cbd5e0; border-radius: 4px;">
@@ -89,13 +89,13 @@ $companies = [
                 <table id="companyTable" style="width: 100%; border-collapse: collapse;">
                     <thead>
                         <tr style="background-color: #f8fafc; text-align: left; border-bottom: 2px solid #e2e8f0;">
-                            <th style="padding: 12px; color: #1e3a8a;">COMPANY ID</th>
-                            <th style="padding: 12px; color: #1e3a8a;">COMPANY NAME</th>
-                            <th style="padding: 12px; color: #1e3a8a;">SECTOR</th>
-                            <th style="padding: 12px; color: #1e3a8a;">CONTACT PERSON</th>
-                            <th style="padding: 12px; color: #1e3a8a;">EMAIL</th>
-                            <th style="padding: 12px; color: #1e3a8a;">STATUS</th>
-                            <th style="padding: 12px; color: #1e3a8a;">ACTION</th>
+                            <th style="padding: 12px;">COMPANY ID</th>
+                            <th style="padding: 12px;">COMPANY NAME</th>
+                            <th style="padding: 12px;">SECTOR</th>
+                            <th style="padding: 12px;">CONTACT PERSON</th>
+                            <th style="padding: 12px;">EMAIL</th>
+                            <th style="padding: 12px;">STATUS</th>
+                            <th style="padding: 12px;">ACTION</th>
                         </tr>
                     </thead>
                     <tbody>

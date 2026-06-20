@@ -18,9 +18,6 @@
     </section>
 
     <section class="data-table-section">
-        <div class="top-bar">
-            <input type="text" placeholder="Search by name, matric no...">
-        </div>
 
         <div class="absolute-relative-container">
             <div class="btn-container top-bar">
@@ -41,6 +38,10 @@
         </div>
 
         <h2 class="table-title">Student Details</h2>
+
+        <div class="top-bar">
+            <input type="text" placeholder="Search by name, matric no...">
+        </div>
 
         <div class="table-responsive">
             <table>

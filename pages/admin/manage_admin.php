@@ -42,38 +42,36 @@ $lecturers = [
 <main class="dashboard-container">
     <div class="header-row">
         <div>
-            <h1>Manage Lecturer</h1>
-
-            <p>Total lecturers : <span id="lecturer-total-count"><?php echo count($lecturers); ?></span> lecturers</p>
+            <h1>Manage Admin</h1>
         </div>
     </div>
     <section class="data-table-section">
         <div class="absolute-relative-container">
             <div class="btn-container top-bar">
                 <button class="action-btn" id="filter-btn">Filter</button>
-                <button class="action-btn btn-add" onclick="openAddLecturerWindow()" style="background-color: #1e3a8a; color: white; border: none;">
-                    <i class='bx bx-plus'></i> Add Lecturer
+                <button class="action-btn btn-add" onclick="openAddAdminWindow()" style="background-color: #1e3a8a; color: white; border: none;">
+                    <i class='bx bx-plus'></i> Add Admin
                 </button>
             </div>
 
             <div class="drop-down-container" id="filter-container">
                 <div class="option-container">
-                    <input id="all-rb" type="radio" value="all" name="filter" checked onclick="filterLecturerTable()">
+                    <input id="all-rb" type="radio" value="all" name="filter" checked onclick="filterAdminrTable()">
                     <label for="all-rb">All Statuses</label>
                 </div>
                 <div class="option-container">
-                    <input id="active-rb" type="radio" value="active" name="filter" onclick="filterLecturerTable()">
+                    <input id="active-rb" type="radio" value="active" name="filter" onclick="filterAdminTable()">
                     <label for="active-rb">Active</label>
                 </div>
                 <div class="option-container">
-                    <input id="leave-rb" type="radio" value="on leave" name="filter" onclick="filterLecturerTable()">
+                    <input id="leave-rb" type="radio" value="on leave" name="filter" onclick="filterAdminTable()">
                     <label for="leave-rb">On Leave</label>
                 </div>
             </div>
         </div>
 
         <div class="details-card">
-            <h2 class="table-title">Lecturers Details</h2>
+            <h2 class="table-title">Admin Details</h2>
 
             <div class="top-bar">
                 <input type="text" id="tableSearchInput" placeholder="Search by name, ID..." onkeyup="filterLecturerTable()">
@@ -83,11 +81,9 @@ $lecturers = [
                 <table id="lecturerTable">
                     <thead>
                         <tr>
-                            <th>LECTURER ID</th>
-                            <th>LECTURER NAME</th>
-                            <th>DEPARTMENT</th>
+                            <th>ADMIN ID</th>
+                            <th>STAFF ID</th>
                             <th>EMAIL</th>
-                            <th>STATUS</th>
                             <th>ACTION</th>
                         </tr>
                     </thead>
@@ -100,15 +96,10 @@ $lecturers = [
                             <tr class="lecturer-data-row" data-status="<?php echo $lecturer['status']; ?>">
                                 <td><?php echo $lecturer['id']; ?></td>
                                 <td class="lecturer-name"><?php echo $lecturer['name']; ?></td>
-                                <td><?php echo $lecturer['department']; ?></td>
                                 <td> <?php echo $lecturer['email']; ?></td>
-                                <td>
-                                    <span class="status-badge <?php echo ($lecturer['status'] === 'active') ? 'active' : 'on-leave'; ?>">
-                                        <?php echo strtoupper($lecturer['status']); ?>
-                                    </span>
-                                </td>
                                 <td style="padding: 12px;">
-                                    <button class="action-btn btn-view" onclick='openFacultyDrawer(<?php echo json_encode($lecturer); ?>)'>View</button>
+                                    <button class="action-btn btn-reject">Delete</button>
+                                    <button class="action-btn btn-send-mail">Reset Password</button>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
