@@ -29,6 +29,34 @@ function linkActive() {
     });
 }
 
+function openAddLecturerWindow() {
+    const width = 800;
+    const height = 600;
+
+    const left = (screen.width - width) / 2;
+    const top = (screen.height - height) / 2;
+
+    window.open(
+        '/MYIntern/pages/admin/add_lecturer.php',
+        'PopupName',
+        `width=${width},height=${height},left=${left},top=${top}`
+    );
+}
+
+function openAddAdminWindow() {
+    const width = 800;
+    const height = 600;
+
+    const left = (screen.width - width) / 2;
+    const top = (screen.height - height) / 2;
+
+    window.open(
+        '../admin/add_admin.php',
+        'PopupName',
+        `width=${width},height=${height},left=${left},top=${top}`
+    );
+}
+
 function validateAddAdminForm() {
     $("#admin_password").on('input', function () {
         var passwordLength = $(this).val().length;
@@ -459,7 +487,7 @@ function filterandSearch() {
 }
 
 function printDoc() {
-    $("#dashboard-print-trigger").on("click", function() {
+    $("#dashboard-print-trigger").on("click", function () {
         window.print();
     });
 }
