@@ -43,6 +43,28 @@ $table_query = "
     FROM student s
 ";
 $table_result = $conn->query($table_query);
+
+$logbook_query = "
+    SELECT 
+        s.matric_number, 
+        s.full_name, 
+        s.course, 
+        c.company_name,
+        COUNT(l.logbook_id) AS submitted_weeks, 
+        12 AS total_weeks
+    FROM student s
+    JOIN job_application ja ON s.matric_number = ja.matric_number
+    JOIN job_vacancy jv ON ja.job_id = jv.job_id
+    JOIN company c ON jv.company_id = c.company_id
+    -- Step 1: Connect job_application to placement using application_id
+    JOIN placement p ON ja.application_id = p.application_id 
+    -- Step 2: Connect placement to logbook using placement_id
+    LEFT JOIN logbook l ON p.placement_id = l.placement_id 
+    WHERE s.intern_status = 'Placed' AND ja.application_status = 'Approved'
+    GROUP BY s.matric_number
+";
+$logbook_result = $conn->query($logbook_query);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
