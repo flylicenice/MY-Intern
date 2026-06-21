@@ -112,7 +112,7 @@ function filterLecturerTable() {
     const checkedRadioOption = document.querySelector('input[name="filter"]:checked');
     const statusConstraint = checkedRadioOption ? checkedRadioOption.value : 'all';
 
-    const operationalRows = document.querySelectorAll('.lecturer-data-row');
+    const operationalRows = document.querySelectorAll('.-data-row');
     let visibleMatchCounter = 0;
 
     operationalRows.forEach(row => {
@@ -165,6 +165,20 @@ function openAddLecturerWindow() {
     );
 }
 
+function openAddAdminWindow() {
+    const width = 800;
+    const height = 600;
+
+    const left = (screen.width - width) / 2;
+    const top = (screen.height - height) / 2;
+
+    window.open(
+        '../admin/add_admin.php',
+        'PopupName',
+        `width=${width},height=${height},left=${left},top=${top}`
+    );
+}
+
 function showJobDetailsPanel() {
     const jobCard = $(".job-posting-card");
     const jobDetailPanel = $(".job-details-panel");
@@ -188,10 +202,10 @@ $(document).ready(function () {
     triggerShowPassword();
     triggerShowNotification();
     showDetailsPanel();
-    toggleLecturerFilterMenu();
     filterLecturerTable();
     openFacultyDrawer(data);
     closeFacultyDrawer();
     openAddLecturerWindow();
+    openAddAdminWindow();
     showJobDetailsPanel();
 });

@@ -9,7 +9,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <script src="../../js/script.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="../../js/admin.js"></script>
     <link rel="stylesheet" href="../../css/unistyle.css">
 </head>
 
@@ -23,7 +24,7 @@
     <main class="login-card-container">
         <h2 class="card-title">Welcome Back!</h2>
 
-        <form action="../actions/login_process.php" method="POST" class="login-form">
+        <form action="../../includes/admin_login_process.php" method="POST" class="login-form">
 
             <div class="field-wrapper">
                 <input type="email" name="email" id="email" placeholder="Email" required autocomplete="email">

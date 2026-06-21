@@ -1,42 +1,23 @@
 <?php
 
-$lecturers = [
-    [
-        'id' => 'L011',
-        'name' => 'Nor Haslinda Binti Ismail',
-        'department' => 'FTMK',
-        'status' => 'active',
-        'email' => 'lynda@utem.edu.my',
-        'phone' => '+606 270 2485',
+require_once("../../includes/db.php");
 
-    ],
-    [
-        'id' => 'L002',
-        'name' => 'Nuzulha Khilwani Ibrahim ',
-        'department' => 'FTMK',
-        'status' => 'on leave',
-        'email' => 'nuzulha@utem.edu.my',
-        'phone' => '+606 270 2443',
+try {
+    $selectLecturerQuery = "SELECT * FROM user u INNER JOIN lecturer l ON u.user_id = l.user_id";
+    $result = $conn->query($selectLecturerQuery);
 
-    ],
-    [
-        'id' => 'L003',
-        'name' => 'Ahmad bin Bakar',
-        'department' => 'FTMK',
-        'status' => 'active',
-        'email' => 'ahmad@utem.edu.my',
-        'phone' => '+606 270 2444',
+    $countQuery = "SELECT COUNT(*) AS total_lecturer FROM lecturer";
+    $countResult = $conn->query($countQuery);
 
-    ],
-    [
-        'id' => 'L004',
-        'name' => ' Salmah Binti Zainal',
-        'department' => 'FTMK',
-        'status' => 'on leave',
-        'email' => 'salmah@utem.edu.my',
-        'phone' => '+606 270 2445',
-    ]
-];
+    if ($countResult) {
+        $countRow = $countResult->fetch_assoc();
+        $total_lecturer = $countRow['total_lecturer'];
+    }
+} catch (Exception $e) {
+    header("Location: error.php?error=" . $e->getMessage());
+    exit();
+}
+
 ?>
 
 <main class="dashboard-container">
@@ -44,31 +25,15 @@ $lecturers = [
         <div>
             <h1>Manage Lecturer</h1>
 
-            <p>Total lecturers : <span id="lecturer-total-count"><?php echo count($lecturers); ?></span> lecturers</p>
+            <p>Total lecturers : <span id="lecturer-total-count"><?php echo $total_lecturer; ?></span> lecturers</p>
         </div>
     </div>
     <section class="data-table-section">
         <div class="absolute-relative-container">
             <div class="btn-container top-bar">
-                <button class="action-btn" id="filter-btn" onclick="toggleLecturerFilterMenu()">Filter</button>
                 <button class="action-btn btn-add" onclick="openAddLecturerWindow()" style="background-color: #1e3a8a; color: white; border: none;">
                     <i class='bx bx-plus'></i> Add Lecturer
                 </button>
-            </div>
-
-            <div class="drop-down-container" id="filter-container">
-                <div class="option-container">
-                    <input id="all-rb" type="radio" value="all" name="filter" checked onclick="filterLecturerTable()">
-                    <label for="all-rb">All Statuses</label>
-                </div>
-                <div class="option-container">
-                    <input id="active-rb" type="radio" value="active" name="filter" onclick="filterLecturerTable()">
-                    <label for="active-rb">Active</label>
-                </div>
-                <div class="option-container">
-                    <input id="leave-rb" type="radio" value="on leave" name="filter" onclick="filterLecturerTable()">
-                    <label for="leave-rb">On Leave</label>
-                </div>
             </div>
         </div>
 
@@ -84,63 +49,30 @@ $lecturers = [
                     <thead>
                         <tr>
                             <th>LECTURER ID</th>
-                            <th>LECTURER NAME</th>
-                            <th>DEPARTMENT</th>
+                            <th>STAFF ID</th>
+                            <th>FULL NAME</th>
                             <th>EMAIL</th>
-                            <th>STATUS</th>
-                            <th>ACTION</th>
+                            <th>PHONE NO.</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr id="null-state-row">
-                            <td colspan="6">No Lecturer for now</td>
-                        </tr>
-
-                        <?php foreach ($lecturers as $lecturer): ?>
-                            <tr class="lecturer-data-row" data-status="<?php echo $lecturer['status']; ?>">
-                                <td><?php echo $lecturer['id']; ?></td>
-                                <td class="lecturer-name"><?php echo $lecturer['name']; ?></td>
-                                <td><?php echo $lecturer['department']; ?></td>
-                                <td> <?php echo $lecturer['email']; ?></td>
-                                <td>
-                                    <span class="status-badge <?php echo ($lecturer['status'] === 'active') ? 'active' : 'on-leave'; ?>">
-                                        <?php echo strtoupper($lecturer['status']); ?>
-                                    </span>
-                                </td>
-                                <td style="padding: 12px;">
-                                    <button class="action-btn btn-view" onclick='openFacultyDrawer(<?php echo json_encode($lecturer); ?>)'>View</button>
-                                </td>
+                        <?php if ($result && $result->num_rows > 0) : ?>
+                            <?php while ($lecturers = $result->fetch_assoc()): ?>
+                                <tr class="lecturer-data-row" data-status="<?php echo $lecturers['status']; ?>">
+                                    <td><?php echo $lecturers['staff_id']; ?></td>
+                                    <td class="lecturer-name"><?php echo $lecturers['lecturer_id']; ?></td>
+                                    <td><?php echo $lecturers['full_name']; ?></td>
+                                    <td> <?php echo $lecturers['email']; ?></td>
+                                    <td> <?php echo $lecturers['phone_number']; ?></td>
+                                </tr>
+                            <?php endwhile; ?>
+                        <?php else: ?>
+                            <tr id="null-state-row">
+                                <td colspan="6">No Lecturer for now</td>
                             </tr>
-                        <?php endforeach; ?>
+                        <?php endif; ?>
                     </tbody>
                 </table>
-            </div>
-        </div>
-    </section>
-
-    <section class="details-section" id="facultyDetailsDrawer">
-        <button class="action-btn" id="closeDetailsBtn" type="button" onclick="closeFacultyDrawer()">&times;</button>
-
-        <div class="top-layer-container">
-            <div class="profile-container">
-                <img src="../../assets/default-user.svg" alt="user-profile" width="96" height="96">
-            </div>
-            <div class="personal-info-container">
-                <p class="bold main" id="drawerName"></p>
-                <p class="bold grey" id="drawerId"></p>
-                <p class="small grey" id="drawerEmail"></p>
-                <p class="small grey" id="drawerPhone"></p>
-            </div>
-        </div>
-
-        <div class="info-container">
-            <div class="block-container">
-                <h1 class="small-title">FACULTY ACADEMIC INFO</h1>
-                <p class="bold" id="drawerFaculty"></p>
-            </div>
-            <div class="block-container">
-                <h1 class="small-title">DEPARTMENT ASSIGNMENT</h1>
-                <p class="bold">Department Unit: <span id="drawerDept" style="font-weight: normal; color: #718096;"></span></p>
             </div>
         </div>
     </section>
