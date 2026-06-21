@@ -49,66 +49,66 @@
                         <th style="text-align: right; padding-right: 20px;">Action</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <?php 
-                    if ($table_result && $table_result->num_rows > 0): 
-                        while ($row = $table_result->fetch_assoc()): 
-                            
-                            $matric = htmlspecialchars($row['matric_number']);
-                            $name = htmlspecialchars($row['full_name']);
-                            $course = htmlspecialchars($row['course']);
-                            $details = htmlspecialchars($row['placement_details']);
-                            $status = $row['intern_status'];
+<tbody>
+    <?php 
+    if ($table_result && $table_result->num_rows > 0): 
+        while ($row = $table_result->fetch_assoc()): 
+            
+            $matric = htmlspecialchars($row['matric_number']);
+            $name = htmlspecialchars($row['full_name']);
+            $course = htmlspecialchars($row['course']);
+            $details = htmlspecialchars($row['placement_details']);
+            $status = $row['intern_status'];
 
-                            // Map database status safely to your layout tags and CSS class identifiers
-                            if ($status === 'Placed') {
-                                $data_status = "PLACED";
-                                $badge_class = "status-placed";
-                            } elseif ($status === 'Still Applying') {
-                                $data_status = "APPLYING";
-                                $badge_class = "status-applying";
-                            } else {
-                                $data_status = "NONE";
-                                $badge_class = "status-none";
-                            }
-                    ?>
-                        <tr data-status="<?php echo $data_status; ?>">
-                            <td class="font-bold"><?php echo $matric; ?></td>
-                            <td><?php echo $name; ?></td>
-                            <td class="text-muted"><?php echo $course; ?></td>
-                            
-                            <td>
-                                <?php if ($status === 'Placed'): ?>
-                                    <?php echo $details; ?>
-                                <?php elseif ($status === 'Still Applying'): ?>
-                                    <span class="text-italic text-muted"><?php echo $details; ?></span>
-                                <?php else: ?>
-                                    <span class="text-danger font-semibold"><?php echo $details; ?></span>
-                                <?php endif; ?>
-                            </td>
+            if ($status === 'Placed') {
+                $data_status = "PLACED";
+                $badge_class = "status-placed";
+            } elseif ($status === 'Still Applying') {
+                $data_status = "APPLYING";
+                $badge_class = "status-applying";
+            } else {
+                // This cleanly catches 'Inactive', 'Not Applying', or any other string safely!
+                $data_status = "NONE";
+                $badge_class = "status-none";
+            }
+    ?>
+        <tr data-status="<?php echo $data_status; ?>">
+            <td class="font-bold"><?php echo $matric; ?></td>
+            <td><?php echo $name; ?></td>
+            <td class="text-muted"><?php echo $course; ?></td>
+            
+            <td>
+                <?php if ($status === 'Placed'): ?>
+                    <?php echo $details; ?>
+                <?php elseif ($status === 'Still Applying'): ?>
+                    <span class="text-italic text-muted"><?php echo $details; ?></span>
+                <?php else: ?>
+                    <span class="text-danger font-semibold"><?php echo $details; ?></span>
+                <?php endif; ?>
+            </td>
 
-                            <td><span class="status-pill-badge <?php echo $badge_class; ?>"><?php echo htmlspecialchars($status); ?></span></td>
-                            
-                            <td style="text-align: right; padding-right: 20px;">
-                                <?php if ($status === 'Placed'): ?>
-                                    <a href="view_student_profile.php?id=<?php echo $matric; ?>" class="action-btn btn-view">Profile</a>
-                                <?php elseif ($status === 'Still Applying'): ?>
-                                    <a href="process_application.php?id=<?php echo $matric; ?>&action=approve" class="action-btn btn-approve">Approve</a>
-                                    <a href="process_application.php?id=<?php echo $matric; ?>&action=reject" class="action-btn btn-reject">Reject</a>
-                                <?php else: ?>
-                                    <a href="send_alert.php?id=<?php echo $matric; ?>" class="action-btn btn-send-mail">Send Alert Email</a>
-                                <?php endif; ?>
-                            </td>
-                        </tr>
-                    <?php 
-                        endwhile; 
-                    else: 
-                    ?>
-                        <tr>
-                            <td colspan="6" style="text-align: center; padding: 20px;">No registered student records found.</td>
-                        </tr>
-                    <?php endif; ?>
-                </tbody>
+            <td><span class="status-pill-badge <?php echo $badge_class; ?>"><?php echo htmlspecialchars($status); ?></span></td>
+            
+            <td style="text-align: right; padding-right: 20px;">
+                <?php if ($status === 'Placed'): ?>
+                    <a href="view_student_profile.php?id=<?php echo $matric; ?>" class="action-btn btn-view">Profile</a>
+                <?php elseif ($status === 'Still Applying'): ?>
+                    <a href="process_application.php?id=<?php echo $matric; ?>&action=approve" class="action-btn btn-approve">Approve</a>
+                    <a href="process_application.php?id=<?php echo $matric; ?>&action=reject" class="action-btn btn-reject">Reject</a>
+                <?php else: ?>
+                    <a href="send_alert.php?id=<?php echo $matric; ?>" class="action-btn btn-send-mail">Send Alert Email</a>
+                <?php endif; ?>
+            </td>
+        </tr>
+    <?php 
+        endwhile; 
+    else: 
+    ?>
+        <tr>
+            <td colspan="6" style="text-align: center; padding: 20px;">No registered student records found.</td>
+        </tr>
+    <?php endif; ?>
+</tbody>
             </table>
         </div>
     </section>

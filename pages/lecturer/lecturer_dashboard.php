@@ -11,10 +11,17 @@ $metric_result = $conn->query($metric_query);
 if ($metric_result) {
     while ($row = $metric_result->fetch_assoc()) {
         $status = $row['intern_status'];
-        if (array_key_exists($status, $status_counts)) {
-            $status_counts[$status] = (int)$row['total'];
+        $count = (int)$row['total'];
+        
+        if ($status === 'Placed') {
+            $status_counts['Placed'] = $count;
+        } elseif ($status === 'Still Applying') {
+            $status_counts['Still Applying'] = $count;
+        } elseif ($status === 'Not Applying' || $status === 'Inactive') {
+            // Safe fallback to intercept both string variations seamlessly!
+            $status_counts['Not Applying'] += $count;
         }
-        $total_students += (int)$row['total'];
+        $total_students += $count;
     }
 }
 
@@ -56,9 +63,7 @@ $logbook_query = "
     JOIN job_application ja ON s.matric_number = ja.matric_number
     JOIN job_vacancy jv ON ja.job_id = jv.job_id
     JOIN company c ON jv.company_id = c.company_id
-    -- Step 1: Connect job_application to placement using application_id
     JOIN placement p ON ja.application_id = p.application_id 
-    -- Step 2: Connect placement to logbook using placement_id
     LEFT JOIN logbook l ON p.placement_id = l.placement_id 
     WHERE s.intern_status = 'Placed' AND ja.application_status = 'Approved'
     GROUP BY s.matric_number
@@ -107,7 +112,6 @@ $logbook_result = $conn->query($logbook_query);
     <?php
     $currentPage = $_GET['page'] ?? "main";
     if ($currentPage === "main") {
-        // These included files now have access to $total_students, $status_counts, and $table_result
         include("lecturer_stats.php");
     } else if ($currentPage === "logbook") {
         include("student_logbook.php");
@@ -115,5 +119,4 @@ $logbook_result = $conn->query($logbook_query);
     ?>
 
 </body>
-
 </html>
