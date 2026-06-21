@@ -1,7 +1,49 @@
 <?php
 require_once '../../includes/session.php';
-?>
+require_once '../../includes/db.php';
 
+$total_students = 0;
+$status_counts = ['Placed' => 0, 'Still Applying' => 0, 'Not Applying' => 0];
+
+$metric_query = "SELECT intern_status, COUNT(*) as total FROM student GROUP BY intern_status";
+$metric_result = $conn->query($metric_query);
+
+if ($metric_result) {
+    while ($row = $metric_result->fetch_assoc()) {
+        $status = $row['intern_status'];
+        if (array_key_exists($status, $status_counts)) {
+            $status_counts[$status] = (int)$row['total'];
+        }
+        $total_students += (int)$row['total'];
+    }
+}
+
+$table_query = "
+    SELECT 
+        s.matric_number, 
+        s.full_name, 
+        s.course, 
+        s.intern_status,
+        CASE 
+            WHEN s.intern_status = 'Placed' THEN (
+                SELECT c.company_name 
+                FROM job_application ja
+                JOIN job_vacancy jv ON ja.job_id = jv.job_id
+                JOIN company c ON jv.company_id = c.company_id
+                WHERE ja.matric_number = s.matric_number AND ja.application_status = 'Approved'
+                LIMIT 1
+            )
+            WHEN s.intern_status = 'Still Applying' THEN (
+                SELECT CONCAT(COUNT(*), ' Pending Applications') 
+                FROM job_application ja 
+                WHERE ja.matric_number = s.matric_number AND ja.application_status = 'Pending'
+            )
+            ELSE 'No Applications Generated'
+        END AS placement_details
+    FROM student s
+";
+$table_result = $conn->query($table_query);
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -16,6 +58,7 @@ require_once '../../includes/session.php';
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
     <script src="../../js/chart.js"></script>
+    <script src="../../js/lecturer.js"></script>
     <script src="../../js/script.js"></script>
     <link href='../../css/unistyle.css' rel="stylesheet">
 </head>
@@ -27,10 +70,10 @@ require_once '../../includes/session.php';
         <div class="sidebar-subtext">Lecturer</div>
 
         <ul class="nav-menu">
-            <li class="nav-item active">
+            <li class="nav-item <?php echo (!isset($_GET['page']) || $_GET['page'] === 'main') ? 'active' : ''; ?>">
                 <a href="?page=main"><i class='bx bxs-dashboard'></i> Application</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item <?php echo (isset($_GET['page']) && $_GET['page'] === 'logbook') ? 'active' : ''; ?>">
                 <a href="?page=logbook"><i class='bx bxs-user-detail'></i> Manage Interns</a>
             </li>
             <li class="nav-item logout-box">
@@ -42,6 +85,7 @@ require_once '../../includes/session.php';
     <?php
     $currentPage = $_GET['page'] ?? "main";
     if ($currentPage === "main") {
+        // These included files now have access to $total_students, $status_counts, and $table_result
         include("lecturer_stats.php");
     } else if ($currentPage === "logbook") {
         include("student_logbook.php");

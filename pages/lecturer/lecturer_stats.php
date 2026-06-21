@@ -1,34 +1,9 @@
-<?php
-include '../../includes/db.php';
-
-// Run combined query for counts using intern_status from student table
-$sql = "SELECT 
-            (SELECT COUNT(*) FROM student) AS total_students,
-            (SELECT COUNT(*) FROM student WHERE intern_status='Placed') AS placed_students,
-            (SELECT COUNT(*) FROM student WHERE intern_status='Still Applying') AS applying_students,
-            (SELECT COUNT(*) FROM student WHERE intern_status='Not Applying') AS not_applying_students";
-
-$result = $conn->query($sql);
-$data = $result->fetch_assoc();
-
-$total = $data['total_students'];
-$placed = $data['placed_students'];
-$applying = $data['applying_students'];
-$not_applying = $data['not_applying_students'];
-
-// Query student list for the table
-$students = $conn->query("
-    SELECT matric_number, full_name, course, intern_status
-    FROM student
-");
-?>
-
 <main class="dashboard-container">
 
     <div class="header-row">
         <div>
             <h1>Application Overview</h1>
-            <p>Welcome back, <?php echo "Madam" ?></p>
+            <p>Welcome back, Madam</p>
         </div>
     </div>
 
@@ -38,24 +13,7 @@ $students = $conn->query("
                 <h3>Total Assigned Interns</h3>
             </div>
             <div class="chart">
-            <canvas id="assignedInternsChart">
-                data-placed="<?php echo $placed; ?>"
-                data-applying="<?php echo $applying; ?>"
-                data-notapplying="<?php echo $not_applying; ?>">
-            </canvas>
-            <script>
-            const ctx = document.getElementById("assignedInternsChart").getContext("2d");
-            new Chart(ctx, {
-                type: "pie",
-                data: {
-                    labels: ['Placed', 'Still Applying', 'Not Applying'],
-                    datasets: [{
-                        data: [<?php echo $placed; ?>, <?php echo $applying; ?>, <?php echo $not_applying; ?>],
-                        backgroundColor: ['#4CAF50', '#FFC107', '#F44336']
-                    }]
-                }
-            });
-            </script>
+                <canvas id="assignedInternsChart"></canvas>
             </div>
         </div>
     </section>
@@ -64,52 +22,92 @@ $students = $conn->query("
         <div class="table-header-flex">
             <div>
                 <h2 class="table-title">All Students</h2>
-                <p class="total-counter-subtitle">Total Students: <?php echo $total; ?> Students</p>
+                <p class="total-counter-subtitle">Total Students: <?php echo $total_students; ?> Students</p>
             </div>
             
             <div class="status-filter-pills-row">
-                <button class="filter-pill active" onclick="filterStatus('ALL')">All (<?php echo $total; ?>)</button>
-                <button class="filter-pill" onclick="filterStatus('PLACED')">Placed (<?php echo $placed; ?>)</button>
-                <button class="filter-pill" onclick="filterStatus('APPLYING')">Still Applying (<?php echo $applying; ?>)</button>
-                <button class="filter-pill danger-pill" onclick="filterStatus('NONE')">Not Applying (<?php echo $not_applying; ?>)</button>
+                <button class="filter-pill active" onclick="filterStatus('ALL')">All</button>
+                <button class="filter-pill" onclick="filterStatus('PLACED')">Placed (<?php echo $status_counts['Placed']; ?>)</button>
+                <button class="filter-pill" onclick="filterStatus('APPLYING')">Still Applying (<?php echo $status_counts['Still Applying']; ?>)</button>
+                <button class="filter-pill danger-pill" onclick="filterStatus('NONE')">Not Applying (<?php echo $status_counts['Not Applying']; ?>)</button>
             </div>
         </div>
 
         <div class="top-bar" style="margin-bottom: 1.25rem;">
-            <input type="text" id="studentSearchInput" placeholder="Search by student name, matric number, or course..." onkeyup="searchTable()">
+            <input type="text" id="studentSearchInput" placeholder="Search by student name, matric ID, or course..." onkeyup="searchTable()">
         </div>
 
         <div class="table-responsive">
             <table id="globalStudentTable">
                 <thead>
                     <tr>
-                        <th>Matric Number</th>
+                        <th>Matric ID</th>
                         <th>Student Name</th>
                         <th>Course / Faculty</th>
+                        <th>Placed Company</th>
                         <th>Status</th>
                         <th style="text-align: right; padding-right: 20px;">Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                <?php while($row = $students->fetch_assoc()): ?>
-                    <tr data-status="<?php echo strtoupper($row['intern_status']); ?>">
-                        <td class="font-bold"><?php echo $row['matric_number']; ?></td>
-                        <td><?php echo $row['full_name']; ?></td>
-                        <td class="text-muted"><?php echo $row['course']; ?></td>
-                        <td>
-                            <?php if($row['intern_status'] == 'Placed'): ?>
-                                <span class="status-pill-badge status-placed">Placed</span>
-                            <?php elseif($row['intern_status'] == 'Still Applying'): ?>
-                                <span class="status-pill-badge status-applying">Still Applying</span>
-                            <?php else: ?>
-                                <span class="status-pill-badge status-none">Not Applying</span>
-                            <?php endif; ?>
-                        </td>
-                        <td style="text-align: right; padding-right: 20px;">
-                            <a href="view_student_profile.php?id=<?php echo $row['matric_number']; ?>" class="action-btn btn-view">Profile</a>
-                        </td>
-                    </tr>
-                <?php endwhile; ?>
+                    <?php 
+                    if ($table_result && $table_result->num_rows > 0): 
+                        while ($row = $table_result->fetch_assoc()): 
+                            
+                            $matric = htmlspecialchars($row['matric_number']);
+                            $name = htmlspecialchars($row['full_name']);
+                            $course = htmlspecialchars($row['course']);
+                            $details = htmlspecialchars($row['placement_details']);
+                            $status = $row['intern_status'];
+
+                            // Map database status safely to your layout tags and CSS class identifiers
+                            if ($status === 'Placed') {
+                                $data_status = "PLACED";
+                                $badge_class = "status-placed";
+                            } elseif ($status === 'Still Applying') {
+                                $data_status = "APPLYING";
+                                $badge_class = "status-applying";
+                            } else {
+                                $data_status = "NONE";
+                                $badge_class = "status-none";
+                            }
+                    ?>
+                        <tr data-status="<?php echo $data_status; ?>">
+                            <td class="font-bold"><?php echo $matric; ?></td>
+                            <td><?php echo $name; ?></td>
+                            <td class="text-muted"><?php echo $course; ?></td>
+                            
+                            <td>
+                                <?php if ($status === 'Placed'): ?>
+                                    <?php echo $details; ?>
+                                <?php elseif ($status === 'Still Applying'): ?>
+                                    <span class="text-italic text-muted"><?php echo $details; ?></span>
+                                <?php else: ?>
+                                    <span class="text-danger font-semibold"><?php echo $details; ?></span>
+                                <?php endif; ?>
+                            </td>
+
+                            <td><span class="status-pill-badge <?php echo $badge_class; ?>"><?php echo htmlspecialchars($status); ?></span></td>
+                            
+                            <td style="text-align: right; padding-right: 20px;">
+                                <?php if ($status === 'Placed'): ?>
+                                    <a href="view_student_profile.php?id=<?php echo $matric; ?>" class="action-btn btn-view">Profile</a>
+                                <?php elseif ($status === 'Still Applying'): ?>
+                                    <a href="process_application.php?id=<?php echo $matric; ?>&action=approve" class="action-btn btn-approve">Approve</a>
+                                    <a href="process_application.php?id=<?php echo $matric; ?>&action=reject" class="action-btn btn-reject">Reject</a>
+                                <?php else: ?>
+                                    <a href="send_alert.php?id=<?php echo $matric; ?>" class="action-btn btn-send-mail">Send Alert Email</a>
+                                <?php endif; ?>
+                            </td>
+                        </tr>
+                    <?php 
+                        endwhile; 
+                    else: 
+                    ?>
+                        <tr>
+                            <td colspan="6" style="text-align: center; padding: 20px;">No registered student records found.</td>
+                        </tr>
+                    <?php endif; ?>
                 </tbody>
             </table>
         </div>
