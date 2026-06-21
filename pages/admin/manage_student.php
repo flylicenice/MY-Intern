@@ -1,27 +1,34 @@
+<?php
+
+require_once("../../includes/db.php");
+
+try {
+    $selectStudentQuery = "SELECT * FROM user u INNER JOIN student s ON u.user_id = s.user_id";
+    $result = $conn->query($selectStudentQuery);
+
+    $countQuery = "SELECT COUNT(*) AS total_student FROM student";
+    $countResult = $conn->query($countQuery);
+
+    if ($countResult) {
+        $countRow = $countResult->fetch_assoc();
+        $total_student = $countRow['total_student'];
+    }
+} catch (Exception $e) {
+    header("Location: error.php?error=" . $e->getMessage());
+    exit();
+}
+
+?>
+
 <main class="dashboard-container">
     <div class="header-row">
         <div>
             <h1>Manage Students</h1>
-            <p>Total students: 350 students</p>
+            <p>Total students: <?php echo $total_student; ?> </p>
         </div>
     </div>
 
-    <section class="metrics-grid">
-        <div class="metric-card">
-            <div class="metric-info">
-                <h3>Total Registered Students</h3>
-            </div>
-            <div class="chart">
-                <canvas id="allStudentsChart"></canvas>
-            </div>
-        </div>
-    </section>
-
     <section class="data-table-section">
-        <div class="top-bar">
-            <input type="text" placeholder="Search by name, matric no...">
-        </div>
-
         <div class="absolute-relative-container">
             <div class="btn-container top-bar">
                 <button class="action-btn" id="filter-btn">Filter</button>
@@ -42,93 +49,57 @@
 
         <h2 class="table-title">Student Details</h2>
 
+        <div class="top-bar">
+            <input type="text" placeholder="Search by name, matric no...">
+        </div>
+
         <div class="table-responsive">
             <table>
                 <thead>
                     <tr>
-                        <th>Student Name</th>
-                        <th>Matric No.</th>
-                        <th>Supervisor</th>
-                        <th>Status</th>
+                        <th>STUDENT NAME</th>
+                        <th>MATRIC NO.</th>
+                        <th>IDENTIFICATION NO.</th>
+                        <th>EMAIL</th>
+                        <th>PHONE NO.</th>
+                        <th>STATUS</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td class="null-row" colspan="5">
-                            No student for now
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            <?php echo "Arissa Balqis binti Amir Amran"; ?>
-                        </td>
-                        <td>
-                            <?php echo "D032410001"; ?>
-                        </td>
-                        <td>
-                            <?php echo "NOR HASLINDA BINTI ISMAIL"; ?>
-                        </td>
-                        <td>
-                            <p class="status-badge pending">PENDING</p>
-                        </td>
-                        <td>
-                            <button id="approve-btn" class="action-btn btn-approve">Approve</button>
-                            <button class="action-btn btn-view">View</button>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            <?php echo "Siti Safiyyah Tay binti Muhammad Daniel Tay"; ?>
-                        </td>
-                        <td>
-                            <?php echo "D032410002"; ?>
-                        </td>
-                        <td>
-                            <?php echo "NOR HASLINDA BINTI ISMAIL"; ?>
-                        </td>
-                        <td>
-                            <p class="status-badge pending">PENDING</p>
-                        </td>
-                        <td>
-                            <button class="action-btn btn-approve">Approve</button>
-                            <button class="action-btn btn-view">View</button>
-                        </td>
-                    </tr>
+                    <?php if ($result && $result->num_rows > 0) : ?>
+                        <?php while ($students = $result->fetch_assoc()): ?>
+                            <tr class="student-data-row" data-status="<?php echo $students['status']; ?>" data-user-id="<?php echo $students['user_id']; ?>">
+                                <td><?php echo $students['full_name']; ?></td>
+                                <td><?php echo $students['matric_number']; ?></td>
+                                <td><?php echo $students['identification_no']; ?></td>
+                                <td> <?php echo $students['email']; ?></td>
+                                <td> <?php echo $students['phone_number']; ?></td>
+                                <?php if ($students['status'] === 'pending'): ?>
+                                    <td>
+                                        <span class="status-badge <?php echo $students['status']; ?>"><?php echo $students["status"]; ?></span>
+                                    </td>
+                                    <td>
+                                        <button class="action-btn btn-verify" onclick="verifyStudent(this, <?php echo $students['user_id']; ?>)">Verify</button>
+                                    </td>
+                                <?php else: ?>
+                                    <td>
+                                        <span class="status-badge <?php echo $students['status']; ?>"><?php echo $students["status"]; ?></span>
+                                    </td>
+                                    <td>
+                                        <button class="action-btn btn-verify" disabled>Verify</button>
+                                    </td>
+                                <?php endif; ?>
+                                </td>
+                            </tr>
+                        <?php endwhile; ?>
+                    <?php else: ?>
+                        <tr id="null-state-row">
+                            <td colspan="6">No Student for now</td>
+                        </tr>
+                    <?php endif; ?>
                 </tbody>
             </table>
-        </div>
-    </section>
-
-    <section class="details-section">
-        <button class="action-btn" id="closeDetailsBtn" type="button">&times;</button>
-
-        <div class="top-layer-container">
-            <div class="profile-container">
-                <img src="../../assets/default-user.svg" alt="user-profile" width=96 height=96>
-            </div>
-
-            <div class="personal-info-container">
-                <p class="bold main">TAM KAI DIT</p>
-                <p class="bold grey">D032410113</p>
-                <p class="small grey">tamkaidit50@gmail.com</p>
-                <p class="small grey">011-31865344</p>
-            </div>
-        </div>
-
-        <div class="info-container">
-            <div class="block-container">
-                <h1>ACADEMIC INFO</h1>
-                <p class="bold">Course: <?php echo "DCS"; ?></p> 
-            </div>
-
-            <div class="block-container">
-                <h1>PLACEMENT INFO</h1>
-                <p class="bold">Company: <?php echo "Google"; ?></p>
-                <p class="bold">Supervisor: <?php echo "NOR HASLINDA BINTI ISMAIL"; ?></p>
-            </div>
         </div>
     </section>
 </main>

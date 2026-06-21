@@ -1,5 +1,12 @@
 <?php
-require_once '../../includes/session.php';
+
+session_start();
+
+if (!isset($_SESSION['staff_id'])) {
+    header("Location: admin_login.php");
+    exit();
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -14,8 +21,7 @@ require_once '../../includes/session.php';
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
-    <script src="../../js/chart.js"></script>
-    <script src="../../js/script.js"></script>
+    <script src="../../js/admin.js"></script>
     <link href='../../css/unistyle.css' rel="stylesheet">
 </head>
 
@@ -36,10 +42,10 @@ require_once '../../includes/session.php';
                 <a href="?page=lecturer"><i class='bx bxs-graduation'></i> Manage Lecturers</a>
             </li>
             <li class="nav-item">
-                <a href="?page=employer"><i class='bx bxs-briefcase'></i> Verify Employers</a>
+                <a href="?page=employer"><i class='bx bxs-briefcase'></i> Verify Company</a>
             </li>
             <li class="nav-item">
-                <a href="?page=admin"><i class='bx bxs-briefcase'></i> Add Admin</a>
+                <a href="?page=admin"><i class='bx bxs-user'></i> Add Admin</a>
             </li>
             <li class="nav-item logout-box">
                 <a href="../../includes/logout.php"><i class='bx bx-log-out'></i> Log Out</a>
@@ -57,6 +63,8 @@ require_once '../../includes/session.php';
             include("manage_lecturers.php");
         } else if ($currentPage === "employer") {
             include("manage_company.php");
+        } else if ($currentPage === "admin") {
+            include("manage_admin.php");
         }
     ?>
 
