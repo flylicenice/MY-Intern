@@ -10,6 +10,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link href='../../css/unistyle.css' rel="stylesheet">
+    <script src="../../js/admin.js"></script>
     <title>Add Lecturer</title>
 </head>
 
@@ -20,7 +21,7 @@
             <form id="addLecturerForm" method="POST">
                 <div class="modal-input-grid">
                     <div class="input-block">
-                        <label for="lec_id">Staff ID</label>
+                        <label for="staff_id">Staff ID</label>
                         <input type="text" id="staff_id" name="staff_id" placeholder="e.g., L005" required>
                     </div>
 
@@ -36,7 +37,7 @@
 
                     <div class="input-block">
                         <label for="lec_ic">Phone Number</label>
-                        <input type="text" id="lec_phone" name="lecturer_phone" placeholder="Phone No." required>
+                        <input type="tel" id="lec_phone" name="lecturer_phone" pattern="^(?:\+?6?011\d{8}|(?:\+?6?01)[02-46-9]\d{7})$" placeholder="e.g. 0123456789 or +601112345678" required>
                     </div>
 
                     <div class="input-block">
@@ -51,8 +52,8 @@
                 </div>
 
                 <div class="form-modal-footer">
-                    <button type="button" class="btn-cancel" id="closeLecturerModalCancel">Cancel</button>
-                    <button type="submit" class="btn-save-submit">Save Lecturer</button>
+                    <button type="button" class="btn-cancel" id="closeLecWindow">Cancel</button>
+                    <button type="submit" class="btn-save-submit" id="saveLecBtn">Save Lecturer</button>
                 </div>
             </form>
 

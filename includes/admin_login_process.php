@@ -21,6 +21,7 @@ try {
         $admin = $result->fetch_assoc();
         if (password_verify($admin_password, $admin['password'])) {
             $_SESSION['staff_id'] = $admin['staff_id'];
+            $_SESSION['user_id'] = $admin['user_id'];
             header("Location: ../pages/admin/admin_dashboard.php?page=main");
             exit();
         } else {

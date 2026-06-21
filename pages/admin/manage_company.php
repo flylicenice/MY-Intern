@@ -1,54 +1,30 @@
 <?php
 
-$companies = [
-    [
-        'id' => 'C001',
-        'name' => 'Acis Technology',
-        'sector' => 'Engineering',
-        'contact_person' => 'Ali Smith',
-        'email' => 'ASmith@acis.com',
-        'status' => 'verified'
-    ],
-    [
-        'id' => 'C002',
-        'name' => 'SoftInn',
-        'sector' => 'Technology',
-        'contact_person' => 'Lara Carlson',
-        'email' => 'lara@softinn.com',
-        'status' => 'pending'
-    ],
-    [
-        'id' => 'C003',
-        'name' => 'TNB',
-        'sector' => 'Engineering',
-        'contact_person' => 'John',
-        'email' => 'john@tnb.com',
-        'status' => 'rejected'
-    ],
-    [
-        'id' => 'C004',
-        'name' => 'TechCorp',
-        'sector' => 'Technology',
-        'contact_person' => 'Darla Sophie',
-        'email' => 'sophie@techcorp.com',
-        'status' => 'verified'
-    ],
-     [
-        'id' => 'C005',
-        'name' => 'FoodTech',
-        'sector' => 'Manufacturing and Science Technology',
-        'contact_person' => 'Lauren James',
-        'email' => 'lauren@foodtech.com',
-        'status' => 'verified'
-    ],
-];
+require_once("../../includes/db.php");
+
+try {
+    $selectCompanyQuery = "SELECT * FROM user u INNER JOIN company c ON u.user_id = c.user_id";
+    $result = $conn->query($selectCompanyQuery);
+
+    $countQuery = "SELECT COUNT(*) AS total_company FROM company";
+    $countResult = $conn->query($countQuery);
+
+    if ($countResult) {
+        $countRow = $countResult->fetch_assoc();
+        $totalCompany = $countRow['total_company'];
+    }
+} catch (Exception $e) {
+    header("Location: error.php?error=" . $e->getMessage());
+    exit();
+}
+
 ?>
 
 <main class="dashboard-container">
     <div class="header-row">
         <div>
             <h1>Manage Company</h1>
-            <p>Total companies : <span id="company-total-count"><?php echo count($companies); ?></span> companies</p>
+            <p>Total companies : <span id="company-total-count"><?php echo $totalCompany; ?></span> companies</p>
         </div>
     </div>
 
@@ -78,9 +54,9 @@ $companies = [
             </div>
         </div>
 
-        <div class="details-card" style="margin-top: 20px; border: 1px solid #e2e8f0; border-radius: 8px; background: #fff; padding: 20px;">
+        <div class="details-card">
             <h2 class="table-title" style="margin-bottom: 15px;">Company Details</h2>
-            
+
             <div class="top-bar" style="margin-bottom: 15px;">
                 <input type="text" id="tableSearchInput" placeholder="Search by name, ID..." onkeyup="filterCompanyTable()" style="padding: 8px 12px; width: 280px; border: 1px solid #cbd5e0; border-radius: 4px;">
             </div>
@@ -91,113 +67,40 @@ $companies = [
                         <tr style="background-color: #f8fafc; text-align: left; border-bottom: 2px solid #e2e8f0;">
                             <th style="padding: 12px;">COMPANY ID</th>
                             <th style="padding: 12px;">COMPANY NAME</th>
-                            <th style="padding: 12px;">SECTOR</th>
-                            <th style="padding: 12px;">CONTACT PERSON</th>
                             <th style="padding: 12px;">EMAIL</th>
                             <th style="padding: 12px;">STATUS</th>
                             <th style="padding: 12px;">ACTION</th>
                         </tr>
                     </thead>
                     <tbody>
-                        
-                        <tr id="null-state-row" style="display: none;">
-                            <td colspan="7" style="text-align: center; color: #a0aec0; padding: 25px;">No Company for now</td>
-                        </tr>
-
-                        <?php foreach ($companies as $company): ?>
-                            <tr class="company-data-row" data-status="<?php echo $company['status']; ?>" style="border-bottom: 1px solid #edf2f7;">
-                                <td style="padding: 12px;"><?php echo $company['id']; ?></td>
-                                <td class="company-name" style="padding: 12px; font-weight: 500;"><?php echo $company['name']; ?></td>
-                                <td style="padding: 12px;"><?php echo $company['sector']; ?></td>
-                                <td style="padding: 12px;"><?php echo $company['contact_person']; ?></td>
-                                <td style="padding: 12px;"><?php echo $company['email']; ?></td>
-                                <td style="padding: 12px;">
-                                    <span class="status-badge <?php echo $company['status']; ?>">
-                                        <?php echo $company['status']; ?>
-                                    </span>
-                                </td>
-                                <td style="padding: 12px;">
-                                    <?php if ($company['status'] === 'pending'|| $company['status'] === 'rejected'): ?>
-                                        <button class="action-btn btn-verify" onclick="verifyCompany('<?php echo $company['id']; ?>')" >Verify</button>
-                                    <?php else: ?>
-                                        <button class="action-btn btn-verify" disabled>Verify</button>
-                                    <?php endif; ?>
-                                </td>
+                        <?php if ($result && $result->num_rows > 0) : ?>
+                            <?php while ($company = $result->fetch_assoc()): ?>
+                                <tr class="company-data-row" 
+                                data-status="<?php echo $company['status']; ?>"
+                                data-company-id="<?php echo $company['company_id']?>" style="border-bottom: 1px solid #edf2f7;">
+                                    <td style="padding: 12px;"><?php echo $company['company_id']; ?></td>
+                                    <td class="company-name" style="padding: 12px; font-weight: 500;"><?php echo $company['company_name']; ?></td>
+                                    <td style="padding: 12px;"><?php echo $company['email']; ?></td>
+                                    <td style="padding: 12px;">
+                                        <span class="status-badge <?php echo $company['verification_status']; ?>"><?php echo $company["verification_status"]; ?></span>
+                                    </td>
+                                    <td style="padding: 12px;">
+                                        <?php if ($company['verification_status'] === 'pending'): ?>
+                                            <button class="action-btn btn-verify" onclick="verifyCompany(this, '<?php echo $company['company_id']; ?>')">Verify</button>
+                                        <?php else: ?>
+                                            <button class="action-btn btn-verify" disabled>Verify</button>
+                                        <?php endif; ?>
+                                    </td>
+                                </tr>
+                            <?php endwhile; ?>
+                        <?php else: ?>
+                            <tr id="null-state-row" style="display: none;">
+                                <td colspan="7" style="text-align: center; color: #a0aec0; padding: 25px;">No Company for now</td>
                             </tr>
-                        <?php endforeach; ?>
+                        <?php endif; ?>
                     </tbody>
                 </table>
             </div>
         </div>
     </section>
 </main>
-
-<script>
-function toggleCompanyFilterMenu() {
-    const container = document.getElementById('company-filter-container');
-    container.style.display = (container.style.display === 'none' || container.style.display === '') ? 'block' : 'none';
-}
-
-function filterCompanyTable() {
-    const searchFieldQuery = document.getElementById('tableSearchInput').value.toLowerCase();
-    const checkedRadioOption = document.querySelector('input[name="filter"]:checked');
-    const statusConstraint = checkedRadioOption ? checkedRadioOption.value : 'all';
-    
-    const operationalRows = document.querySelectorAll('.company-data-row');
-    let visibleMatchCounter = 0;
-
-    operationalRows.forEach(row => {
-        if (row.id === 'null-state-row') return;
-
-        const companyId = row.cells[0].innerText.toLowerCase();
-        const companyName = row.cells[1].innerText.toLowerCase();
-        const rowStatus = row.getAttribute('data-status');
-
-        const matchesStatus = (statusConstraint === 'all' || rowStatus === statusConstraint);
-        const matchesSearch = (companyId.includes(searchFieldQuery) || companyName.includes(searchFieldQuery));
-
-        if (matchesStatus && matchesSearch) {
-            row.style.display = '';
-            visibleMatchCounter++;
-        } else {
-            row.style.display = 'none';
-        }
-    });
-
-    const nullRow = document.getElementById('null-state-row');
-    if (nullRow) {
-        nullRow.style.display = (visibleMatchCounter === 0) ? '' : 'none';
-    }
-    document.getElementById('company-total-count').innerText = visibleMatchCounter;
-
-    
-}
-
-function verifyCompany(companyId) {
-    const rows = document.querySelectorAll('.company-data-row');
-
-    rows.forEach(row => {
-        if (row.cells[0].innerText.trim() === companyId) {
-            targetRow = row;
-        }
-    });
-
-    if (targetRow) {
-        targetRow.setAttribute('data-status', 'verified');
-
-        const badge = targetRow.querySelector('.status-badge');
-        if (badge) {
-            badge.className = 'status-badge verified';
-            badge.innerText = 'verified';
-        }
-
-        const verifyBtn = targetRow.querySelector('.btn-verify');
-        if (verifyBtn) {
-            verifyBtn.disabled = true;
-        }
-
-        filterCompanyTable();
-    }
-                                    
-}
-</script>
