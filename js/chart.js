@@ -32,36 +32,56 @@ function drawCharts() {
         });
     }
 
-    if (assignedInternChart) {
-        new Chart(assignedInternChart, {
-            type: 'doughnut',
-            data: {
-                labels: ['Still Applying', 'Not Applying', 'Placed'],
-                datasets: [{
-                    data: [4, 1, 1], // Pull dynamically from your total caseload numbers (e.g., 6 total)
-                    backgroundColor: [
-                        '#111E4B', // Brand Navy blue from image_4a2bca.png
-                        '#CCD36F', // Lime Accent from image_cf7b07.png
-                        '#A0AEC0'  /* Neutral Grey */
-                    ],
-                    borderWidth: 2,
-                    borderColor: '#ffffff'
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                cutout: '75%', // Creates a premium, clean thin ring shape
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: {
-                            boxWidth: 12,
-                            padding: 15,
-                            font: { family: 'sans-serif', size: 12, weight: '500' }
+if (assignedInternChart) {
+        $.ajax({
+            url: '../../includes/get_chart_data.php',
+            method: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                if (response.status === 'success') {
+                    const liveData = response.data;
+
+                    new Chart(assignedInternChart, {
+                        type: 'doughnut',
+                        data: {
+                            labels: ['Still Applying', 'Not Applying', 'Placed'],
+                            datasets: [{
+                                data: [
+                                    liveData.applying,     
+                                    liveData.not_applying, 
+                                    liveData.placed        
+                                ],
+                                backgroundColor: [
+                                    '#f1c40f', // Still Applying -> Vibrant Yellow
+                                    '#e74c3c', // Not Applying   -> Soft Red
+                                    '#2ecc71'  // Placed         -> Emerald Green
+                                ],
+                                borderWidth: 2,
+                                borderColor: '#ffffff'
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            cutout: '75%',
+                            plugins: {
+                                legend: {
+                                    position: 'bottom',
+                                    labels: {
+                                        boxWidth: 12,
+                                        padding: 15,
+                                        font: { family: 'sans-serif', size: 12, weight: '500' }
+                                    }
+                                }
+                            }
                         }
-                    }
+                    });
+                } else {
+                    console.error("Database chart reporting error:", response.message);
                 }
+            },
+            error: function (xhr, status, error) {
+                console.error("AJAX execution failed:", error);
             }
         });
     }

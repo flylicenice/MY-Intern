@@ -3,7 +3,7 @@
     <div class="header-row">
         <div>
             <h1>Application Overview</h1>
-            <p>Welcome back, Madam</p>
+            <p>Welcome back, Madam/Sir</p>
         </div>
     </div>
 
@@ -43,7 +43,7 @@
                     <tr>
                         <th>Matric ID</th>
                         <th>Student Name</th>
-                        <th>Course / Faculty</th>
+                        <th>Course</th>
                         <th>Placed Company</th>
                         <th>Status</th>
                         <th style="text-align: right; padding-right: 20px;">Action</th>

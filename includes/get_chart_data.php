@@ -1,14 +1,13 @@
 <?php
-header('Content-Type: application/json');
-require_once 'db.php'; // Path to your db connection file inside includes/
+require_once 'session.php';
+require_once 'db.php';
 
-$response = [
-    'status' => 'error',
-    'data' => [
-        'placed' => 0,
-        'applying' => 0,
-        'not_applying' => 0
-    ]
+header('Content-Type: application/json');
+
+$data = [
+    'placed' => 0,
+    'applying' => 0,
+    'not_applying' => 0
 ];
 
 $query = "SELECT intern_status, COUNT(*) as total FROM student GROUP BY intern_status";
@@ -17,16 +16,25 @@ $result = $conn->query($query);
 if ($result) {
     while ($row = $result->fetch_assoc()) {
         $status = $row['intern_status'];
+        $count = (int)$row['total'];
+        
         if ($status === 'Placed') {
-            $response['data']['placed'] = (int)$row['total'];
+            $data['placed'] = $count;
         } elseif ($status === 'Still Applying') {
-            $response['data']['applying'] = (int)$row['total'];
-        } elseif ($status === 'Not Applying') {
-            $response['data']['not_applying'] = (int)$row['total'];
+            $data['applying'] = $count;
+        } elseif ($status === 'Not Applying' || $status === 'Inactive') {
+            $data['not_applying'] += $count;
         }
     }
-    $response['status'] = 'success';
+    
+    echo json_encode([
+        'status' => 'success',
+        'data' => $data
+    ]);
+} else {
+    echo json_encode([
+        'status' => 'error',
+        'message' => 'Failed to query data records'
+    ]);
 }
-
-echo json_encode($response);
 exit();
