@@ -4,8 +4,8 @@
 // Place in: pages/lecturer/student_monitoring.php
 
 session_start();
-include '../../includes/lecturer_dashboard_header.php';
-include '../../config/db.php'; // adjust path as needed
+include '../../pages/lecturer_dashboard_header.php';
+include '../../includes/db.php'; // adjust path as needed
 
 // Fetch all students supervised by this lecturer
 $lecturer_id = $_SESSION['lecturer_id'];

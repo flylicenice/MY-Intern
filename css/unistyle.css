@@ -357,9 +357,19 @@ tr:last-child td {
     color: #D97706;
 }
 
-.status-badge.active {
+.status-badge.active, .status-badge.placed {
     background-color: #DCFCE7;
     color: #15803D;
+}
+
+.status-badge.viewed {
+    background-color: #111E4B;
+    color: white;
+}
+
+.status-badge.closed {
+    background-color: black;
+    color: white;
 }
 
 .action-btn {

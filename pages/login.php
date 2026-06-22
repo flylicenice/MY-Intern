@@ -81,6 +81,8 @@
                                 echo "A database error occurred. Please try again later.";
                             } elseif ($_GET['error'] === 'unverified') {
                                 echo "This account is not activated yet.";
+                            } else if ($_GET['error'] === "no_account_found") {
+                                echo "No Account is found.";
                             }
                             ?>
                         </div>
