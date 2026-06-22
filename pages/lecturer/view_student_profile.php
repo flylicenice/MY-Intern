@@ -21,6 +21,7 @@ if (!$student_result || $student_result->num_rows === 0) {
 $student = $student_result->fetch_assoc();
 $placement_details = null;
 
+// 2. Fetch Placement details only if the student is 'Placed'
 if ($student['intern_status'] === 'Placed') {
     $placement_query = "
         SELECT p.*, c.company_name
@@ -31,16 +32,13 @@ if ($student['intern_status'] === 'Placed') {
         WHERE ja.matric_number = '$matric' AND ja.application_status = 'Approved'
         LIMIT 1
     ";
+    
     $placement_result = $conn->query($placement_query);
     if ($placement_result && $placement_result->num_rows > 0) {
         $placement_details = $placement_result->fetch_assoc();
         $placement_details['job_title'] = "Industrial Trainee / Intern";
     }
 }
-    $placement_result = $conn->query($placement_query);
-    if ($placement_result && $placement_result->num_rows > 0) {
-        $placement_details = $placement_result->fetch_assoc();
-    }
 ?>
 <!DOCTYPE html>
 <html lang="en">

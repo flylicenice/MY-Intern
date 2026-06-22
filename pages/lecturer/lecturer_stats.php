@@ -86,9 +86,18 @@
     Send Alert Email
 </button>
                         <?php else: ?>
-                            <a href="view_student_profile.php?student_id=<?php echo urlencode($row['matric_number']); ?>" style="background-color: #2dbfa4; color: white; text-decoration: none; padding: 8px 16px; border-radius: 4px; font-weight: 500; display: inline-block; font-size: 12px;">
-                                View Profile
-                            </a>
+<a href="view_student_profile.php?id=<?php echo urlencode($row['matric_number']); ?>" 
+   style="background-color: #28a745; 
+          color: white; 
+          text-decoration: none; 
+          padding: 8px 16px; 
+          border-radius: 4px; 
+          font-weight: 500; 
+          display: inline-block; 
+          font-size: 12px;
+          transition: background-color 0.2s;">
+    View Profile
+</a>
                         <?php endif; ?>
                     </td>
                 </tr>
