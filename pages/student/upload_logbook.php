@@ -1,30 +1,96 @@
 <?php
-// pages/upload_logbook.php
-/*
-require_once __DIR__ . '/../config/db.php';
-require_once __DIR__ . '/../includes/session.php';
-
-// Access Control Gate: Ensure only logged-in Students can access this upload interface
-if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'Student') {
-    header("Location: login.php");
-    exit();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
 }
 
-$user_id = $_SESSION['user_id']; // Current authenticated student's user ID
+include_once(dirname(__DIR__, 2) . "/includes/db.php");
+$db_conn = $conn ?? $db ?? $connect;
 
-try {
-    // Fetch student's profile details to display on the workspace banner
-    $student_stmt = $conn->prepare("SELECT full_name, matric_number, course FROM student WHERE user_id = ? LIMIT 1");
-    $student_stmt->bind_param("i", $user_id);
-    $student_stmt->execute();
-    $student = $student_stmt->get_result()->fetch_assoc();
+$user_id = $_SESSION['user_id'] ?? $_SESSION['student_id'] ?? 1;
+$week = $_GET['week'] ?? 1;          
+$student = ['full_name' => 'Student', 'matric_number' => 'N/A', 'course' => 'N/A'];
+$message = "";
 
-    // Mock/Fetch previous submissions history for this specific student
-    // In a live system, you would query a 'logbook' table linked to student_id or user_id
-    // $logbook_query = "SELECT * FROM logbook WHERE user_id = ? ORDER BY week_number DESC";
-} catch (Exception $e) {
-    error_log("Logbook Page Error: " . $e->getMessage());
-} */
+if (isset($db_conn)) {
+    try {
+        $student_stmt = $db_conn->prepare("SELECT full_name, matric_number, course FROM student WHERE user_id = ? LIMIT 1");
+        $student_stmt->bind_param("i", $user_id);
+        $student_stmt->execute();
+        $res = $student_stmt->get_result()->fetch_assoc();
+        if ($res) {
+            $student = $res;
+        }
+    } catch (Exception $e) {
+        error_log("Database banner load error: " . $e->getMessage());
+    }
+
+   if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['logbook_file'])) {
+        header('Content-Type: application/json');
+        $placement_query = "SELECT p.placement_id 
+                            FROM placement p
+                            JOIN job_application ja ON p.application_id = ja.application_id
+                            JOIN student s ON ja.matric_number = s.matric_number
+                            WHERE s.user_id = ? LIMIT 1";
+        $placement_stmt = $db_conn->prepare($placement_query);
+        $placement_stmt->bind_param("i", $user_id);
+        $placement_stmt->execute();
+        $placement_res = $placement_stmt->get_result()->fetch_assoc();
+        
+        if (!$placement_res) {
+            $real_placement_id = 1;
+            $message = "<div style='background-color: #FEF08A; color: #854D0E; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;'>⚠️ Error: You cannot upload a logbook because you don't have an active internship record in the 'placement' table yet. Please insert a placeholder row in phpMyAdmin first!</div>";
+        } else{
+            $real_placement_id = $placement_res['placement_id'];  
+        }
+            $file = $_FILES['logbook_file'];
+            $file_ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+            $allowed_extensions = ['pdf', 'doc', 'docx'];
+        
+
+        if (!in_array($file_ext, $allowed_extensions)) {
+            $message = "<div style='background-color: #FDE8E8; color: #9B1C1C; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;'>❌ Error: Only PDF, DOC, and DOCX files are allowed.</div>";
+        } elseif ($file['size'] > 5 * 1024 * 1024) { 
+            $message = "<div style='background-color: #FDE8E8; color: #9B1C1C; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;'>❌ Error: File size exceeds the maximum 5MB limit.</div>";
+        } else {
+            
+            $new_filename = "placement_" . $user_id . "_week_" . $week . "_" . time() . "." . $file_ext;
+            
+           
+            $upload_dir = dirname(__DIR__, 2) . "/uploads/logbooks/";
+            if (!is_dir($upload_dir)) {
+                mkdir($upload_dir, 0777, true); 
+            }
+            $upload_destination = $upload_dir . $new_filename;
+
+            if (!is_dir($upload_dir)) {
+                mkdir($upload_dir, 0777, true); 
+            }
+            $upload_destination = $upload_dir . $new_filename;
+
+            if (move_uploaded_file($file['tmp_name'], $upload_destination)) {
+                
+                $action_query = "INSERT INTO logbook (week_number, logbook, placement_id, submitted_at) 
+                                 VALUES (?, ?, ?, NOW())
+                                 ON DUPLICATE KEY UPDATE logbook = VALUES(logbook), submitted_at = NOW()";
+                     
+                $insert_stmt = $db_conn->prepare($action_query);     
+                $insert_stmt->bind_param("isi", $week, $new_filename, $real_placement_id);
+                
+                if ($insert_stmt->execute()) {
+                   
+                    header("Location: student_dashboard.php?page=e-log&status=success");
+                    exit();
+                } else {
+                    
+                    $message = "<div style='background-color: #FDE8E8; color: #9B1C1C; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;'>❌ Database error processing your upload item.</div>";
+                }
+            } else {
+                $message = "<div style='background-color: #FDE8E8; color: #9B1C1C; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;'>❌ Failed to save uploaded file down to directory folder location.</div>";
+            }
+        }
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -48,7 +114,7 @@ try {
 
         <div class="welcome-banner">
             <h1>Internship Logbook Submission</h1>
-            <p>Course: <?php echo htmlspecialchars($student['course'] ?? 'N/A'); ?> | Matric Number: <?php echo htmlspecialchars($student['matric_number'] ?? 'N/A'); ?></p>
+            <p>Course: <?php echo htmlspecialchars($student['course']);?>  | Matric Number: <?php echo htmlspecialchars($student['matric_number']); ?></p>
         </div>
 
         <?php if (isset($_GET['status']) && $_GET['status'] === 'success'): ?>
@@ -62,11 +128,10 @@ try {
             <section class="card-panel">
                 <h2 class="card-title"><i class='bx bx-cloud-upload'></i> Submit New Logbook Entry</h2>
 
-                <form action="../actions/process_logbook.php" method="POST" enctype="multipart/form-data" id="logbookForm">
-
+            <form action="" method="POST" enctype="multipart/form-data" id="logbookForm">
                     <div class="form-group">
                         <p>Training Week No.</p>
-                        <h1>1</h1>
+                        <h1><?php echo htmlspecialchars($week); ?></h1>
                     </div>
 
                     <div class="form-group">
@@ -82,8 +147,10 @@ try {
                         </div>
                     </div>
 
-                    <button type="submit" name="submit_logbook" class="submit-btn">Upload Weekly Logbook</button>
-                    <button type="submit" name="submit_logbook" class="submit-btn">Back</button>
+                    <div style="display: flex; gap: 12px; justify-content: flex-end; margin-top: 30px;">
+                        <a href="student_dashboard.php?page=e-log" style="text-decoration: none; padding: 12px 24px; border: 1px solid #cbd5e1; color: #475569; border-radius: 6px; font-weight: 600; font-size: 0.9rem;">Back</a>
+                        <button type="submit" class="submit-btn" style="background: #2dd4bf; color: white; border: none; padding: 12px 24px; border-radius: 6px; font-weight: 700; font-size: 0.9rem; cursor: pointer;">Upload Weekly Logbook</button>
+                    </div>
                 </form>
             </section>
 
@@ -97,6 +164,11 @@ try {
             const fileSelectedName = document.getElementById("fileSelectedName");
             const fileNameSpan = document.getElementById("fileNameSpan");
 
+        dropzone.addEventListener("click", function(e) {
+            if (e.target !== fileInput) {
+               fileInput.click();
+            }
+});
             fileInput.addEventListener("change", function() {
                 if (this.files.length > 0) {
                     fileNameSpan.textContent = this.files[0].name;
@@ -115,10 +187,15 @@ try {
                 dropzone.addEventListener(eventName, (e) => {
                     e.preventDefault();
                     dropzone.classList.remove('dragover');
+
+                    if (e.type === 'drop' && e.dataTransfer.files.length > 0) {
+                        fileInput.files = e.dataTransfer.files;
+                        fileNameSpan.textContent = e.dataTransfer.files[0].name;
+                        fileSelectedName.style.display = "block";
+                    }
                 }, false);
             });
         });
     </script>
 </body>
-
 </html>

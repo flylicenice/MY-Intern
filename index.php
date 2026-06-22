@@ -98,7 +98,7 @@ $loggedInStatus = isLoggedIn();
             </div>
         </div>
 
-        <button class="submit-btn">Apply Now</button>
+        <button class="submit-btn apply-now-btn" data-jobid="1">Apply Now</button>
 
         <div class="job-posting-description">
             <p><?php $i = 0;
@@ -108,7 +108,7 @@ $loggedInStatus = isLoggedIn();
                 } ?></p>
         </div>
 
-        <button class="action-btn" id="closeDetailsBtn" type="button" onclick="showJobDetailsPanel()">&times;</button>
+        <button class="action-btn" id="closeDetailsBtn" type="button">&times; </button>
 
         <div class="job-company-block">
             

@@ -1,9 +1,13 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+
+include_once(dirname(__DIR__, 2) . "/includes/db.php");
 
 $user_choice = $_GET['page'] ?? 'application';
-
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,6 +22,7 @@ $user_choice = $_GET['page'] ?? 'application';
     <link rel="stylesheet" href="/MYIntern/css/style.css">
     <script src="/MYIntern/js/script.js"></script>
     <script src="/MYIntern/js/chart.js"></script>
+    <script src="/MYIntern/js/student.js"></script>
     <title>MYIntern | Student Dashboard</title>
 </head>
 
@@ -34,6 +39,7 @@ $user_choice = $_GET['page'] ?? 'application';
         </div>
     </div>
 
+    
 
     <main class="main-area">
         <?php

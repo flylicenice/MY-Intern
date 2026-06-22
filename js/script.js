@@ -7,16 +7,13 @@ function linkActive() {
 
     navLinks.forEach(link => {
         link.classList.remove("active");
-
         if (link.getAttribute("href") === currentPath) {
             link.classList.add("active");
         }
     });
 
     studentNavLinks.forEach(link => {
-
         link.classList.remove("active");
-
         if (link.getAttribute("href") === currentSearch) {
             link.classList.add("active");
         }
@@ -24,10 +21,8 @@ function linkActive() {
 
     adminNavLinks.forEach(link => {
         const innerLink = link.querySelector('a');
-
         if (innerLink) {
             link.classList.remove('active');
-
             if (innerLink.getAttribute("href") === currentSearch) {
                 link.classList.add('active');
             }
@@ -91,23 +86,28 @@ function triggerShowNotification() {
 
 function showDetailsPanel() {
     const detailPanel = $(".details-section");
-
     const viewBtn = $(".btn-view");
     const closeBtn = $("#closeDetailsBtn");
 
-    if (viewBtn.length && closeBtn) {
+    if (viewBtn.length && closeBtn.length) {
         viewBtn.on("click", function () {
             detailPanel.show();
         });
 
         closeBtn.on("click", function () {
             detailPanel.hide();
-            jobDetailPanel.hide();
+            const jobDetailPanel = $(".job-details-panel");
+            if (jobDetailPanel.length) {
+                jobDetailPanel.hide();
+            }
         });
     }
 }
 
 function filterLecturerTable() {
+    const searchInput = document.getElementById('tableSearchInput');
+    if (!searchInput) return; 
+
     const searchFieldQuery = document.getElementById('tableSearchInput').value.toLowerCase();
     const checkedRadioOption = document.querySelector('input[name="filter"]:checked');
     const statusConstraint = checkedRadioOption ? checkedRadioOption.value : 'all';
@@ -131,24 +131,36 @@ function filterLecturerTable() {
         }
     });
 
-    document.getElementById('null-state-row').style.display = (visibleMatchCounter === 0) ? '' : 'none';
-    document.getElementById('lecturer-total-count').innerText = visibleMatchCounter;
+    const nullState = document.getElementById('null-state-row').style.display = (visibleMatchCounter === 0) ? '' : 'none';
+    const totalCount = document.getElementById('lecturer-total-count').innerText = visibleMatchCounter;
+    if (nullState) nullState.style.display = (visibleMatchCounter === 0) ? '' : 'none';
+    if (totalCount) totalCount.innerText = visibleMatchCounter;
+
 }
 
 function openFacultyDrawer(data) {
-    document.getElementById('drawerName').innerText = data.name || 'N/A';
+    if (!data) return;
+    const drawerName = document.getElementById('drawerName');
+    if (drawerName) drawerName.innerText = data.name || 'N/A';
     document.getElementById('drawerId').innerText = data.id || 'N/A';
     document.getElementById('drawerEmail').innerText = data.email || 'N/A';
     document.getElementById('drawerPhone').innerText = data.phone || 'Not Provided';
     document.getElementById('drawerFaculty').innerText = data.faculty || 'Faculty of Information and Communication Technology';
     document.getElementById('drawerDept').innerText = data.department || 'N/A';
-    document.getElementById('facultyDetailsDrawer').style.display = 'block';
-    document.body.style.overflow = 'hidden';
+   
+    const drawer = document.getElementById('facultyDetailsDrawer');
+    if (drawer) {
+        drawer.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    }
 }
 
 function closeFacultyDrawer() {
-    document.getElementById('facultyDetailsDrawer').style.display = 'none';
-    document.body.style.overflow = 'auto';
+    const drawer = document.getElementById('facultyDetailsDrawer').style.display = 'none';
+    if (drawer){
+        drawer.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
 }
 
 function openAddLecturerWindow() {
@@ -182,19 +194,54 @@ function openAddAdminWindow() {
 function showJobDetailsPanel() {
     const jobCard = $(".job-posting-card");
     const jobDetailPanel = $(".job-details-panel");
-    const closeBtn = $("#closeDetailsBtn");
 
-    if (closeBtn && jobCard && jobDetailPanel) {
-        jobDetailPanel.hide();
-        closeBtn.on("click", function() {
-            jobDetailPanel.hide();
-        });
-        
-        jobCard.on("click", function() {
+   if (jobCard.length && jobDetailPanel.length) {
+          
+        jobCard.off("click").on("click", function() {
             jobDetailPanel.show();
         });
     }
+
+    $(document).off("click", "#closeDetailsBtn").on("click", "#closeDetailsBtn", function(e) {
+        e.preventDefault();
+        e.stopPropagation(); 
+        $(".job-details-panel").hide();
+    });
+
+
+    $(document).off("click", ".apply-now-btn").on("click", ".apply-now-btn", function(e) {
+        e.preventDefault();
+        
+        const jobId = $(this).attr('data-jobid') || 1;
+        console.log("Submitting application for Job ID: " + jobId); // For verification in your inspector console
+
+        fetch('pages/student/student_application.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: 'job_id=' + encodeURIComponent(jobId)
+        })
+        .then(response => {
+            if (!response.ok) throw new Error('Network query execution error.');
+            return response.json();
+        })
+        .then(data => {
+            if (data.status === 'success') {
+                alert('🎉 ' + data.message);
+                window.location.href = 'pages/student/student_dashboard.php';
+            } else {
+                alert('⚠️ ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Transmission System Error:', error);
+            alert('⚠️ Application transmission failed. Verify your network connection or backend script.');
+        });
+    });
 }
+
+        
 
 $(document).ready(function () {
     linkActive();
@@ -202,10 +249,9 @@ $(document).ready(function () {
     triggerShowPassword();
     triggerShowNotification();
     showDetailsPanel();
-    filterLecturerTable();
-    openFacultyDrawer(data);
-    closeFacultyDrawer();
-    openAddLecturerWindow();
-    openAddAdminWindow();
     showJobDetailsPanel();
+
+    if (document.getElementById('tableSearchInput')) {
+        filterLecturerTable();
+    }
 });
