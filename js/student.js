@@ -2,7 +2,10 @@ $(document).ready(function () {
     linkActive();
     printDoc();
     handleELogUpload();
+    handleApplyJob();
 });
+
+
 
 function linkActive() {
     const currentPath = window.location.pathname;
@@ -55,5 +58,28 @@ function handleELogUpload()
         },
         });
    });
+}
+
+function handleApplyJob() {
+    document.querySelectorAll('.apply-now-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const jobId = this.getAttribute('data-jobid');
+            
+            fetch('process_apply.php', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                body: 'job_id=' + jobId
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.status === 'success') { 
+                    alert(data.message);
+                    location.reload(); 
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            });
+        });
+    });
 }
 

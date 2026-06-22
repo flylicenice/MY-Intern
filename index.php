@@ -1,8 +1,12 @@
 <?php
-
-require_once "includes/session.php";
-
+require_once (__DIR__ . "/includes/db.php");
+require_once (__DIR__ . "/includes/functions.php");
 $loggedInStatus = isLoggedIn();
+
+$sql = "SELECT j.*, c.company_name as company_name 
+        FROM job_vacancy j 
+        JOIN company c ON j.company_id = c.company_id";
+$result = $db_conn->query($sql);
 
 ?>
 
@@ -48,25 +52,42 @@ $loggedInStatus = isLoggedIn();
     </main>
 
     <div class="main-area" id="job-posting-area">
-        <?php $i = 0;
-        while ($i < 3):
-        ?>
-            <div class="job-posting-card hide-word-ellipsis">
+       <?php
+    // Query to get active jobs joined with their company names
+    $sql = "SELECT j.*, c.company_name 
+            FROM job_vacancy j 
+            JOIN company c ON j.company_id = c.company_id 
+            WHERE j.status = 'active'";
+            
+    $result = $db_conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        while ($job = $result->fetch_assoc()) {
+            // Use htmlspecialchars to prevent XSS attacks
+            $title = htmlspecialchars($job['title']);
+            $company = htmlspecialchars($job['company_name']);
+            $location = htmlspecialchars($job['location_type']);
+            $allowance = htmlspecialchars($job['allowance']);
+            $job_id = $job['job_id'];
+    ?>
+            <div class="job-posting-card">
                 <div class="company-logo-container">
                     <img src="assets/default-user.svg" alt="Company Logo" class="company-logo-img">
                 </div>
-
                 <div class="job-details-container">
-                    <h3 class="job-posting-title">Internship - System Engineer</h3>
-                    <p class="company-name-text">Google Sdn. Bhd.</p>
-                    <p class="job-location-text">Selangor</p>
-                    <p class="job-salary-text">RM 1000 - RM 1500 per month</p>
-                    <p class="posted-time-badge">1 month ago</p>
+                    <h3 class="job-posting-title"><?php echo $title; ?></h3>
+                    <p class="company-name-text"><?php echo $company; ?></p>
+                    <p class="job-location-text"><?php echo $location; ?></p>
+                    <p class="job-salary-text">RM <?php echo $allowance; ?> per month</p>
+                    <button class="apply-now-btn" data-jobid="<?php echo $job_id; ?>">Apply Now</button>
                 </div>
             </div>
-        <?php $i++;
-        endwhile;
-        ?>
+    <?php
+        }
+    } else {
+        echo "<p>No active job vacancies at the moment.</p>";
+    }
+    ?>
     </div>
 
     <div class="pagination-wrapper-container">
@@ -81,38 +102,17 @@ $loggedInStatus = isLoggedIn();
 
     <?php include("includes/footer.php"); ?>
 
-    <div class="job-details-panel">
-        <div class="profile-avatar">
-            <img src="assets/default-user.svg" alt="profile-pic" height=40px width=40px>
-        </div>
+    <div class="job-details-panel" id="detailsPanel">
+    <h3 id="panel-title"></h3>
+    <p id="panel-company"></p>
+    <p id="panel-location"></p>
+    <p id="panel-allowance"></p>
+    
+    <button class="submit-btn apply-now-btn" id="panel-apply-btn" data-jobid="">Apply Now</button>
 
-        <div class="details-container">
-            <div></div>
-            <p class="job-posting-title"><?php echo "Internship - System Engineer" ?></p>
-
-            <div class="job-posting-details">
-                <p>Google Sdn. Bhd.</p>
-                <p>Location: Selangor</p>
-                <p>Allowance: RM 1000 - RM 1500 per month</p>
-                <p>Posted a month ago</p>
-            </div>
-        </div>
-
-        <button class="submit-btn apply-now-btn" data-jobid="1">Apply Now</button>
-
-        <div class="job-posting-description">
-            <p><?php $i = 0;
-                while ($i < 50) {
-                    echo "This is the description and we love it";
-                    $i++;
-                } ?></p>
-        </div>
-
-        <button class="action-btn" id="closeDetailsBtn" type="button">&times; </button>
-
-        <div class="job-company-block">
-            
-        </div>
-    </div>
+    <div class="job-posting-description" id="panel-description"></div>
+    
+    <button class="action-btn" id="closeDetailsBtn" type="button">&times;</button>
+</div>
 </body>
 </html>

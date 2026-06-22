@@ -1,3 +1,31 @@
+<?php
+session_start();
+include('../includes/db_connection.php'); 
+
+$error_message = "";
+
+if (isset($_POST['submit_login'])) {
+    $email = $_POST['email'];
+    $password = $_POST['password']; 
+
+    $sql = "SELECT id, full_name FROM students WHERE email = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        $user = $result->fetch_assoc();
+        $_SESSION['user_name'] = $user['full_name']; 
+        header("Location: student/student_dashboard.php");
+        exit();
+    } else {
+        $error_message = "Invalid email or password.";
+    }
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 

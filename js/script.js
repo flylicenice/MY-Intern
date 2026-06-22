@@ -192,40 +192,40 @@ function openAddAdminWindow() {
 }
 
 function showJobDetailsPanel() {
-    const jobCard = $(".job-posting-card");
-    const jobDetailPanel = $(".job-details-panel");
+    const jobDetailPanel = $("#detailsPanel");
+    const oldDetailSection = $(".details-section");
 
-   if (jobCard.length && jobDetailPanel.length) {
-          
-        jobCard.off("click").on("click", function() {
-            jobDetailPanel.show();
-        });
-    }
+    $(document).on("click", ".job-posting-card", function() {
+        const title = $(this).find('.job-posting-title').text();
+        const company = $(this).find('.company-name-text').text();
+        const location = $(this).find('.job-location-text').text();
+        const allowance = $(this).find('.job-salary-text').text();
+        const jobId = $(this).find('.apply-now-btn').data('jobid');
 
-    $(document).off("click", "#closeDetailsBtn").on("click", "#closeDetailsBtn", function(e) {
-        e.preventDefault();
-        e.stopPropagation(); 
-        $(".job-details-panel").hide();
+        $('#panel-title').text(title);
+        $('#panel-company').text(company);
+        $('#panel-location').text(location);
+        $('#panel-allowance').text(allowance);
+        $('#panel-apply-btn').data('jobid', jobId);
+        
+        jobDetailPanel.show();
     });
 
-
-    $(document).off("click", ".apply-now-btn").on("click", ".apply-now-btn", function(e) {
+    $("#closeDetailsBtn").on("click", function(e) {
         e.preventDefault();
-        
-        const jobId = $(this).attr('data-jobid') || 1;
-        console.log("Submitting application for Job ID: " + jobId); // For verification in your inspector console
+        jobDetailPanel.hide();
+    });
 
-        fetch('pages/student/student_application.php', {
+    $(document).on("click", ".apply-now-btn", function(e) {
+        e.preventDefault();
+        const jobId = $(this).data('jobid');
+
+        fetch('process_apply.php', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: 'job_id=' + encodeURIComponent(jobId)
         })
-        .then(response => {
-            if (!response.ok) throw new Error('Network query execution error.');
-            return response.json();
-        })
+        .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {
                 alert('🎉 ' + data.message);
@@ -234,10 +234,7 @@ function showJobDetailsPanel() {
                 alert('⚠️ ' + data.message);
             }
         })
-        .catch(error => {
-            console.error('Transmission System Error:', error);
-            alert('⚠️ Application transmission failed. Verify your network connection or backend script.');
-        });
+        .catch(error => console.error('Error:', error));
     });
 }
 
@@ -248,7 +245,7 @@ $(document).ready(function () {
     triggerDropDownMenu();
     triggerShowPassword();
     triggerShowNotification();
-    showDetailsPanel();
+    
     showJobDetailsPanel();
 
     if (document.getElementById('tableSearchInput')) {
