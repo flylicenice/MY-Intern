@@ -31,7 +31,7 @@ $result = $db_conn->query($sql);
 <body class="center">
 
     <?php
-    if ($loggedInStatus) {
+    if (isset($_SESSION['user_id'])) {
         include("includes/header_user.php");
     } else {
         include("includes/header_guest.php");

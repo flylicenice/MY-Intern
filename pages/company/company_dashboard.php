@@ -1,6 +1,14 @@
 <?php
-require_once '../../includes/session.php';
+
+if (isset($_SESSION['company_id'])) {
+    header('Location: ../login.php');
+    exit();
+}
+
+session_start();
+
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,9 +20,8 @@ require_once '../../includes/session.php';
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="https://cdn.canvasjs.com/ga/canvasjs.min.js"></script>
-    <script src="../../js/script.js"></script>
-    <script src="../../js/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+    <script src="../../js/company.js"></script>
     <link href='../../css/unistyle.css' rel="stylesheet">
     <link href="../../css/additionalstyle.css" rel="stylesheet">
 </head>
@@ -26,13 +33,16 @@ require_once '../../includes/session.php';
 
         <ul class="nav-menu">
             <li class="nav-item">
-                <a href="?page=main"><i class='bx bx-task'></i> Dashboard</a>
+                <a href="?page=main"><i class="bx bxs-dashboard"></i> Dashboard</a>
             </li>
             <li class="nav-item">
                 <a href="?page=job"><i class='bx bx-task'></i> Job Posting</a>
             </li>
             <li class="nav-item">
                 <a href="?page=application"><i class='bx bx-pen'></i> Manage Application</a>
+            </li>
+            <li class="nav-item">
+                <a href="?page=me"><i class='bx bx-user-voice'></i> My Company</a>
             </li>
             <li class="nav-item logout-box">
                 <a href="../../includes/logout.php"><i class='bx bx-log-out'></i> Log Out</a>
@@ -48,7 +58,9 @@ require_once '../../includes/session.php';
         include("job_posting.php");
     } else if ($currentPage === "application") {
         include("manage_application.php");
-    }
+    } else if ($currentPage === "me") {
+        include("manage_myself.php");
+    } 
     ?>
 
 </body>
