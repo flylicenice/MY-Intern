@@ -2,7 +2,11 @@ $(document).ready(function () {
     linkActive();
     printDoc();
     handleELogUpload();
+    handleApplyJob();
+    showJobDetailsPanel();
 });
+
+
 
 function linkActive() {
     const currentPath = window.location.pathname;
@@ -55,5 +59,70 @@ function handleELogUpload()
         },
         });
    });
+}
+
+function showJobDetailsPanel() {
+    $(document).on("click", ".job-posting-card", function(e) {
+        if ($(e.target).hasClass('apply-now-btn')) return;
+
+        const title = $(this).find('.job-posting-title').text();
+        const company = $(this).find('.company-name-text').text();
+        const location = $(this).find('.job-location-text').text();
+        const allowance = $(this).find('.job-salary-text').text();
+        const jobId = $(this).find('.apply-now-btn').data('jobid');
+
+        $('#panel-title').text(title);
+        $('#panel-company').text(company);
+        $('#panel-location').text(location);
+        $('#panel-allowance').text(allowance);
+        
+        $('#panel-apply-btn').attr('data-jobid', jobId); 
+        
+        $("#detailsPanel").show();
+    });
+
+    $(document).off('click', '#panel-apply-btn').on('click', '#panel-apply-btn', function(e) {
+        e.preventDefault();
+        const jobId = $(this).attr('data-jobid');
+        
+        console.log("Attempting to apply for ID:", jobId); // CHECK THIS IN CONSOLE!
+
+        $.post('/MYIntern/pages/student/process_apply.php', { job_id: jobId }, function(response) {
+            if (response.status === 'success') {
+                alert('Success: ' + response.message);
+                window.location.reload();
+            } else {
+                alert('Error: ' + response.message);
+            }
+        }, 'json').fail(function(xhr) {
+            console.error(xhr.responseText);
+            alert("Server Error! Check Console (F12).");
+        });
+    });
+}
+
+function handleApplyJob() {
+    $(document).on('click', '.apply-now-btn', function(e) {
+        e.preventDefault();
+        const jobId = $(this).data('jobid');
+        
+        $.ajax({
+            url: '/MYIntern/pages/student/process_apply.php',
+            type: 'POST',
+            data: { job_id: jobId },
+            dataType: 'json',
+            success: function(data) {
+                if(data.status === 'success') { 
+                    alert(data.message);
+                    location.reload(); 
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            },
+            error: function() {
+                alert('Application transmission failed.');
+            }
+        });
+    });
 }
 

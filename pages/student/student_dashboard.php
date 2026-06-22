@@ -1,13 +1,34 @@
 <?php
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
-
+session_start();
 include_once(dirname(__DIR__, 2) . "/includes/db.php");
-
 $user_choice = $_GET['page'] ?? 'application';
+
+if (isset($_SESSION['user_id'])) {
+    $user_id = $_SESSION['user_id'];
+    
+    $student_stmt = $conn->prepare("SELECT matric_number 
+                                    FROM student 
+                                    WHERE user_id = ?");
+    $student_stmt->bind_param("i", $user_id);
+    $student_stmt->execute();
+    $matric_res = $student_stmt->get_result()->fetch_assoc();
+    
+    if ($matric_res) {
+        $matric = $matric_res['matric_number'];
+        
+        $sql = "SELECT j.title, c.name as company_name, a.application_status 
+                FROM job_application a
+                JOIN job_vacancy j ON a.job_id = j.job_id
+                JOIN company c ON j.company_id = c.company_id
+                WHERE a.matric_number = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $matric);
+        $stmt->execute();
+        $apps_result = $stmt->get_result();
+    }
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,7 +41,6 @@ $user_choice = $_GET['page'] ?? 'application';
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/MYIntern/css/style.css">
-    <script src="/MYIntern/js/script.js"></script>
     <script src="/MYIntern/js/chart.js"></script>
     <script src="/MYIntern/js/student.js"></script>
     <title>MYIntern | Student Dashboard</title>
