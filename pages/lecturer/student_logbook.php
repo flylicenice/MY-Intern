@@ -1,3 +1,61 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// 1. Establish Database Connection
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "my-intern"; 
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// 2. Initialize counters object array for the chart buttons
+$status_counts = [
+    'Placed' => 0,
+    'Still Applying' => 0,
+    'Not Applying' => 0
+];
+
+// 3. Query to fetch total count dynamics from 'student' table
+$count_sql = "SELECT intern_status, COUNT(*) as total FROM student GROUP BY intern_status";
+$count_result = $conn->query($count_sql);
+
+$total_students = 0;
+if ($count_result && $count_result->num_rows > 0) {
+    while ($c_row = $count_result->fetch_assoc()) {
+        $status_raw = strtolower(trim($c_row['intern_status']));
+        
+        // Map database string variations safely to match UI components
+        if ($status_raw === 'active' || $status_raw === 'placed') {
+            $status_counts['Placed'] += $c_row['total'];
+        } elseif ($status_raw === 'still applying') {
+            $status_counts['Still Applying'] += $c_row['total'];
+        } else {
+            // 'inactive' or 'not applying'
+            $status_counts['Not Applying'] += $c_row['total'];
+        }
+        $total_students += $c_row['total'];
+    }
+}
+
+// 4. Fetch all student records to populate the main table rows
+$table_sql = "SELECT 
+                matric_number, 
+                full_name, 
+                course, 
+                intern_status,
+                -- Left join placement details safely if data exists, otherwise fallback
+                IFNULL((SELECT p.status FROM placement p WHERE p.application_id = student.matric_number LIMIT 1), 'No Applications Generated') AS placement_details
+              FROM student";
+              
+$table_result = $conn->query($table_sql);
+?>
 <main class="dashboard-container">
     <section class="data-table-section">
     <div class="table-header-flex" style="margin-bottom: 1.5rem;">
