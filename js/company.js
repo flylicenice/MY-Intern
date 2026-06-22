@@ -87,7 +87,6 @@ function closeJobPosting(buttonElement, jobId) {
 
     if (confirm("Are you sure you want to close this posting?")) {
 
-        // Disable button instantly to prevent double-clicking
         btn.prop('disabled', true).text('Processing...');
 
         $.ajax({

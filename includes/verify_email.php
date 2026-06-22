@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../includes/db.php';
+require_once ('db.php');
 
 if (isset($_GET['code']) && isset($_GET['email'])) {
     $code = trim($_GET['code']);

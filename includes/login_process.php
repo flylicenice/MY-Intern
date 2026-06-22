@@ -1,5 +1,4 @@
 <?php
-header('Content-Type: application/json');
 session_start();
 require_once __DIR__ . '/../includes/db.php';
 
@@ -9,10 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_login'])) {
     $password = $_POST['password'] ?? '';
 
     if (!$email || empty($password)) {
-        echo json_encode([
-            "status" => "error",
-            "message" => "Please try again."
-        ]);
+        header('Location: ../pages/login.php?error=empty_field');
         exit();
     }
 
@@ -42,13 +38,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_login'])) {
                 $redirect_target = '../index.php';
 
                 if ($user['role'] === 'Student') {
-                    $profile_stmt = $conn->prepare("SELECT full_name FROM student WHERE user_id = ? LIMIT 1");
+                    $profile_stmt = $conn->prepare("SELECT full_name, matric_number FROM student WHERE user_id = ? LIMIT 1");
                     $profile_stmt->bind_param("i", $user['user_id']);
                     $profile_stmt->execute();
                     $profile = $profile_stmt->get_result()->fetch_assoc();
 
                     $display_name = $profile['full_name'] ?? 'Student';
                     $redirect_target = '../index.php';
+                    $_SESSION['matric_number'] = $profile['matric_number'];
                 } elseif ($user['role'] === 'Lecturer') {
                     $profile_stmt = $conn->prepare("SELECT full_name FROM lecturer WHERE user_id = ? LIMIT 1");
                     $profile_stmt->bind_param("i", $user['user_id']);

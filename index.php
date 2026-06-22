@@ -1,8 +1,10 @@
 <?php
 
-if (session_status() === "PHP_SESSION_NONE") {
+if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+
+require_once("includes/db.php");
 
 ?>
 
@@ -18,9 +20,9 @@ if (session_status() === "PHP_SESSION_NONE") {
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/4d8d735e30.js" crossorigin="anonymous"></script>
     <link href="assets/logo.svg" type="image/svg+xml" rel="icon">
+    <script src="js/student.js"></script>
     <script src="js/script.js"></script>
     <link rel="stylesheet" href="css/style.css">
-
     <title>MYIntern | Home</title>
 </head>
 
@@ -33,7 +35,6 @@ if (session_status() === "PHP_SESSION_NONE") {
         include("includes/header_guest.php");
     }
     ?>
-
 
     <main class="wrapper">
         <div id="search-bar-container">

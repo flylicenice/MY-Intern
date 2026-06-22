@@ -1,5 +1,5 @@
 <?php
-require_once '../../includes/session.php';
+
 require_once '../../includes/db.php';
 
 $total_students = 0;
@@ -18,7 +18,6 @@ if ($metric_result) {
         } elseif ($status === 'Still Applying') {
             $status_counts['Still Applying'] = $count;
         } elseif ($status === 'Not Applying' || $status === 'Inactive') {
-            // Safe fallback to intercept both string variations seamlessly!
             $status_counts['Not Applying'] += $count;
         }
         $total_students += $count;

@@ -1,19 +1,22 @@
 <?php
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
+
+session_start();
+
+if (!isset($_SESSION['user_id'])) {
+    header("Location: ../login.php");
+    exit();
 }
 
-include_once(dirname(__DIR__, 2) . "/includes/db.php");
-$db_conn = $conn ?? $db ?? $connect;
+require_once("../../includes/db.php");
 
 $user_id = $_SESSION['user_id'] ?? $_SESSION['student_id'] ?? 1;
 $week = $_GET['week'] ?? 1;          
 $student = ['full_name' => 'Student', 'matric_number' => 'N/A', 'course' => 'N/A'];
 $message = "";
 
-if (isset($db_conn)) {
+if (isset($conn)) {
     try {
-        $student_stmt = $db_conn->prepare("SELECT full_name, matric_number, course FROM student WHERE user_id = ? LIMIT 1");
+        $student_stmt = $conn->prepare("SELECT full_name, matric_number, course FROM student WHERE user_id = ? LIMIT 1");
         $student_stmt->bind_param("i", $user_id);
         $student_stmt->execute();
         $res = $student_stmt->get_result()->fetch_assoc();
@@ -31,7 +34,7 @@ if (isset($db_conn)) {
                             JOIN job_application ja ON p.application_id = ja.application_id
                             JOIN student s ON ja.matric_number = s.matric_number
                             WHERE s.user_id = ? LIMIT 1";
-        $placement_stmt = $db_conn->prepare($placement_query);
+        $placement_stmt = $conn->prepare($placement_query);
         $placement_stmt->bind_param("i", $user_id);
         $placement_stmt->execute();
         $placement_res = $placement_stmt->get_result()->fetch_assoc();
@@ -73,7 +76,7 @@ if (isset($db_conn)) {
                                  VALUES (?, ?, ?, NOW())
                                  ON DUPLICATE KEY UPDATE logbook = VALUES(logbook), submitted_at = NOW()";
                      
-                $insert_stmt = $db_conn->prepare($action_query);     
+                $insert_stmt = $conn->prepare($action_query);     
                 $insert_stmt->bind_param("isi", $week, $new_filename, $real_placement_id);
                 
                 if ($insert_stmt->execute()) {

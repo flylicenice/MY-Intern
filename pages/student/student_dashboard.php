@@ -1,13 +1,16 @@
 <?php
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
+
+session_start();
+
+if (!isset($_SESSION['user_id'])) {
+    header('Location: ../login.php');
+    exit();
 }
 
-
-include_once(dirname(__DIR__, 2) . "/includes/db.php");
-
 $user_choice = $_GET['page'] ?? 'application';
+
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,10 +22,9 @@ $user_choice = $_GET['page'] ?? 'application';
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/MYIntern/css/style.css">
-    <script src="/MYIntern/js/script.js"></script>
-    <script src="/MYIntern/js/chart.js"></script>
-    <script src="/MYIntern/js/student.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="../../css/style.css">
+    <script src="../../js/student.js"></script>
     <title>MYIntern | Student Dashboard</title>
 </head>
 
@@ -39,8 +41,6 @@ $user_choice = $_GET['page'] ?? 'application';
         </div>
     </div>
 
-    
-
     <main class="main-area">
         <?php
         if (isset($user_choice) && $user_choice === "application") {
@@ -52,9 +52,9 @@ $user_choice = $_GET['page'] ?? 'application';
         }
         ?>
     </main>
-    <?php
-    include("../../includes/footer.php");
-    ?>
+
+    <?php include("../../includes/footer.php"); ?>
+
 </body>
 
 </html>

@@ -34,3 +34,5 @@ $course = $result["course"];
 $phoneNo = $result["phone_number"];
 $internStatus = $result["intern_status"];
 $email = $result["email"];
+
+?>
