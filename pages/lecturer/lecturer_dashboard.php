@@ -106,6 +106,7 @@ $logbook_result = $stmt->get_result();
     <link href='../../css/unistyle.css' rel="stylesheet">
 </head>
 
+<!-- lecturer_dashboard.php -->
 <body>
 
     <aside class="sidebar" id="lecturer-sidebar">
@@ -124,17 +125,23 @@ $logbook_result = $stmt->get_result();
             </li>
         </ul>
     </aside>
+    </aside>
 
-    <div class="dashboard-container">
-        <?php
-        $currentPage = $_GET['page'] ?? "main";
-        if ($currentPage === "main") {
-            include("lecturer_stats.php");
-        } elseif ($currentPage === "logbook") {
-            include("student_logbook.php");
-        }
-        ?>
-    </div>
+    <!-- START: The centering container -->
+    <section class="review-logbook-section" style="max-width: 1100px; margin: 0 auto; padding: 2rem 1rem;">
+        
+        <div class="dashboard-app-content">
+            <?php
+            $currentPage = $_GET['page'] ?? "main";
+            if ($currentPage === "main") {
+                include("lecturer_stats.php");
+            } elseif ($currentPage === "logbook") {
+                include("student_logbook.php");
+            }
+            ?>
+        </div>
 
+    </section>
+    <!-- END: The centering container -->
 </body>
 </html>
