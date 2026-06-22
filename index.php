@@ -4,7 +4,7 @@ session_start();
 
 require_once("includes/db.php");
 
-$sql = "SELECT j.*, c.company_name as company_name, c.profile_pic 
+$sql = "SELECT j.*, c.company_name as company_name
         FROM job_vacancy j 
         JOIN company c ON j.company_id = c.company_id
         WHERE j.status = 'active'";
@@ -12,7 +12,7 @@ $sql = "SELECT j.*, c.company_name as company_name, c.profile_pic
 try {
     $result = $conn->query($sql);
 } catch (Exception $e) {
-    header("Location: includes/error.php?error=system_failure");
+    header("Location: includes/error.php?error=hello");
     exit();
 }
 
@@ -68,9 +68,6 @@ try {
                 $job_id = $job['job_id'];
         ?>
                 <div class="job-posting-card">
-                    <div class="company-logo-container">
-                        <img src="assets/default-user.svg" alt="Company Logo" class="company-logo-img">
-                    </div>
                     <div class="job-details-container">
                         <h3 class="job-posting-title"><?php echo $title; ?></h3>
                         <p class="company-name-text"><?php echo $company; ?></p>

@@ -21,12 +21,11 @@ try {
     COUNT(CASE WHEN LOWER(ja.application_status) = 'rejected' THEN 1 END) AS rejected_count,
     COUNT(ja.application_id) AS total_applications
     FROM job_application ja
-    INNER JOIN job_vacancy j ON ja.job_id = j.job_id
-    INNER JOIN company c ON j.company_id = c.company_id
-    WHERE c.company_id = ?";
+    INNER JOIN student s ON ja.matric_number = s.matric_number
+    WHERE s.matric_number = ?";
 
     $stmt = $conn->prepare($query);
-    $stmt->bind_param('i', $_SESSION['company_id']);
+    $stmt->bind_param('s', $_SESSION['matric_number']);
     $stmt->execute();
     $result = $stmt->get_result();
 
@@ -46,8 +45,6 @@ try {
             "pending" => $pending,
             "viewed" => $viewed,
             "offered" => $offered,
-            "approved" => $approved,
-            "rejected" => $rejected
         ]
     ]);
 } catch (Exception $e) {

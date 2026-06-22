@@ -80,7 +80,7 @@ if ($placement_res && $placement_res->num_rows > 0) {
     <title>MYIntern | Review Logbook</title>
 </head>
 <body class="center-center">
-    <section class="review-logbook-section">
+    <section class="review-logbook-section" style="overflow: auto;">
     
     <div class="student-context-banner">
         <div class="student-profile-meta">

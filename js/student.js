@@ -9,6 +9,7 @@ $(document).ready(function () {
     redirectUser();
     drawCharts();
     updateProfile();
+    handleProfilePicPreview();
 });
 
 function loadingAnimation() {
@@ -186,18 +187,21 @@ function drawCharts() {
     const studentApplicationChart = $("#studentApplicationChart")[0];
 
     $.ajax({
-        url: "includes/get_student_application_chart_data.php",
+        url: "/MYIntern/includes/get_student_application_data.php",
         dataType: "json",
         success: function (response) {
             if (response.status === "success") {
+                var pending = response.data.pending;
+                var viewed = response.data.viewed;
+                var offered = response.data.offered;
                 if (studentApplicationChart) {
                     new Chart(studentApplicationChart, {
                         type: "bar",
                         data: {
-                            labels: ['Viewed', 'Approved', 'Rejected'],
+                            labels: ['Pending', 'Viewed', 'Offered'],
                             datasets: [{
                                 label: 'Applied Jobs',
-                                data: [10, 20, 5],
+                                data: [ pending, viewed, offered ],
                                 backgroundColor: ['rgba(255, 99, 132, 0.2)', 'rgba(255, 159, 64, 0.2)', 'rgba(255, 205, 86, 0.2)'],
                                 borderColor: ['rgba(255, 99, 132)', 'rgba(255, 159, 64)', 'rgba(255, 205, 86)'],
                                 borderWidth: 1
@@ -244,6 +248,35 @@ function updateProfile() {
                     alert("System Error: Failed to transmit application approval request.");
                 }
             });
+        }
+    });
+}
+
+function handleProfilePicPreview() {
+    $("#profilePicInput").on("change", function() {
+        const file = this.files[0];
+        if (file) {
+            // 1. Client-side MIME validation matching backend boundaries
+            const validTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+            if (!validTypes.includes(file.type)) {
+                alert("⚠️ Invalid file format. Please upload a JPG, JPEG, or PNG image template.");
+                this.value = ''; // Flush selection allocation
+                return;
+            }
+
+            // 2. Client-side size validation tracking (2MB max allocation ceiling)
+            if (file.size > 2 * 1024 * 1024) {
+                alert("⚠️ Picture limit exceeded. Max 2MB image profiles allowed.");
+                this.value = '';
+                return;
+            }
+
+            // 3. Convert image stream to update layout element instantly
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                $("#avatar-preview").attr("src", e.target.result);
+            };
+            reader.readAsDataURL(file);
         }
     });
 }

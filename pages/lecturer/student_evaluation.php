@@ -66,30 +66,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['evaluation_document'
         } else {
             // Convert file content into a binary data block stream
             $binary_file_data = file_get_contents($file['tmp_name']);
-            
-            // Check if this student already has an evaluation uploaded previously
-            $check_sql = "SELECT placement_id FROM evaluation WHERE placement_id = ?";
-            $check_stmt = $conn->prepare($check_sql);
-            $check_stmt->bind_param("i", $placement_id);
-            $check_stmt->execute();
-            $check_res = $check_stmt->get_result();
-            
-            if ($check_res->num_rows > 0) {
-                // Update existing row entry
-                $save_sql = "UPDATE evaluation SET evaluation_file = ?, uploaded_at = NOW() WHERE placement_id = ?";
+
+                $save_sql = "UPDATE evaluation SET evaluation_file = ?, uploaded_at = NOW() WHERE matric_number = ?";
                 $stmt = $conn->prepare($save_sql);
                 $null = null;
                 $stmt->bind_param("bi", $null, $placement_id);
                 $stmt->send_long_data(0, $binary_file_data);
-            } else {
-                // Insert fresh new row record
-                $save_sql = "INSERT INTO evaluation (placement_id, evaluation_file, uploaded_at) VALUES (?, ?, NOW())";
-                $stmt = $conn->prepare($save_sql);
-                $null = null;
-                $stmt->bind_param("ib", $placement_id, $null);
-                $stmt->send_long_data(1, $binary_file_data);
-            }
-            
+
             if ($stmt->execute()) {
                 $msg_status = "success";
                 $msg_text = "Assessment document uploaded and locked into the system successfully!";

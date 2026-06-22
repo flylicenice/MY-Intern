@@ -64,7 +64,6 @@ try {
                     <th>ALLOWANCE</th>
                     <th>STATUS</th>
                     <th>ACTION</th>
-                    <th>DETAILS</th>
                 </tr>
             </thead>
             <tbody>
@@ -93,9 +92,6 @@ try {
                                     <button class="action-btn btn-approve">Accept</button>
                                 </td>
                             <?php endif; ?>
-                            <td>
-                                <button class="action-btn btn-view">View</button>
-                            </td>
                         </tr>
                     <?php endwhile; ?>
 
@@ -111,36 +107,3 @@ try {
     </div>
 </section>
 
-<div class="job-details-panel">
-    <div class="profile-avatar">
-        <img src="assets/default-user.svg" alt="profile-pic" height=40px width=40px>
-    </div>
-
-    <div class="details-container">
-        <div></div>
-        <p class="job-posting-title"><?php echo $row['title']; ?></p>
-
-        <div class="job-posting-details">
-            <p>Google Sdn. Bhd.</p>
-            <p>Location: Selangor</p>
-            <p>Allowance: RM 1000 - RM 1500 per month</p>
-            <p>Posted a month ago</p>
-        </div>
-    </div>
-
-    <button class="submit-btn apply-now-btn" data-job-id="1">Apply Now</button>
-
-    <div class="job-posting-description">
-        <p><?php $i = 0;
-            while ($i < 50) {
-                echo "This is the description and we love it";
-                $i++;
-            } ?></p>
-    </div>
-
-    <button class="action-btn" id="closeDetailsBtn" type="button">&times; </button>
-
-    <div class="job-company-block">
-
-    </div>
-</div>

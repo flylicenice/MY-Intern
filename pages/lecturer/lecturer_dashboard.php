@@ -31,12 +31,12 @@ $table_query = "
         s.course, 
         s.intern_status,
         CASE 
-            WHEN s.intern_status = 'Placed' THEN (
+            WHEN s.intern_status = 'active' THEN (
                 SELECT c.company_name 
                 FROM job_application ja
                 JOIN job_vacancy jv ON ja.job_id = jv.job_id
                 JOIN company c ON jv.company_id = c.company_id
-                WHERE ja.matric_number = s.matric_number AND ja.application_status = 'Approved'
+                WHERE ja.matric_number = s.matric_number AND ja.application_status = 'placed'
                 LIMIT 1
             )
             WHEN s.intern_status = 'Still Applying' THEN (
@@ -125,8 +125,7 @@ $logbook_result = $stmt->get_result();
         </ul>
     </aside>
 
-<!-- Main Content Presentation Layer -->
-    <div class="dashboard-app-content">
+    <div class="dashboard-container">
         <?php
         $currentPage = $_GET['page'] ?? "main";
         if ($currentPage === "main") {

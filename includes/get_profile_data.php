@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 require_once("db.php");
 
 try {
@@ -10,6 +10,7 @@ try {
     s.course,
     s.phone_number,
     s.intern_status,
+    s.resume,
     u.email
     FROM user u
     INNER JOIN student s ON u.user_id = s.user_id
@@ -34,5 +35,4 @@ $course = $result["course"];
 $phoneNo = $result["phone_number"];
 $internStatus = $result["intern_status"];
 $email = $result["email"];
-
 ?>

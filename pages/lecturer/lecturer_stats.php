@@ -96,11 +96,8 @@
     </table>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-    // 1. Initialise the Doughnut Chart Layout
     const ctx = document.getElementById('statusDoughnutChart');
     if (ctx) {
         new Chart(ctx, {
@@ -135,7 +132,6 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-    // 2. Setup Filter Buttons & Instant Search Bar Logic Components
     const filterButtons = document.querySelectorAll(".filter-btn");
     const searchInput = document.getElementById("studentSearchInput");
     const tableRows = document.querySelectorAll(".student-row");
@@ -148,9 +144,7 @@ document.addEventListener("DOMContentLoaded", function() {
             const studentStatus = row.getAttribute("data-status");
             const rowText = row.textContent.toLowerCase();
 
-            // Check if row matches current active filter button
             const matchesFilter = (currentFilter === "all" || studentStatus === currentFilter);
-            // Check if row matches typed search string field keywords
             const matchesSearch = rowText.includes(searchText);
 
             if (matchesFilter && matchesSearch) {
@@ -161,7 +155,6 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-    // Assign click logic to tab buttons
     filterButtons.forEach(button => {
         button.addEventListener("click", function() {
             filterButtons.forEach(btn => {
@@ -179,7 +172,6 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 
-    // Assign keyup logic for typing into search field
     if (searchInput) {
         searchInput.addEventListener("keyup", filterTable);
     }

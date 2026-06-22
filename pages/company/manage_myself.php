@@ -19,9 +19,7 @@ $query = "SELECT
     c.postal_code,
     c.city,
     c.at_state,
-    c.overall_rating,
-    c.verification_status,
-    c.profile_pic
+    c.verification_status
 FROM company c
 INNER JOIN user u ON c.user_id = u.user_id
 WHERE c.company_id = ?";
@@ -56,23 +54,6 @@ try {
     <div class="modal-box" style="max-width: 90%; margin-top: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);">
 
         <form id="companyProfileForm" enctype="multipart/form-data">
-
-            <div class="image-upload-wrapper">
-                <?php
-                if (!empty($row['profile_pic'])) {
-                    $imgSrc = 'data:image/jpeg;base64,' . base64_encode($row['profile_pic']);
-                } else {
-                    $imgSrc = '../../assets/default-user.svg';
-                }
-                ?>
-                <img id="avatarPreview" src="<?php echo $imgSrc; ?>" class="preview-box" alt="Company Logo Preview">
-
-                <div class="upload-btn-placeholder">
-                    <i class='bx bx-camera'></i> Change Logo
-                    <input type="file" id="profilePicInput" name="profile_pic" accept="image/png, image/jpeg, image/jpg">
-                </div>
-                <small style="color: #718096; font-size: 0.75rem;">Accepts PNG, JPG or JPEG. Max size 2MB.</small>
-            </div>
 
             <div class="form-row-dual">
                 <div class="form-group">

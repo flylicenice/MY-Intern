@@ -122,7 +122,7 @@ try {
                                         <button type="button"
                                             onclick="approveApplication(this, <?php echo $row['application_id']; ?>, '<?php echo $row['matric_number']; ?>');"
                                             class="btn-micro-approve">
-                                            Approve
+                                            Offer
                                         </button>
 
                                     <?php else: ?>

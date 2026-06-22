@@ -1,5 +1,10 @@
 <?php
+session_start();
 
+if (!isset($_SESSION['matric_number'])) {
+    header("Location: login.php");
+    exit();
+}
 include("../includes/get_profile_data.php");
 
 ?>
@@ -23,15 +28,6 @@ include("../includes/get_profile_data.php");
     <?php include("../includes/header_user.php") ?>
 
     <div class="blue-container" id="about-container">
-        <div class="square-profile-container">
-            <div class="profile-pic-wrapper">
-                <img id="avatar-preview" src="../assets/default-user.svg" alt="profile-pic" width="96" height="96" />
-                <div class="profile-pic-hover-overlay" onclick="document.getElementById('profilePicInput').click();">
-                    <i class='bx bx-camera'></i>
-                    <span>Change Pic</span>
-                </div>
-            </div>
-        </div>
     </div>
 
     <main class="main-area">
@@ -68,15 +64,37 @@ include("../includes/get_profile_data.php");
 
             <div class="form-group">
                 <label class="form-label">Your Resume</label>
-                <div class="upload-dropzone" id="dropzone">
+
+                <?php if (isset($_SESSION['has_resume']) && $_SESSION['has_resume'] == 1): ?>
+                    <div class="resume-status-badge" style="margin-bottom: 12px; padding: 12px; background-color: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 6px; display: flex; align-items: center; justify-content: space-between;">
+                        <span style="color: #166534; font-size: 0.85rem; font-weight: 600; display: flex; align-items: center; gap: 6px;">
+                            <i class='bx bx-check-shield' style="font-size: 1.1rem;"></i> Resume Document Attached
+                        </span>
+                        <a href="../includes/view_resume.php" target="_blank" class="teal-action-btn" style="padding: 6px 14px; font-size: 0.8rem; text-decoration: none; border-radius: 4px;">
+                            View Document
+                        </a>
+                    </div>
+                <?php endif; ?>
+
+                <div class="upload-dropzone" id="dropzone" onclick="document.getElementById('fileInput').click();" style="cursor: pointer;">
                     <i class='bx bxs-file-blank'></i>
-                    <p>Drag & Drop your file here or <strong>Browse files</strong></p>
+                    <p>
+                        <?php if (isset($_SESSION['has_resume']) && $_SESSION['has_resume'] == 1): ?>
+                            Drag & Drop to <strong>Replace your file</strong> or Browse
+                        <?php else: ?>
+                            Drag & Drop your file here or <strong>Browse files</strong>
+                        <?php endif; ?>
+                    </p>
                     <span style="font-size: 0.75rem; color: var(--text-muted); display:block; margin-top:4px;">Max file size: 5MB (PDF, DOCX)</span>
 
-                    <input type="file" name="resume_file" class="hidden-file-input" id="fileInput" accept=".pdf,.doc,.docx" required>
+                    <input type="file" name="resume_file" class="hidden-file-input" id="fileInput" accept=".pdf,.doc,.docx" style="display: none;"
+                        <?php echo (!isset($_SESSION['has_resume']) || $_SESSION['has_resume'] == 0) ? 'required' : ''; ?>>
                 </div>
-                <div class="file-selected-name" id="fileSelectedName">
-                    <i class='bx bx-check-double'></i> Selected File: <span id="fileNameSpan"></span>
+
+                <div class="file-selected-name" id="fileSelectedName" style="display: none; margin-top: 8px;">
+                    <span style="color: #111e4b; font-size: 0.85rem; font-weight: 500;">
+                        <i class='bx bx-check-double'></i> Selected New File: <span id="fileNameSpan" style="font-weight: 600;"></span>
+                    </span>
                 </div>
             </div>
 
