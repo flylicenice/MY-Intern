@@ -19,9 +19,9 @@ $(document).ready(function () {
                                 label: 'Intern Status',
                                 data: [applyingCount, notApplyingCount, placedCount],
                                 backgroundColor: [
-                                    '#1e295d', // Still Applying (Dark Blue)
-                                    '#c2d468', // Not Applying (Yellow-Green)
-                                    '#b2bec3'  // Placed (Silver Gray)
+                        '#FFC107', // Still Applying -> Deep, High-Contrast Amber Yellow
+                        '#D32F2F', // Not Applying   -> Harsh Crimson Warning Red!
+                        '#2E7D32'  // Placed         -> Deep, Solid Dark Green
                                 ],
                             }]
                         },
@@ -95,6 +95,37 @@ $(document).ready(function () {
         } else {
             $(this).hide();
         }
+    });
+
+    $(document).on('click', '.send-alert-btn', function(e) {
+        e.preventDefault();
+        
+        const button = $(this);
+        const matricNumber = button.data('id');
+        const originalText = button.text();
+
+        // Visual feedback to the user
+        button.text('Sending...').prop('disabled', true);
+
+        $.ajax({
+            url: 'send_alert.php',
+            type: 'POST',
+            data: { matric_number: matricNumber },
+            dataType: 'json',
+            success: function(response) {
+                if (response.status === 'success') {
+                    button.text('Sent').css('background-color', '#2dbfa4');
+                } else {
+                    alert("Error: " + response.message);
+                    button.text(originalText).prop('disabled', false);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("AJAX Error:", status, error);
+                alert("Failed to connect to the server. Please check your network.");
+                button.text(originalText).prop('disabled', false);
+            }
+        });
     });
 };
 

@@ -1,7 +1,3 @@
-<!-- lecturer_stats.php -->
-
-<!-- No need for extra sections here if using the wrapper in the main file -->
-
 <div class="dashboard-header-section" style="margin-bottom: 2rem;">
     <h2 class="table-title">All Students</h2>
     <p class="total-counter-subtitle" style="color: #64748b; font-size: 14px; margin-top: 4px;">
@@ -17,7 +13,7 @@
         <canvas id="statusDoughnutChart"></canvas> 
     </div>
 
-    <!-- ... rest of your filter buttons, search, and table ... -->
+
 </div>
 
 <div class="filter-buttons-container" style="margin: 1.5rem 0; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; width: 100%;">
@@ -82,9 +78,13 @@
 
                     <td style="text-align: right; padding: 16px 12px;">
                         <?php if ($row_status === 'not-applying'): ?>
-                            <a href="send_alert.php?id=<?php echo urlencode($row['matric_number']); ?>" style="background-color: #e05638; color: white; text-decoration: none; padding: 8px 16px; border-radius: 4px; font-weight: 500; display: inline-block; font-size: 12px;">
-                                Send Alert Email
-                            </a>
+                            <!-- Changed to a button for AJAX -->
+<button type="button" 
+        class="send-alert-btn" 
+        data-id="<?php echo htmlspecialchars($row['matric_number']); ?>"
+        style="background-color: #dc3545; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer;">
+    Send Alert Email
+</button>
                         <?php else: ?>
                             <a href="view_student_profile.php?student_id=<?php echo urlencode($row['matric_number']); ?>" style="background-color: #2dbfa4; color: white; text-decoration: none; padding: 8px 16px; border-radius: 4px; font-weight: 500; display: inline-block; font-size: 12px;">
                                 View Profile
@@ -168,6 +168,38 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
     }
+    document.querySelectorAll(".send-alert-btn").forEach(button => {
+        button.addEventListener("click", function() {
+            const matricNumber = this.getAttribute("data-id");
+            const originalText = this.innerText;
+
+            this.innerText = "Sending...";
+            this.disabled = true;
+
+            fetch('send_alert.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: 'matric_number=' + encodeURIComponent(matricNumber)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    this.innerText = "Sent";
+                    this.style.backgroundColor = "#2dbfa4";
+                } else {
+                    alert("Error: " + data.message);
+                    this.innerText = originalText;
+                    this.disabled = false;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert("Failed to send email.");
+                this.innerText = originalText;
+                this.disabled = false;
+            });
+        });
+    });
 
     // Assign click logic to tab buttons
     filterButtons.forEach(button => {

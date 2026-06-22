@@ -31,7 +31,7 @@ $table_query = "
         s.course, 
         s.intern_status,
         CASE 
-            WHEN s.intern_status = 'Placed' THEN (
+            WHEN s.intern_status = 'active' THEN (
                 SELECT c.company_name 
                 FROM job_application ja
                 JOIN job_vacancy jv ON ja.job_id = jv.job_id
