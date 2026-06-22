@@ -1,15 +1,23 @@
-<div class="dashboard-header-section" style="margin-bottom: 2rem; width: 100%;">
+<!-- lecturer_stats.php -->
+
+<!-- No need for extra sections here if using the wrapper in the main file -->
+
+<div class="dashboard-header-section" style="margin-bottom: 2rem;">
     <h2 class="table-title">All Students</h2>
     <p class="total-counter-subtitle" style="color: #64748b; font-size: 14px; margin-top: 4px;">
         Total Students: <strong><?php echo $total_students; ?> Students</strong>
     </p>
 </div>
 
-<div class="metrics-charts-row" style="margin-bottom: 2rem; background: #fff; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0; width: 100%; box-sizing: border-box;">
+<!-- Card grouping: wrap your chart, filters, and table together -->
+<div class="content-card" style="background: #fff; padding: 24px; border-radius: 8px; border: 1px solid #e2e8f0;">
+    
     <h3 style="font-size: 16px; margin-bottom: 1rem; color: #1e293b;">Application Status Overview</h3>
-    <div style="width: 100%; height: 260px; position: relative; margin: 0 auto;">
+    <div style="width: 100%; height: 260px; position: relative; margin-bottom: 2rem;">
         <canvas id="statusDoughnutChart"></canvas> 
     </div>
+
+    <!-- ... rest of your filter buttons, search, and table ... -->
 </div>
 
 <div class="filter-buttons-container" style="margin: 1.5rem 0; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; width: 100%;">
