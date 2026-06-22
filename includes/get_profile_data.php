@@ -10,6 +10,8 @@ try {
     s.course,
     s.phone_number,
     s.intern_status,
+    s.start_date,
+    s.end_date,
     s.resume,
     u.email
     FROM user u
@@ -28,11 +30,26 @@ try {
     $conn->close();
 }
 
-$name = $result["full_name"];
-$matricNo = $result["matric_number"];
-$IC = $result["identification_no"];
-$course = $result["course"];
-$phoneNo = $result["phone_number"];
-$internStatus = $result["intern_status"];
-$email = $result["email"];
+$name         = $result["full_name"] ?? '';
+$matricNo     = $result["matric_number"] ?? '';
+$IC           = $result["identification_no"] ?? '';
+$course       = $result["course"] ?? '';
+$phoneNo      = $result["phone_number"] ?? '';
+$internStatus = $result["intern_status"] ?? 'inactive';
+$email        = $result["email"] ?? '';
+$startDate    = $result["start_date"] ?? ''; 
+$endDate      = $result["end_date"] ?? '';   
+
+// ADDED: Process and pass the resume data
+$resumeBlob   = $result["resume"]; 
+
+// Dynamically check if the blob column contains binary data
+if (!empty($resumeBlob)) {
+    $_SESSION['has_resume'] = 1;
+    // Pass a safe tracking source variable down to your layout file
+    $hasResumeDocument = true;
+} else {
+    $_SESSION['has_resume'] = 0;
+    $hasResumeDocument = false;
+}
 ?>

@@ -1,7 +1,5 @@
 <?php
-
 session_start();
-
 require_once("includes/db.php");
 
 $sql = "SELECT j.*, c.company_name as company_name
@@ -16,6 +14,8 @@ try {
     exit();
 }
 
+// Check directly if the session status value is 'active'
+$is_active_intern = (isset($_SESSION['intern_status']) && strtolower($_SESSION['intern_status']) === 'active');
 ?>
 
 <!DOCTYPE html>
@@ -24,7 +24,8 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap" rel="stylesheet">
@@ -48,15 +49,11 @@ try {
         <div id="search-bar-container">
             <form class="search-container">
                 <input class="basic-textfield " id="job-search" type="search" placeholder="Search Jobs...">
-
-                <input class="basic-textfield" id="location-search" type="search" placeholder="Enter city or region">
-
-                <button class="teal-action-btn" id="go-btn" type="submit">GO</button>
             </form>
         </div>
     </main>
 
-    <div class="main-area" id="job-posting-area">
+    <div class="main-area" id="job-posting-area" style="overflow: auto;">
         <?php
         if ($result->num_rows > 0) {
             while ($job = $result->fetch_assoc()) {
@@ -73,9 +70,14 @@ try {
                         <p class="company-name-text"><?php echo $company; ?></p>
                         <p class="job-location-text"><?php echo $location; ?></p>
                         <p class="job-salary-text">RM <?php echo $allowance; ?> per month</p>
+                        <span class="job-desc-text" data-desc="<?php echo htmlspecialchars($desc, ENT_QUOTES, 'UTF-8'); ?>" style="display:none;"></span>
                     </div>
 
-                    <button class="teal-action-btn apply-now-btn" data-job-id="<?php echo $job_id; ?>">Apply</button>
+                    <button class="teal-action-btn apply-now-btn" 
+                            data-job-id="<?php echo $job_id; ?>" 
+                            <?php echo $is_active_intern ? 'disabled style="background-color: #a0aec0; cursor: not-allowed;"' : ''; ?>>
+                        <?php echo $is_active_intern ? 'Already Interning' : 'Apply'; ?>
+                    </button>
                 </div>
         <?php
             }
@@ -84,11 +86,6 @@ try {
         }
         ?>
     </div>
-
-    <div class="pagination-wrapper-container">
-        <p>Pages</p>
-    </div>
-
     <?php include("includes/footer.php"); ?>
 
     <?php if (isset($_SESSION['matric_number'])): ?>
@@ -98,30 +95,35 @@ try {
                 <p id="panel-company"></p>
                 <p id="panel-location"></p>
                 <p id="panel-allowance"></p>
-                <div class="job-posting-description" id="panel-description"></div>
+                <div class="job-posting-description" id="panel-description">
+                    <p id="panel-desc" style="white-space: pre-line;"></p>
+                </div>
 
-                <button class="teal-action-btn apply-now-btn" id="panel-apply-btn" data-job-id="" data-has-resume="<?php echo $_SESSION['has_resume']; ?>">Apply Now</button>
+                <button class="teal-action-btn apply-now-btn" 
+                        id="panel-apply-btn" 
+                        data-job-id="" 
+                        data-has-resume="<?php echo $_SESSION['has_resume']; ?>"
+                        <?php echo $is_active_intern ? 'disabled style="background-color: #a0aec0; cursor: not-allowed;"' : ''; ?>>
+                    <?php echo $is_active_intern ? 'Already Interning' : 'Apply Now'; ?>
+                </button>
                 <button class="action-btn" id="closeDetailsBtn" type="button">&times;</button>
             </div>
         </div>
     <?php else: ?>
         <div class="job-panel-overlay">
-            <div class="profile-container">
-                <img class="profile-avatar" src="">
-            </div>
             <div class="job-details-panel" id="detailsPanel">
                 <h3 id="panel-title"></h3>
                 <p id="panel-company"></p>
                 <p id="panel-location"></p>
                 <p id="panel-allowance"></p>
 
-                <div class="job-posting-description" id="panel-description"><?php echo $desc; ?></div>
+                <div class="job-posting-description" id="panel-description">
+                    <p id="panel-desc" style="white-space: pre-line;"></p>
+                </div>
                 <button type="submit" class="teal-action-btn apply-now-btn" id="btn-redirect">Apply Now</button>
                 <button class="action-btn" id="closeDetailsBtn" type="button">&times;</button>
             </div>
         </div>
-
     <?php endif; ?>
 </body>
-
 </html>

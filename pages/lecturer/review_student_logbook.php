@@ -14,8 +14,8 @@ if (empty($student_id)) {
 
 $student_id = mysqli_real_escape_string($conn, $student_id);
 
-// 2. Fetch student profile details dynamically
-$student_query = "SELECT matric_number, full_name, course FROM student WHERE matric_number = '$student_id' LIMIT 1";
+// 2. Fetch student profile details dynamically (INCLUDING START AND END DATES FROM STUDENT)
+$student_query = "SELECT matric_number, full_name, course, start_date, end_date FROM student WHERE matric_number = '$student_id' LIMIT 1";
 $student_res = $conn->query($student_query);
 
 if (!$student_res || $student_res->num_rows == 0) {
@@ -24,9 +24,13 @@ if (!$student_res || $student_res->num_rows == 0) {
 
 $student_info = $student_res->fetch_assoc();
 
-// 3. Locate the active placement record for this student
+// Set dates directly from the student info record
+$start_date = $student_info['start_date'];
+$end_date = $student_info['end_date'];
+
+// 3. Locate the active placement record to track logs
 $placement_query = "
-    SELECT p.placement_id 
+    SELECT p.placement_id
     FROM placement p
     INNER JOIN job_application ja ON p.application_id = ja.application_id
     WHERE ja.matric_number = '$student_id' AND p.status = 'Ongoing'
@@ -34,9 +38,31 @@ $placement_query = "
 ";
 $placement_res = $conn->query($placement_query);
 
-// Set up a structured 12-week layout array as the default base layout
+// Set a safe fallback default timeline length
+$total_weeks = 10; 
+$placement_id = null;
+
+if ($placement_res && $placement_res->num_rows > 0) {
+    $placement_row = $placement_res->fetch_assoc();
+    $placement_id = $placement_row['placement_id'];
+}
+
+// DYNAMIC TIMELINE CALCULATION (Using dates retrieved from student metadata)
+if (!empty($start_date) && !empty($end_date)) {
+    $date1 = new DateTime($start_date);
+    $date2 = new DateTime($end_date);
+    
+    $interval = $date1->diff($date2);
+    $calculated_weeks = ceil($interval->days / 7);
+
+    if ($calculated_weeks > 0) {
+        $total_weeks = $calculated_weeks;
+    }
+}
+
+// Initialize the array scale bounded dynamically to computed limits
 $weeklyLogs = [];
-for ($w = 1; $w <= 12; $w++) {
+for ($w = 1; $w <= $total_weeks; $w++) {
     $weeklyLogs[$w] = [
         'status' => 'Pending',
         'date' => '-',
@@ -44,23 +70,20 @@ for ($w = 1; $w <= 12; $w++) {
     ];
 }
 
-// 4. If an active placement exists, map out submitted logbook records
-if ($placement_res && $placement_res->num_rows > 0) {
-    $placement_row = $placement_res->fetch_assoc();
-    $placement_id = $placement_row['placement_id'];
-
+// 4. Map out submitted logbook records if a valid placement ID scope exists
+if (!empty($placement_id)) {
     $logbook_query = "SELECT logbook_id, week_number, submitted_at FROM logbook WHERE placement_id = '$placement_id'";
     $logbook_res = $conn->query($logbook_query);
 
     if ($logbook_res && $logbook_res->num_rows > 0) {
         while ($l_row = $logbook_res->fetch_assoc()) {
             $w_num = (int)$l_row['week_number'];
-            // If the row's week number falls inside our 1-12 range, update that week's status details
-            if ($w_num >= 1 && $w_num <= 12) {
+            // Dynamic Bounds Check against the variable week limit
+            if ($w_num >= 1 && $w_num <= $total_weeks) {
                 $weeklyLogs[$w_num] = [
                     'status' => 'Submitted',
                     'date' => date('d M Y', strtotime($l_row['submitted_at'])),
-                    'logbook_id' => $l_row['logbook_id'] // Passed to identify the specific file in your viewer
+                    'logbook_id' => $l_row['logbook_id']
                 ];
             }
         }
@@ -90,6 +113,12 @@ if ($placement_res && $placement_res->num_rows > 0) {
             <div>
                 <h2 class="assigned-student-name"><?php echo htmlspecialchars($student_info['full_name']); ?></h2>
                 <p class="assigned-student-sub">Matric ID: <span class="font-bold"><?php echo htmlspecialchars($student_info['matric_number']); ?></span> &bull; <?php echo htmlspecialchars($student_info['course']); ?></p>
+                
+                <?php if (!empty($start_date) && !empty($end_date)): ?>
+                    <p style="font-size: 0.8rem; opacity: 0.85; margin-top: 4px;">
+                        <i class='bx bx-calendar'></i> Period: <?php echo date('d M Y', strtotime($start_date)); ?> to <?php echo date('d M Y', strtotime($end_date)); ?> (<?php echo $total_weeks; ?> Weeks)
+                    </p>
+                <?php endif; ?>
             </div>
         </div>
     </div>
@@ -127,7 +156,7 @@ if ($placement_res && $placement_res->num_rows > 0) {
                     </td>
                     <td style="text-align: right; padding-right: 24px;">
                         <?php if($logData['status'] === 'Submitted'): ?>
-                            <a class="lecturer-view-btn" href="view_pdf_viewer.php?logbook_id=<?php echo $logData['logbook_id']; ?>" target="_blank">
+                            <a class="lecturer-view-btn" href="../../includes/view_pdf_viewer.php?logbook_id=<?php echo $logData['logbook_id']; ?>" target="_blank">
                                 <i class='bx bx-show-alt'></i> View Logbook
                             </a>
                         <?php else: ?>

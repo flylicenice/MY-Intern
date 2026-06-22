@@ -3,17 +3,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// 1. Establish Database Connection
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "my-intern"; 
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+require_once("../../includes/db.php");
 
 // 2. Initialize counters object array for the chart buttons
 $status_counts = [

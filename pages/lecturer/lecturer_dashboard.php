@@ -24,29 +24,28 @@ if ($metric_result) {
     }
 }
 
+// 2. Fetch student profile details along with dynamic application evaluation status
 $table_query = "
     SELECT 
         s.matric_number, 
         s.full_name, 
         s.course, 
         s.intern_status,
-        CASE 
-            WHEN s.intern_status = 'active' THEN (
-                SELECT c.company_name 
-                FROM job_application ja
-                JOIN job_vacancy jv ON ja.job_id = jv.job_id
-                JOIN company c ON jv.company_id = c.company_id
-                WHERE ja.matric_number = s.matric_number AND ja.application_status = 'placed'
-                LIMIT 1
-            )
-            WHEN s.intern_status = 'Still Applying' THEN (
-                SELECT CONCAT(COUNT(*), ' Pending Applications') 
-                FROM job_application ja 
-                WHERE ja.matric_number = s.matric_number AND ja.application_status = 'Pending'
-            )
-            ELSE 'No Applications Generated'
-        END AS placement_details
+        -- Count total actual pending rows for this student
+        COUNT(CASE WHEN ja.application_status = 'Pending' THEN 1 END) AS pending_count,
+        -- Fetch active company name if they are already placed
+        (
+            SELECT c.company_name 
+            FROM job_application ja_placed
+            JOIN job_vacancy jv ON ja_placed.job_id = jv.job_id
+            JOIN company c ON jv.company_id = c.company_id
+            WHERE ja_placed.matric_number = s.matric_number 
+              AND ja_placed.application_status = 'placed'
+            LIMIT 1
+        ) AS current_placement_company
     FROM student s
+    LEFT JOIN job_application ja ON s.matric_number = ja.matric_number
+    GROUP BY s.matric_number, s.full_name, s.course, s.intern_status
 ";
 $table_result = $conn->query($table_query);
 
@@ -73,7 +72,6 @@ $logbook_query = "
     LEFT JOIN logbook l ON p.placement_id = l.placement_id 
     -- 5. TAPISAN UTAMA: Hanya ambil jika status placement aktif (Ongoing) dan milik lecturer yang sedang login
     WHERE p.lecturer_id = ? 
-      AND p.status = 'Ongoing'
     GROUP BY 
         s.matric_number, 
         s.full_name, 
@@ -120,6 +118,9 @@ $logbook_result = $stmt->get_result();
             <li class="nav-item <?php echo (isset($_GET['page']) && $_GET['page'] === 'logbook') ? 'active' : ''; ?>">
                 <a href="?page=logbook"><i class='bx bxs-user-detail'></i> Manage Interns</a>
             </li>
+            <li class="nav-item <?php echo (isset($_GET['page']) && $_GET['page'] === 'application') ? 'active' : ''; ?>">
+                <a href="?page=application"><i class='bx bx-folder-open'></i> Approve Placements</a>
+            </li>
             <li class="nav-item logout-box">
                 <a href="../../includes/logout.php"><i class='bx bx-log-out'></i> Log Out</a>
             </li>
@@ -128,15 +129,18 @@ $logbook_result = $stmt->get_result();
     </aside>
 
     <!-- START: The centering container -->
-    <section class="review-logbook-section" style="max-width: 1100px; margin: 0 auto; padding: 2rem 1rem;">
+    <section class="review-logbook-section" style="max-width: 1100px; margin: 0 auto; padding: 2rem 1rem; overflow: auto">
         
         <div class="dashboard-app-content">
             <?php
+            
             $currentPage = $_GET['page'] ?? "main";
             if ($currentPage === "main") {
                 include("lecturer_stats.php");
             } elseif ($currentPage === "logbook") {
                 include("student_logbook.php");
+            } elseif ($currentPage === "application") {
+                include("approve_placement.php");
             }
             ?>
         </div>

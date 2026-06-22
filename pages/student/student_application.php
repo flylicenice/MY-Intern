@@ -70,6 +70,7 @@ try {
                 <?php if ($result && $result->num_rows > 0): ?>
                     <?php while ($row = $result->fetch_assoc()): ?>
                         <tr class="clickable-row"
+                            data-id="<?php echo $row['job_id']; ?>"
                             data-title="<?php echo htmlspecialchars($row['title']); ?>"
                             data-company="<?php echo htmlspecialchars($row['company_name']); ?>"
                             data-allowance="<?php echo htmlspecialchars($row['allowance']); ?>"
@@ -83,13 +84,13 @@ try {
                             <td>
                                 <p class="status-badge <?php echo strtolower($row['application_status']); ?>"><?php echo strtoupper($row['application_status']); ?></p>
                             </td>
-                            <?php if ($row['intern_status'] === "active" || strtolower($row['application_status']) === "pending" || strtolower($row['application_status']) || strtolower($row['application_status']) === "viewed"): ?>
+                            <?php if ($row['intern_status'] === "active" || strtolower($row['application_status']) === "pending" || strtolower($row['application_status']) === 'placed' || strtolower($row['application_status']) === "viewed" || strtolower($row['application_status']) === 'placed' || strtolower($row['application_status']) === 'accepted' || strtolower($row['application_status']) === 'rejected'): ?>
                                 <td>
                                     <button class="action-btn btn-approve btn-disabled">Accept</button>
                                 </td>
                             <?php else: ?>
                                 <td>
-                                    <button class="action-btn btn-approve">Accept</button>
+                                    <button class="action-btn btn-approve" id="acceptOfferBtn">Accept</button>
                                 </td>
                             <?php endif; ?>
                         </tr>
@@ -97,7 +98,7 @@ try {
 
                 <?php else: ?>
                     <tr>
-                        <td class="null-row" colspan="4" style="text-align: center; padding: 20px;">
+                        <td class="null-row" colspan="5" style="text-align: center; padding: 20px;">
                             No Application, Apply Now!
                         </td>
                     </tr>
@@ -107,3 +108,4 @@ try {
     </div>
 </section>
 
+</div>

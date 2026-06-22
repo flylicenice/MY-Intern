@@ -9,7 +9,9 @@ $(document).ready(function () {
     redirectUser();
     drawCharts();
     updateProfile();
+    acceptOffer();
     handleProfilePicPreview();
+    jobSearch();
 });
 
 function loadingAnimation() {
@@ -126,12 +128,14 @@ function showJobDetailsPanel() {
         const company = $(this).find('.company-name-text').text();
         const location = $(this).find('.job-location-text').text();
         const allowance = $(this).find('.job-salary-text').text();
+        const desc = $(this).find(".job-desc-text").data('desc');
         const jobId = $(this).find('.apply-now-btn').data('job-id');
 
         $('#panel-title').text(title);
         $('#panel-company').text(company);
         $('#panel-location').text(location);
         $('#panel-allowance').text(allowance);
+        $("#panel-desc").html(desc);
         $('#panel-apply-btn').attr('data-job-id', jobId);
 
         $("#detailsPanel").show();
@@ -201,7 +205,7 @@ function drawCharts() {
                             labels: ['Pending', 'Viewed', 'Offered'],
                             datasets: [{
                                 label: 'Applied Jobs',
-                                data: [ pending, viewed, offered ],
+                                data: [pending, viewed, offered],
                                 backgroundColor: ['rgba(255, 99, 132, 0.2)', 'rgba(255, 159, 64, 0.2)', 'rgba(255, 205, 86, 0.2)'],
                                 borderColor: ['rgba(255, 99, 132)', 'rgba(255, 159, 64)', 'rgba(255, 205, 86)'],
                                 borderWidth: 1
@@ -253,7 +257,7 @@ function updateProfile() {
 }
 
 function handleProfilePicPreview() {
-    $("#profilePicInput").on("change", function() {
+    $("#profilePicInput").on("change", function () {
         const file = this.files[0];
         if (file) {
             // 1. Client-side MIME validation matching backend boundaries
@@ -273,10 +277,82 @@ function handleProfilePicPreview() {
 
             // 3. Convert image stream to update layout element instantly
             const reader = new FileReader();
-            reader.onload = function(e) {
+            reader.onload = function (e) {
                 $("#avatar-preview").attr("src", e.target.result);
             };
             reader.readAsDataURL(file);
+        }
+    });
+}
+
+function acceptOffer() {
+    $("#acceptOfferBtn").on("click", function (e) {
+        e.preventDefault();
+
+        const nearestRow = $(this).closest(".clickable-row");
+        const jobId = nearestRow.data("id");
+        if (confirm("Do you want to accept this offer?")) {
+
+            $.ajax({
+                url: "../../includes/accept_offer_process.php",
+                type: "POST", // Best practice for mutation/state updates
+                data: {
+                    job_id: jobId
+                },
+                dataType: "json",
+                success: function (response) {
+                    if (response.success) {
+                        alert("Offer accepted successfully!");
+                        window.location.reload(); // Refresh to update statuses and badges
+                    } else {
+                        alert("Error: " + response.message);
+                    }
+                },
+                error: function () {
+                    alert("An unexpected error occurred communicating with the server.");
+                }
+            });
+        }
+    });
+}
+
+function jobSearch() {
+    $('#job-search').on('keyup search change', function() {
+        // Grab the search term and convert to lowercase for case-insensitive matching
+        var searchTerm = $(this).val().toLowerCase().trim();
+
+        // Loop through each job posting card
+        $('.job-posting-card').each(function() {
+            var card = $(this);
+            
+            // Extract the searchable text fragments inside the card
+            var title = card.find('.job-posting-title').text().toLowerCase();
+            var company = card.find('.company-name-text').text().toLowerCase();
+            var location = card.find('.job-location-text').text().toLowerCase();
+            
+            // Optional: Include the hidden job description attribute inside the search context
+            var description = card.find('.job-desc-text').data('desc') ? card.find('.job-desc-text').data('desc').toLowerCase() : '';
+
+            // Check if the search term matches any part of the title, company, location, or description
+            if (title.includes(searchTerm) || 
+                company.includes(searchTerm) || 
+                location.includes(searchTerm) || 
+                description.includes(searchTerm)) {
+                
+                // Show the card if it matches
+                card.show();
+            } else {
+                // Hide the card if it doesn't match
+                card.hide();
+            }
+        });
+
+        // Optional: Display a fallback message if all job cards are hidden
+        var visibleCards = $('.job-posting-card:visible').length;
+        $('#no-results-msg').remove(); // Clear previous fallback messages if any exist
+        
+        if (visibleCards === 0) {
+            $('#job-posting-area').append('<p id="no-results-msg" style="text-align: center; color: #64748b; margin-top: 20px;">No jobs match your search criteria.</p>');
         }
     });
 }

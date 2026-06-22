@@ -41,15 +41,6 @@ if (!isset($_SESSION['display_name'])) {
                 <canvas id="placementChart"></canvas>
             </div>
         </div>
-
-        <div class="metric-card">
-            <div class="metric-info">
-                <h3>Average Company Review</h3>
-            </div>
-            <div class="chart">
-                <canvas id="companyReviewChart"></canvas>
-            </div>
-        </div>
     </section>
     </div>
 

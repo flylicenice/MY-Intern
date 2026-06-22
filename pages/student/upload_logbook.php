@@ -28,7 +28,6 @@ if (isset($conn)) {
     }
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['logbook_file'])) {
-        header('Content-Type: application/json');
         $placement_query = "SELECT p.placement_id 
                             FROM placement p
                             JOIN job_application ja ON p.application_id = ja.application_id
@@ -45,50 +44,41 @@ if (isset($conn)) {
         } else {
             $real_placement_id = $placement_res['placement_id'];
         }
+        
         $file = $_FILES['logbook_file'];
         $file_ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
         $allowed_extensions = ['pdf', 'doc', 'docx'];
-
 
         if (!in_array($file_ext, $allowed_extensions)) {
             $message = "<div style='background-color: #FDE8E8; color: #9B1C1C; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;'>❌ Error: Only PDF, DOC, and DOCX files are allowed.</div>";
         } elseif ($file['size'] > 5 * 1024 * 1024) {
             $message = "<div style='background-color: #FDE8E8; color: #9B1C1C; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;'>❌ Error: File size exceeds the maximum 5MB limit.</div>";
         } else {
+            // 1. Read the raw physical file contents into a binary data stream variable
+            $blob_data = file_get_contents($file['tmp_name']);
 
-            $new_filename = "placement_" . $user_id . "_week_" . $week . "_" . time() . "." . $file_ext;
-
-
-            $upload_dir = dirname(__DIR__, 2) . "/uploads/logbooks/";
-            if (!is_dir($upload_dir)) {
-                mkdir($upload_dir, 0777, true);
-            }
-            $upload_destination = $upload_dir . $new_filename;
-
-            if (!is_dir($upload_dir)) {
-                mkdir($upload_dir, 0777, true);
-            }
-            $upload_destination = $upload_dir . $new_filename;
-
-            if (move_uploaded_file($file['tmp_name'], $upload_destination)) {
-
+            if ($blob_data !== false) {
+                // 2. Prepare statement with ON DUPLICATE KEY UPDATE compatibility handling
                 $action_query = "INSERT INTO logbook (week_number, logbook, placement_id, submitted_at) 
                                  VALUES (?, ?, ?, NOW())
                                  ON DUPLICATE KEY UPDATE logbook = VALUES(logbook), submitted_at = NOW()";
 
                 $insert_stmt = $conn->prepare($action_query);
-                $insert_stmt->bind_param("isi", $week, $new_filename, $real_placement_id);
+                
+                // 3. Send BLOB data packages through a safe parameter stream channel allocation
+                // Note the middle type modifier change to 'b' for Binary Blob allocation mapping instead of 's'
+                $null = null; // Used as a placeholder reference pointer link for send_long_data execution pipeline
+                $insert_stmt->bind_param("ibi", $week, $null, $real_placement_id);
+                $insert_stmt->send_long_data(1, $blob_data);
 
                 if ($insert_stmt->execute()) {
-
                     header("Location: student_dashboard.php?page=e-log&status=success");
                     exit();
                 } else {
-
                     $message = "<div style='background-color: #FDE8E8; color: #9B1C1C; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;'>❌ Database error processing your upload item.</div>";
                 }
             } else {
-                $message = "<div style='background-color: #FDE8E8; color: #9B1C1C; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;'>❌ Failed to save uploaded file down to directory folder location.</div>";
+                $message = "<div style='background-color: #FDE8E8; color: #9B1C1C; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem;'>❌ Failed to read file data buffer contents stream.</div>";
             }
         }
     }
@@ -109,7 +99,6 @@ if (isset($conn)) {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap" rel="stylesheet">
     <link href="/MYIntern/css/style.css" rel="stylesheet">
-    <link href="../../js/student.js"></script>
 </head>
 
 <body>
@@ -119,6 +108,11 @@ if (isset($conn)) {
             <h1>Internship Logbook Submission</h1>
             <p>Course: <?php echo htmlspecialchars($student['course']); ?> | Matric Number: <?php echo htmlspecialchars($student['matric_number']); ?></p>
         </div>
+
+        <?php 
+        // Render dynamic action messages back inside layout grid bounds smoothly
+        if (!empty($message)) { echo $message; } 
+        ?>
 
         <?php if (isset($_GET['status']) && $_GET['status'] === 'success'): ?>
             <div style="background-color: #DEF7EC; color: #03543F; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; font-size: 0.9rem; font-weight: 500;">

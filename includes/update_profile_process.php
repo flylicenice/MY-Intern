@@ -16,6 +16,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     $studentName = isset($_POST['student_name']) ? trim($_POST['student_name']) : '';
     $phoneNo     = isset($_POST['student_phone']) ? trim($_POST['student_phone']) : '';
+    // Added Fields: Extract raw date values or map to null if omitted
+    $startDate   = !empty($_POST['intern_start_date']) ? $_POST['intern_start_date'] : null;
+    $endDate     = !empty($_POST['intern_end_date']) ? $_POST['intern_end_date'] : null;
 
     if (empty($studentName)) {
         echo json_encode(['status' => 'error', 'message' => 'Validation error: Name field cannot be left blank.']);
@@ -53,17 +56,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $conn->begin_transaction();
 
         if ($fileUploaded) {
-            $studentUpdateQuery = "UPDATE student SET full_name = ?, phone_number = ?, resume = ? WHERE matric_number = ?";
+            // Modified Query: Added start_date and end_date columns
+            $studentUpdateQuery = "UPDATE student SET full_name = ?, phone_number = ?, start_date = ?, end_date = ?, resume = ? WHERE matric_number = ?";
             $studentStmt = $conn->prepare($studentUpdateQuery);
 
             $nullValue = null;
-            $studentStmt->bind_param("ssbs", $studentName, $phoneNo, $nullValue, $matricNo);
+            // Bound variables matching types: s = name, s = phone, s = start, s = end, b = blob placeholder, s = matric
+            $studentStmt->bind_param("ssssbs", $studentName, $phoneNo, $startDate, $endDate, $nullValue, $matricNo);
             
-            $studentStmt->send_long_data(2, $fileBlob);
+            // send_long_data uses 0-based parameter index. In "ssssbs", the blob data placeholder (?) is index 4.
+            $studentStmt->send_long_data(4, $fileBlob);
         } else {
-            $studentUpdateQuery = "UPDATE student SET full_name = ?, phone_number = ? WHERE matric_number = ?";
+            // Modified Query: Added start_date and end_date columns for standard information updates
+            $studentUpdateQuery = "UPDATE student SET full_name = ?, phone_number = ?, start_date = ?, end_date = ? WHERE matric_number = ?";
             $studentStmt = $conn->prepare($studentUpdateQuery);
-            $studentStmt->bind_param("sss", $studentName, $phoneNo, $matricNo);
+            $studentStmt->bind_param("sssss", $studentName, $phoneNo, $startDate, $endDate, $matricNo);
         }
 
         $studentStmt->execute();

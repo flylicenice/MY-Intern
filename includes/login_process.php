@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_login'])) {
                 $redirect_target = '../index.php';
 
                 if ($user['role'] === 'Student') {
-                    $profile_stmt = $conn->prepare("SELECT full_name, matric_number, IF (resume IS NOT NULL AND resume != '', 1, 0) AS has_resume FROM student WHERE user_id = ? LIMIT 1");
+                    $profile_stmt = $conn->prepare("SELECT full_name, matric_number, intern_status, IF (resume IS NOT NULL AND resume != '', 1, 0) AS has_resume FROM student WHERE user_id = ? LIMIT 1");
                     $profile_stmt->bind_param("i", $user['user_id']);
                     $profile_stmt->execute();
                     $profile = $profile_stmt->get_result()->fetch_assoc();
@@ -47,13 +47,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_login'])) {
                     $redirect_target = '../index.php';
                     $_SESSION['matric_number'] = $profile['matric_number'];
                     $_SESSION['has_resume'] = (bool)$profile['has_resume'];
+                    $_SESSION['intern_status'] = $profile['intern_status'];
                 } elseif ($user['role'] === 'Lecturer') {
-                    $profile_stmt = $conn->prepare("SELECT full_name FROM lecturer WHERE user_id = ? LIMIT 1");
+                    $profile_stmt = $conn->prepare("SELECT full_name, lecturer_id FROM lecturer WHERE user_id = ? LIMIT 1");
                     $profile_stmt->bind_param("i", $user['user_id']);
                     $profile_stmt->execute();
                     $profile = $profile_stmt->get_result()->fetch_assoc();
 
                     $display_name = $profile['full_name'] ?? 'Lecturer';
+                    $_SESSION['lecturer_id'] = $profile['lecturer_id'];
                     $redirect_target = '../pages/lecturer/lecturer_dashboard.php?page=main';
                 } elseif ($user['role'] === 'Company') {
                     $profile_stmt = $conn->prepare("SELECT company_name, company_id FROM company WHERE user_id = ? LIMIT 1");
