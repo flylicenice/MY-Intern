@@ -82,9 +82,9 @@ try {
                             <td><strong><?php echo $row['company_name']; ?></strong></td>
                             <td>RM <?php echo $row['allowance']; ?></td>
                             <td>
-                                <p class="status-badge <?php echo strtolower($row['application_status']); ?>"><?php echo $row['application_status']; ?></p>
+                                <p class="status-badge <?php echo strtolower($row['application_status']); ?>"><?php echo strtoupper($row['application_status']); ?></p>
                             </td>
-                            <?php if ($row['intern_status'] === "placed" || strtolower($row['application_status']) === "pending" || strtolower($row['application_status']) === "approved"): ?>
+                            <?php if ($row['intern_status'] === "active" || strtolower($row['application_status']) === "pending" || strtolower($row['application_status']) || strtolower($row['application_status']) === "viewed"): ?>
                                 <td>
                                     <button class="action-btn btn-approve btn-disabled">Accept</button>
                                 </td>

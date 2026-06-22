@@ -6,7 +6,8 @@ require_once("includes/db.php");
 
 $sql = "SELECT j.*, c.company_name as company_name, c.profile_pic 
         FROM job_vacancy j 
-        JOIN company c ON j.company_id = c.company_id";
+        JOIN company c ON j.company_id = c.company_id
+        WHERE j.status = 'active'";
 
 try {
     $result = $conn->query($sql);
@@ -63,6 +64,7 @@ try {
                 $company = htmlspecialchars($job['company_name']);
                 $location = htmlspecialchars($job['location_type']);
                 $allowance = htmlspecialchars($job['allowance']);
+                $desc = $job['description'];
                 $job_id = $job['job_id'];
         ?>
                 <div class="job-posting-card">
@@ -99,24 +101,25 @@ try {
                 <p id="panel-company"></p>
                 <p id="panel-location"></p>
                 <p id="panel-allowance"></p>
+                <div class="job-posting-description" id="panel-description"></div>
 
                 <button class="teal-action-btn apply-now-btn" id="panel-apply-btn" data-job-id="" data-has-resume="<?php echo $_SESSION['has_resume']; ?>">Apply Now</button>
-
-                <div class="job-posting-description" id="panel-description"></div>
                 <button class="action-btn" id="closeDetailsBtn" type="button">&times;</button>
             </div>
         </div>
     <?php else: ?>
         <div class="job-panel-overlay">
+            <div class="profile-container">
+                <img class="profile-avatar" src="">
+            </div>
             <div class="job-details-panel" id="detailsPanel">
                 <h3 id="panel-title"></h3>
                 <p id="panel-company"></p>
                 <p id="panel-location"></p>
                 <p id="panel-allowance"></p>
 
+                <div class="job-posting-description" id="panel-description"><?php echo $desc; ?></div>
                 <button type="submit" class="teal-action-btn apply-now-btn" id="btn-redirect">Apply Now</button>
-
-                <div class="job-posting-description" id="panel-description"></div>
                 <button class="action-btn" id="closeDetailsBtn" type="button">&times;</button>
             </div>
         </div>

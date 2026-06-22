@@ -83,9 +83,7 @@ $logbook_result = $conn->query($logbook_query);
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
-    <script src="../../js/chart.js"></script>
     <script src="../../js/lecturer.js"></script>
-    <script src="../../js/script.js"></script>
     <link href='../../css/unistyle.css' rel="stylesheet">
 </head>
 

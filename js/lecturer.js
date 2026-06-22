@@ -1,13 +1,14 @@
 $(document).ready(function () {
-    const assignedChartCanvas = document.getElementById('assignedInternsChart');
+    const assignedChartCanvas = document.getElementById('assignedInternsChart')[0];
 
     if (assignedChartCanvas) {
         $.ajax({
-            url: "../../includes/get_chart_data.php",
+            url: "/MYIntern/includes/get_chart_data.php",
             type: "POST",
             dataType: "json",
             success: function (response) {
                 if (response.status === "success") {
+                    console.log("h");
                     const placedCount = response.data.placed;
                     const applyingCount = response.data.applying;
                     const notApplyingCount = response.data.not_applying;

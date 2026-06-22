@@ -5,7 +5,6 @@ use PHPMailer\PHPMailer\Exception;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-
 function sendVerificationEmail($userEmail, $userName, $verification_url)
 {
     $mail = new PHPMailer(true);

@@ -2,12 +2,6 @@
 
 include("../includes/get_profile_data.php");
 
-$courseName = "";
-if ($course === "DCS") {
-    $courseName = "Diploma Computer Science";
-} else if ($course === "BITD") {
-    $courseName = "Bachelor of Database Programming";
-}
 ?>
 
 <!DOCTYPE html>
@@ -21,7 +15,7 @@ if ($course === "DCS") {
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link rel="stylesheet" href="../css/style.css">
-    <script src="../js/script.js"></script>
+    <script src="../js/student.js"></script>
     <title>MYIntern | About Us</title>
 </head>
 
@@ -30,43 +24,46 @@ if ($course === "DCS") {
 
     <div class="blue-container" id="about-container">
         <div class="square-profile-container">
-            <img src="../assets/default-user.svg" alt="profile-pic" width=96 height=96 />
-            <form method="POST" action="../includes/upload_profile_pic.php">
-                <input type="file" id="profile-upload" name="profile-pic" accept="image/*">
-            </form>
+            <div class="profile-pic-wrapper">
+                <img id="avatar-preview" src="../assets/default-user.svg" alt="profile-pic" width="96" height="96" />
+                <div class="profile-pic-hover-overlay" onclick="document.getElementById('profilePicInput').click();">
+                    <i class='bx bx-camera'></i>
+                    <span>Change Pic</span>
+                </div>
+            </div>
         </div>
     </div>
 
     <main class="main-area">
-        <form class="two-column-grid-form">
+        <form class="two-column-grid-form" id="studentProfileForm" enctype='multipart/form-data'>
             <div class="input-field-block">
                 <label for="student_name">Name</label>
-                <input type="text" id="student_name" value="<?php echo $name; ?>" readonly>
+                <input type="text" name="student_name" id="student_name" value="<?php echo $name; ?>">
             </div>
 
             <div class="input-field-block">
                 <label for="student_email">Email</label>
-                <input type="email" id="student_email" value="<?php echo $email ?>" readonly>
+                <input type="email" name="student_email" id="student_email" value="<?php echo $email ?>" readonly>
             </div>
 
             <div class="input-field-block">
                 <label for="student_phone">Phone Number</label>
-                <input type="text" id="student_phone" value="<?php echo $phoneNo; ?>">
+                <input type="text" name="student_phone" id="student_phone" value="<?php echo $phoneNo; ?>">
             </div>
 
             <div class="input-field-block">
                 <label for="student_ic">Identification No.</label>
-                <input type="text" id="student_ic" value="<?php echo $IC; ?>">
+                <input type="text" name="student_ic" id="student_ic" value="<?php echo $IC; ?>" readonly>
             </div>
 
             <div class="input-field-block">
                 <label for="student_matric_no">Matric Number</label>
-                <input type="text" id="student_matric_no" value="<?php echo $matricNo; ?>">
+                <input type="text" name="student_matric_no" id="student_matric_no" value="<?php echo $matricNo; ?>" readonly>
             </div>
 
             <div class="input-field-block">
                 <label for="student_course">Course</label>
-                <input type="text" id="student_course" value="<?php echo $courseName; ?>" readonly>
+                <input type="text" id="student_course" value="<?php echo $course; ?>" readonly>
             </div>
 
             <div class="form-group">
@@ -76,7 +73,7 @@ if ($course === "DCS") {
                     <p>Drag & Drop your file here or <strong>Browse files</strong></p>
                     <span style="font-size: 0.75rem; color: var(--text-muted); display:block; margin-top:4px;">Max file size: 5MB (PDF, DOCX)</span>
 
-                    <input type="file" name="logbook_file" class="hidden-file-input" id="fileInput" accept=".pdf,.doc,.docx" required>
+                    <input type="file" name="resume_file" class="hidden-file-input" id="fileInput" accept=".pdf,.doc,.docx" required>
                 </div>
                 <div class="file-selected-name" id="fileSelectedName">
                     <i class='bx bx-check-double'></i> Selected File: <span id="fileNameSpan"></span>
@@ -85,27 +82,16 @@ if ($course === "DCS") {
 
             <div class="input-field-block">
                 <label for="student_course">Intern Status</label>
-                <input type="text" id="student_course" value="<?php echo $internStatus; ?>" readonly>
-            </div>
-
-            <div class="input-field-block">
-                <label for="student_course">Intern Status</label>
-                <input type="text" id="student_course" value="<?php echo $internStatus; ?>" readonly>
-            </div>
-
-            <div class="input-field-block">
-                <label for="student_course">Intern Status</label>
-                <input type="text" id="student_course" value="<?php echo $internStatus; ?>" readonly>
+                <input type="text" id="student_course" value="<?php echo strtoupper($internStatus); ?>" readonly>
             </div>
 
             <div class="form-actions-row-centered">
-                <button type="submit" class="teal-action-btn">Update</button>
+                <button type="submit" class="teal-action-btn" id="updateProfileBtn">Update</button>
             </div>
         </form>
     </main>
 
     <?php include("../includes/footer.php"); ?>
-
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {

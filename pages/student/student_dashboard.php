@@ -23,7 +23,6 @@ $user_choice = $_GET['page'] ?? 'application';
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/MYIntern/css/style.css">
-    <script src="/MYIntern/js/chart.js"></script>
     <script src="/MYIntern/js/student.js"></script>
     <title>MYIntern | Student Dashboard</title>
 </head>

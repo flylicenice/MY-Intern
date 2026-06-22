@@ -8,6 +8,7 @@ $(document).ready(function () {
     closeJobDetailsPanel();
     redirectUser();
     drawCharts();
+    updateProfile();
 });
 
 function loadingAnimation() {
@@ -153,7 +154,7 @@ function showJobDetailsPanel() {
             type: "POST",
             data: { job_id: job_Id },
             dataType: "json",
-            success: function(response) {
+            success: function (response) {
                 if (response.status === "success") {
                     alert("Success: " + response.message);
                     window.location.reload();
@@ -161,7 +162,7 @@ function showJobDetailsPanel() {
                     alert(response.message);
                 }
             },
-            error: function(xhr, status, error) {
+            error: function (xhr, status, error) {
                 console.error("Failed: ", error);
             }
         });
@@ -173,7 +174,7 @@ function closeJobDetailsPanel() {
         $(".job-details-panel").css("display", "none");
         $(".job-panel-overlay").css("display", "none");
     })
-} 
+}
 
 function redirectUser() {
     $('#btn-redirect').on("click", function () {
@@ -183,23 +184,66 @@ function redirectUser() {
 
 function drawCharts() {
     const studentApplicationChart = $("#studentApplicationChart")[0];
-    if (studentApplicationChart) {
-        new Chart(studentApplicationChart, {
-            type: "bar",
-            data: {
-                labels: ['Viewed', 'Approved', 'Rejected'],
-                datasets: [{
-                    label: 'Applied Jobs',
-                    data: [10, 20, 5],
-                    backgroundColor: ['rgba(255, 99, 132, 0.2)', 'rgba(255, 159, 64, 0.2)', 'rgba(255, 205, 86, 0.2)'],
-                    borderColor: ['rgba(255, 99, 132)', 'rgba(255, 159, 64)', 'rgba(255, 205, 86)'],
-                    borderWidth: 1
-                }],
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
+
+    $.ajax({
+        url: "includes/get_student_application_chart_data.php",
+        dataType: "json",
+        success: function (response) {
+            if (response.status === "success") {
+                if (studentApplicationChart) {
+                    new Chart(studentApplicationChart, {
+                        type: "bar",
+                        data: {
+                            labels: ['Viewed', 'Approved', 'Rejected'],
+                            datasets: [{
+                                label: 'Applied Jobs',
+                                data: [10, 20, 5],
+                                backgroundColor: ['rgba(255, 99, 132, 0.2)', 'rgba(255, 159, 64, 0.2)', 'rgba(255, 205, 86, 0.2)'],
+                                borderColor: ['rgba(255, 99, 132)', 'rgba(255, 159, 64)', 'rgba(255, 205, 86)'],
+                                borderWidth: 1
+                            }],
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                        }
+                    });
+                }
             }
-        });
-    }
+        },
+        error: function (xhr, status, error) {
+            console.log("Cannot load charts.");
+        }
+    });
+}
+
+function updateProfile() {
+    $("#studentProfileForm").on("submit", function (e) {
+        e.preventDefault();
+
+        var formElement = this;
+        var profileData = new FormData(formElement);
+
+        if (confirm("Are you sure you want to update the info?")) {
+            $.ajax({
+                url: '../includes/update_profile_process.php',
+                type: "POST",
+                dataType: "json",
+                data: profileData,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    if (response.status === "success") {
+                        alert(response.message);
+                        location.reload();
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert("System Error: Failed to transmit application approval request.");
+                }
+            });
+        }
+    });
 }

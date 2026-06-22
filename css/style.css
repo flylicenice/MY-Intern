@@ -239,6 +239,7 @@ input:-webkit-autofill:focus {
 #location-search {
     width: 30%;
 }
+
 .main-content {
     height: 100vh;
     display: flex;
@@ -1007,7 +1008,8 @@ tr:last-child td {
     color: white;
 }
 
-.status-badge.approved, .status-badge.placed {
+.status-badge.approved,
+.status-badge.placed {
     background-color: #DCFCE7;
     color: #15803D;
 }
@@ -1023,6 +1025,9 @@ tr:last-child td {
 }
 
 .action-btn {
+    position: relative;
+    top: 0;
+    margin: 1rem;
     padding: 0.4rem 0.8rem;
     border-radius: 8px;
     border: none;
@@ -1030,7 +1035,6 @@ tr:last-child td {
     font-size: 0.85rem;
     cursor: pointer;
     text-decoration: none;
-    display: inline-block;
     transition: transform 0.1s ease;
 }
 
@@ -1407,7 +1411,7 @@ tr:last-child td {
 }
 
 .job-details-panel {
-    position: fixed;
+    position: absolute;
     transform: translate(-50%, -50%);
     display: none;
     flex-direction: column;
@@ -1427,15 +1431,20 @@ tr:last-child td {
 
 .job-panel-overlay {
     position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.6);
-  display: none;
-  justify-content: center; 
-  align-items: center; 
-  z-index: 9999;    
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.apply-now-btn {
+    position: relative;
+    right: 0;
 }
 
 #closeDetailsBtn {
@@ -1467,6 +1476,63 @@ tr:last-child td {
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.profile-pic-wrapper {
+    position: relative;
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    border: 3px solid #ffffff;
+}
+
+.profile-pic-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+
+.profile-pic-hover-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(17, 30, 75, 0.75);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #ffffff;
+    opacity: 0;
+    transition: opacity 0.25s ease-in-out;
+}
+
+.profile-pic-hover-overlay i {
+    font-size: 1.5rem;
+    margin-bottom: 2px;
+}
+
+.profile-pic-hover-overlay span {
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.profile-pic-wrapper:hover .profile-pic-hover-overlay {
+    opacity: 1;
 }

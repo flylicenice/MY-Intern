@@ -2,7 +2,6 @@
 
 // Connect the database first and open the session
 require_once '../includes/db.php'; 
-require_once '../includes/session.php';
 
 // Only POST method and is submit by the submit_register button
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_register'])) {
