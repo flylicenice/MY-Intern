@@ -1,12 +1,13 @@
 <?php
+
 session_start();
-require_once('../../includes/db.php'); 
+require_once ('db.php'); 
 
 header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['job_id'])) {
     $job_id = $_POST['job_id'];
-    $student_id = $_SESSION['student_id']; // ensure student is log in
+    $matricNo = $_SESSION['matric_number'];
 
     if (!isset($_SESSION['matric_number'])) {
         echo json_encode(['status' => 'error', 'message' => 'Unauthorized.']);
@@ -16,6 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['job_id'])) {
     $matric_number = $_SESSION['matric_number']; 
     $job_id = intval($_POST['job_id']);
 
+    try {
     $check_stmt = $conn->prepare("SELECT application_id FROM job_application WHERE matric_number = ? AND job_id = ?");
     $check_stmt->bind_param("si", $matric_number, $job_id);
     $check_stmt->execute();
@@ -32,7 +34,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['job_id'])) {
     if ($stmt->execute()) {
         echo json_encode(['status' => 'success', 'message' => 'Application submitted!']);
     } else {
-        echo json_encode(['status' => 'error', 'message' => 'Database error.']);
+        echo json_encode(['status' => 'error', 'message' => 'Here.']);
+    }
+    } catch (Exception $e) {
+        echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
     }
 }
 ?>

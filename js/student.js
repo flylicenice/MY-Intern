@@ -5,6 +5,9 @@ $(document).ready(function () {
     triggerDropDownMenu();
     loadingAnimation();
     showJobDetailsPanel();
+    closeJobDetailsPanel();
+    redirectUser();
+    drawCharts();
 });
 
 function loadingAnimation() {
@@ -114,67 +117,89 @@ function handleELogUpload() {
 }
 
 function showJobDetailsPanel() {
-    $(document).on("click", ".job-posting-card", function(e) {
+    $(document).on("click", ".job-posting-card", function (e) {
         if ($(e.target).hasClass('apply-now-btn')) return;
 
         const title = $(this).find('.job-posting-title').text();
         const company = $(this).find('.company-name-text').text();
         const location = $(this).find('.job-location-text').text();
         const allowance = $(this).find('.job-salary-text').text();
-        const jobId = $(this).find('.apply-now-btn').data('jobid');
+        const jobId = $(this).find('.apply-now-btn').data('job-id');
 
         $('#panel-title').text(title);
         $('#panel-company').text(company);
         $('#panel-location').text(location);
         $('#panel-allowance').text(allowance);
-        
-        $('#panel-apply-btn').attr('data-jobid', jobId); 
-        
+        $('#panel-apply-btn').attr('data-job-id', jobId);
+
         $("#detailsPanel").show();
+        $(".job-panel-overlay").css("display", "flex");
     });
 
-    $(document).off('click', '#panel-apply-btn').on('click', '#panel-apply-btn', function(e) {
+    $("#panel-apply-btn").on('click', function (e) {
         e.preventDefault();
-        const jobId = $(this).attr('data-jobid');
-        
-        console.log("Attempting to apply for ID:", jobId); // CHECK THIS IN CONSOLE!
+        const job_Id = $(this).attr('data-job-id');
+        const hasResume = $(this).attr('data-has-resume');
 
-        $.post('/MYIntern/pages/student/process_apply.php', { job_id: jobId }, function(response) {
-            if (response.status === 'success') {
-                alert('Success: ' + response.message);
-                window.location.reload();
-            } else {
-                alert('Error: ' + response.message);
-            }
-        }, 'json').fail(function(xhr) {
-            console.error(xhr.responseText);
-            alert("Server Error! Check Console (F12).");
-        });
-    });
-}
+        if (hasResume == 0) {
+            alert("Please attached a resume in your profile.");
+            return;
+        }
 
-function handleApplyJob() {
-    $(document).on('click', '.apply-now-btn', function(e) {
-        e.preventDefault();
-        const jobId = $(this).data('jobid');
-        
+        console.log("Attempting to apply for ID:", job_Id);
+
         $.ajax({
-            url: '/MYIntern/pages/student/process_apply.php',
-            type: 'POST',
-            data: { job_id: jobId },
-            dataType: 'json',
-            success: function(data) {
-                if(data.status === 'success') { 
-                    alert(data.message);
-                    location.reload(); 
+            url: "/MYIntern/includes/student_apply_process.php",
+            type: "POST",
+            data: { job_id: job_Id },
+            dataType: "json",
+            success: function(response) {
+                if (response.status === "success") {
+                    alert("Success: " + response.message);
+                    window.location.reload();
                 } else {
-                    alert('Error: ' + data.message);
+                    alert(response.message);
                 }
             },
-            error: function() {
-                alert('Application transmission failed.');
+            error: function(xhr, status, error) {
+                console.error("Failed: ", error);
             }
         });
     });
 }
 
+function closeJobDetailsPanel() {
+    $("#closeDetailsBtn").on("click", function () {
+        $(".job-details-panel").css("display", "none");
+        $(".job-panel-overlay").css("display", "none");
+    })
+} 
+
+function redirectUser() {
+    $('#btn-redirect').on("click", function () {
+        window.location.href = "pages/login.php";
+    });
+}
+
+function drawCharts() {
+    const studentApplicationChart = $("#studentApplicationChart")[0];
+    if (studentApplicationChart) {
+        new Chart(studentApplicationChart, {
+            type: "bar",
+            data: {
+                labels: ['Viewed', 'Approved', 'Rejected'],
+                datasets: [{
+                    label: 'Applied Jobs',
+                    data: [10, 20, 5],
+                    backgroundColor: ['rgba(255, 99, 132, 0.2)', 'rgba(255, 159, 64, 0.2)', 'rgba(255, 205, 86, 0.2)'],
+                    borderColor: ['rgba(255, 99, 132)', 'rgba(255, 159, 64)', 'rgba(255, 205, 86)'],
+                    borderWidth: 1
+                }],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+            }
+        });
+    }
+}

@@ -88,6 +88,16 @@ if ($course === "DCS") {
                 <input type="text" id="student_course" value="<?php echo $internStatus; ?>" readonly>
             </div>
 
+            <div class="input-field-block">
+                <label for="student_course">Intern Status</label>
+                <input type="text" id="student_course" value="<?php echo $internStatus; ?>" readonly>
+            </div>
+
+            <div class="input-field-block">
+                <label for="student_course">Intern Status</label>
+                <input type="text" id="student_course" value="<?php echo $internStatus; ?>" readonly>
+            </div>
+
             <div class="form-actions-row-centered">
                 <button type="submit" class="teal-action-btn">Update</button>
             </div>

@@ -47,6 +47,10 @@ if (isset($conn)) {
 }
 ?>
 
+<div class="loader-wrapper">
+    <div class="loader"></div>
+</div>
+
 <section class="data-table-section">
     <h2 class="table-title">Activity Logbook</h2>
 

@@ -7,6 +7,9 @@ if (!isset($_SESSION['user_id'])) {
 
 ?>
 
+<div class="loader-wrapper">
+    <div class="loader"></div>
+</div>
 
 <main class="dashboard-content-wrapper">
     <div class="evaluation-outer-card">

@@ -1407,14 +1407,15 @@ tr:last-child td {
 }
 
 .job-details-panel {
-    position: relative;
+    position: fixed;
+    transform: translate(-50%, -50%);
     display: none;
     flex-direction: column;
     gap: 2rem;
     justify-content: flex-start;
     z-index: 999;
-    position: absolute;
-    top: 30%;
+    top: 50%;
+    left: 50%;
     background-color: white;
     height: 60vh;
     width: 40vw;
@@ -1422,6 +1423,19 @@ tr:last-child td {
     border-radius: 12px;
     padding: 2rem;
     overflow: auto;
+}
+
+.job-panel-overlay {
+    position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: none;
+  justify-content: center; 
+  align-items: center; 
+  z-index: 9999;    
 }
 
 #closeDetailsBtn {

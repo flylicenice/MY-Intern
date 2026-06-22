@@ -23,8 +23,6 @@ INNER JOIN company c ON c.company_id = jv.company_id
 WHERE s.matric_number = ?";
 
 try {
-    $conn->begin_transaction();
-
     $stmt = $conn->prepare($query);
     $stmt->bind_param("s", $_SESSION['matric_number']);
     $stmt->execute();
@@ -37,63 +35,6 @@ try {
 }
 
 ?>
-
-<!-- //     if (!isset($conn)) {
-//         echo json_encode(['status' => 'error', 'message' => 'Database connection failed.']);
-//         exit();
-//     }
-
-//         $jobId = intval($_POST['job_id']);
-//         $user_id = $_SESSION['user_id'] ?? $_SESSION['student_id'] ?? 1;
-
-//         if ($jobId <= 0) {
-//         echo json_encode(['status' => 'error', 'message' => 'Invalid Job Identification code received.']);
-//         exit();
-//     }
-
-//         $student_query = "SELECT matric_number FROM student WHERE user_id = ? LIMIT 1";
-//         $s_stmt = $conn->prepare($student_query);
-//         $s_stmt->bind_param("i", $user_id);
-//         $s_stmt->execute();
-//         $student_res = $s_stmt->get_result()->fetch_assoc();
-
-//         if (!$student_res) {
-//             echo json_encode(['status' => 'error', 'message' => 'No student record found for this session.']);
-//             exit();
-//         }
-
-//         $matric_number = $student_res['matric_number'];
-
-//         $vacancy_query = "SELECT job_id FROM job_vacancy WHERE job_id = ? LIMIT 1";
-//         $v_stmt = $conn->prepare($vacancy_query);
-//         $v_stmt->bind_param("i", $jobId);
-//         $v_stmt->execute();
-//         if ($v_stmt->get_result()->num_rows === 0) {
-//           echo json_encode(['status' => 'error', 'message' => 'The selected vacancy position does not exist in the database catalog.']);
-//           exit();
-//         }
-
-//     $check_query = "SELECT application_id FROM job_application WHERE matric_number = ? AND job_id = ? LIMIT 1";
-//     $c_stmt = $conn->prepare($check_query);
-//     $c_stmt->bind_param("si", $matric_number, $jobId);
-//     $c_stmt->execute();
-//     if ($c_stmt->get_result()->num_rows > 0) {
-//         echo json_encode(['status' => 'error', 'message' => 'You have already applied for this position!']);
-//         exit();
-//     }
-
-
-//         $insert_query = "INSERT INTO job_application (matric_number, job_id, status) VALUES (?, ?, 'Pending')";
-//         $stmt = $conn->prepare($insert_query);
-//         $stmt->bind_param("si", $matric_number, $jobId);
-
-//         if ($stmt->execute()) {
-//         echo json_encode(['status' => 'success', 'message' => 'Your application has been successfully submitted!']);
-//     } else {
-//         echo json_encode(['status' => 'error', 'message' => 'Database persistence system fault.']);
-//     }
-
-//     exit; -->
 
 <div class="loader-wrapper">
     <div class="loader"></div>
@@ -143,13 +84,13 @@ try {
                             <td>
                                 <p class="status-badge <?php echo strtolower($row['application_status']); ?>"><?php echo $row['application_status']; ?></p>
                             </td>
-                            <?php if ($row['intern_status'] === "placed"): ?>
+                            <?php if ($row['intern_status'] === "placed" || strtolower($row['application_status']) === "pending" || strtolower($row['application_status']) === "approved"): ?>
                                 <td>
-                                    <button class="action-btn btn-approve btn-disabled">Approve</button>
+                                    <button class="action-btn btn-approve btn-disabled">Accept</button>
                                 </td>
                             <?php else: ?>
                                 <td>
-                                    <button class="action-btn btn-approve">Approve</button>
+                                    <button class="action-btn btn-approve">Accept</button>
                                 </td>
                             <?php endif; ?>
                             <td>
@@ -187,7 +128,7 @@ try {
         </div>
     </div>
 
-    <button class="submit-btn apply-now-btn" data-jobid="1">Apply Now</button>
+    <button class="submit-btn apply-now-btn" data-job-id="1">Apply Now</button>
 
     <div class="job-posting-description">
         <p><?php $i = 0;

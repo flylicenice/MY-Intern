@@ -10,8 +10,6 @@ try {
     mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
     $conn = new mysqli($servername, $username, $password, $dbname);
 
-    $db_conn = $conn; 
-    $connect = $conn;
     if ($conn->connect_error) {
         header("Location: /MyIntern/includes/error.php?error=database-error");
         exit();
