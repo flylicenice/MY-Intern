@@ -102,16 +102,15 @@ $result = $db_conn->query($sql);
 
     <?php include("includes/footer.php"); ?>
 
-    <div class="job-details-panel" id="detailsPanel">
+ <div class="job-details-panel" id="detailsPanel" style="display:none;">
     <h3 id="panel-title"></h3>
     <p id="panel-company"></p>
     <p id="panel-location"></p>
     <p id="panel-allowance"></p>
     
-    <button class="submit-btn apply-now-btn" id="panel-apply-btn" data-jobid="">Apply Now</button>
-
-    <div class="job-posting-description" id="panel-description"></div>
+    <button class="apply-now-btn" id="panel-apply-btn" data-jobid="">Apply Now</button>
     
+    <div class="job-posting-description" id="panel-description"></div>
     <button class="action-btn" id="closeDetailsBtn" type="button">&times;</button>
 </div>
 </body>

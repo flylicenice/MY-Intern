@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $description = $_POST['job_description'];
 
     $sql = "INSERT INTO job_vacancy (title, description, allowance, location_type, post_date, status, company_id)        VALUES (?, ?, ?, ?, ?, ?, ?, 'Active', NOW())";
-            VALUES (?,?,?,?, NOW(), 'Active', ?)";
+
     $stmt = $db_conn->prepare($sql);
     $stmt->bind_param("ssssi", $title, $description, $stipend, $location, $company_id);
 
