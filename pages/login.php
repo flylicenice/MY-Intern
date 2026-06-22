@@ -68,9 +68,23 @@
                         <button id="login-btn" type="submit" name="submit_login" class="signup-submit-btn">Login</button>
                     </div>
 
-                    <?php if (!empty($error_message)): ?>
-                        <div style="color: #9B1C1C; background-color: #FDE8E8; padding: 10px; margin-bottom: 15px; text-align: center; border-radius: 6px; font-family: 'Google Sans', sans-serif; font-size: 0.9rem;">
-                            <?php echo $error_message; ?>
+                    <?php if (isset($_GET['error'])): ?>
+                        <div style="color: #9B1C1C; background-color: #FDE8E8; padding: 10px; margin-bottom: 15px; text-align: center; border-radius: 6px;">
+                            <?php
+                            if ($_GET['error'] === 'invalid_credentials') {
+                                echo "Incorrect email address or password.";
+                            } elseif ($_GET['error'] === 'empty_fields') {
+                                echo "Please fill out all fields.";
+                            } elseif ($_GET['error'] === 'account_disabled') {
+                                echo "This account has been disabled or suspended.";
+                            } elseif ($_GET['error'] === 'system_fault') {
+                                echo "A database error occurred. Please try again later.";
+                            } elseif ($_GET['error'] === 'unverified') {
+                                echo "This account is not activated yet.";
+                            } else if ($_GET['error'] === "no_account_found") {
+                                echo "No Account is found.";
+                            }
+                            ?>
                         </div>
                     <?php endif; ?>
                 </form>

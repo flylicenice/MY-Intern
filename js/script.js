@@ -163,34 +163,6 @@ function closeFacultyDrawer() {
     }
 }
 
-function openAddLecturerWindow() {
-    const width = 800;
-    const height = 600;
-
-    const left = (screen.width - width) / 2;
-    const top = (screen.height - height) / 2;
-
-    window.open(
-        '/MYIntern/pages/admin/add_lecturer.php',
-        'PopupName',
-        `width=${width},height=${height},left=${left},top=${top}`
-    );
-}
-
-function openAddAdminWindow() {
-    const width = 800;
-    const height = 600;
-
-    const left = (screen.width - width) / 2;
-    const top = (screen.height - height) / 2;
-
-    window.open(
-        '../admin/add_admin.php',
-        'PopupName',
-        `width=${width},height=${height},left=${left},top=${top}`
-    );
-}
-
 function showJobDetailsPanel() {
     const jobCard = $(".job-posting-card");
     const jobDetailPanel = $(".job-details-panel");
