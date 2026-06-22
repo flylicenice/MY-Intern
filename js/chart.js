@@ -2,7 +2,8 @@ $(document).ready(function () {
     drawCharts();
 });
 
-function drawCharts() {
+function drawCharts() 
+{
 
     
     const studentApplicationChart = $("#studentApplicationChart")[0];
@@ -30,7 +31,6 @@ function drawCharts() {
                 maintainAspectRatio: false,
             }
         });
-    }
 
 if (assignedInternChart) {
         $.ajax({
@@ -52,9 +52,9 @@ if (assignedInternChart) {
                                     liveData.placed        
                                 ],
                                 backgroundColor: [
-                                    '#f1c40f', // Still Applying -> Vibrant Yellow
-                                    '#e74c3c', // Not Applying   -> Soft Red
-                                    '#2ecc71'  // Placed         -> Emerald Green
+                                    '#FFC107', 
+                                    '#D32F2F', 
+                                    '#2E7D32' 
                                 ],
                                 borderWidth: 2,
                                 borderColor: '#ffffff'
@@ -172,9 +172,9 @@ if (assignedInternChart) {
                 datasets: [{
                     data: [4, 1, 1], 
                     backgroundColor: [
-                        '#111E4B', 
-                        '#CCD36F', 
-                        '#A0AEC0'  
+                        '#FFC107', // Still Applying -> Deep, High-Contrast Amber Yellow
+                        '#D32F2F', // Not Applying   -> Harsh Crimson Warning Red!
+                        '#2E7D32'  // Placed         -> Deep, Solid Dark Green
                     ],
                     borderWidth: 2,
                     borderColor: '#ffffff'
@@ -254,4 +254,4 @@ if (assignedInternChart) {
             }
         });
     }
-
+}

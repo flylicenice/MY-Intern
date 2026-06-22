@@ -1,21 +1,29 @@
 <?php
-require_once '../../includes/session.php';
 require_once '../../includes/db.php';
 
-if (!isset($_GET['id']) || empty($_GET['id'])) {
+// 1. Match the parameter name 'student_id' sent from your dashboard buttons
+if (!isset($_GET['student_id']) || empty($_GET['student_id'])) {
     header("Location: lecturer_dashboard.php?page=main&status=error&message=Missing+Student+ID");
     exit();
 }
 
-$matric = mysqli_real_escape_string($conn, $_GET['id']);
+$matric = mysqli_real_escape_string($conn, $_GET['student_id']);
 
-$query = "SELECT full_name FROM student WHERE matric_number = '$matric' LIMIT 1";
+// 2. FIXED: Relational INNER JOIN to fetch email from user table via user_id relationship
+$query = "SELECT s.full_name, u.email 
+          FROM student s 
+          JOIN user u ON s.user_id = u.user_id 
+          WHERE s.matric_number = '$matric' 
+          LIMIT 1";
+
 $result = $conn->query($query);
 
 if ($result && $result->num_rows > 0) {
     $student = $result->fetch_assoc();
     $student_name = $student['full_name'];
-    $student_email = $student['email'] ?? ($matric . "@student.edu.my");
+    
+    // Fallback calculation pattern if email field inside user table happens to be blank
+    $student_email = (!empty($student['email'])) ? $student['email'] : ($matric . "@student.edu.my");
 
     $to = $student_email;
     $subject = "URGENT: Core Internship Application Requirements Incomplete";
@@ -26,7 +34,7 @@ if ($result && $result->num_rows > 0) {
         <title>MYIntern System Alert</title>
     </head>
     <body style='font-family: Arial, sans-serif; line-height: 1.6; color: #333;'>
-        <h2 style='color: #1e295d;'>Hello $student_name ($matric),</h2>
+        <h2 style='color: #1e295d;'>Hello " . htmlspecialchars($student_name) . " ($matric),</h2>
         <p>Our records indicate that your profile status is currently marked as <strong>INACTIVE</strong> within the MYIntern system dashboard.</p>
         <p>You have not generated any active company applications for this placement cycle yet. Please log into the portal immediately to submit your requirements or reach out to your faculty adviser if you are facing complications.</p>
         <br>
@@ -42,7 +50,6 @@ if ($result && $result->num_rows > 0) {
     $headers .= "From: notification@myintern.edu.my" . "\r\n";
 
     // 3. Dispatch Email 
-    // Note: Standard PHP mail() requires SMTP settings configured in XAMPP php.ini.
     if (@mail($to, $subject, $message, $headers)) {
         header("Location: lecturer_dashboard.php?page=main&status=success&message=Alert+Email+Dispatched+Successfully");
     } else {
@@ -55,3 +62,4 @@ if ($result && $result->num_rows > 0) {
     header("Location: lecturer_dashboard.php?page=main&status=error&message=Student+Record+Not+Found");
     exit();
 }
+?>

@@ -1,115 +1,187 @@
-<main class="dashboard-container">
+<div class="dashboard-header-section" style="margin-bottom: 2rem; width: 100%;">
+    <h2 class="table-title">All Students</h2>
+    <p class="total-counter-subtitle" style="color: #64748b; font-size: 14px; margin-top: 4px;">
+        Total Students: <strong><?php echo $total_students; ?> Students</strong>
+    </p>
+</div>
 
-    <div class="header-row">
-        <div>
-            <h1>Application Overview</h1>
-            <p>Welcome back, Madam/Sir</p>
-        </div>
+<div class="metrics-charts-row" style="margin-bottom: 2rem; background: #fff; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0; width: 100%; box-sizing: border-box;">
+    <h3 style="font-size: 16px; margin-bottom: 1rem; color: #1e293b;">Application Status Overview</h3>
+    <div style="width: 100%; height: 260px; position: relative; margin: 0 auto;">
+        <canvas id="statusDoughnutChart"></canvas> 
     </div>
+</div>
 
-    <section class="metrics-grid">
-        <div class="metric-card">
-            <div class="metric-info">
-                <h3>Total Assigned Interns</h3>
-            </div>
-            <div class="chart">
-                <canvas id="assignedInternsChart"></canvas>
-            </div>
-        </div>
-    </section>
+<div class="filter-buttons-container" style="margin: 1.5rem 0; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; width: 100%;">
+    <button class="filter-btn active" data-filter="all" style="background-color: #0f172a; color: #fff; border: 1px solid #0f172a; padding: 8px 16px; border-radius: 6px; font-weight: 500; cursor: pointer; transition: all 0.2s;">All</button>
+    <button class="filter-btn" data-filter="placed" style="background-color: #fff; color: #334155; border: 1px solid #cbd5e1; padding: 8px 16px; border-radius: 6px; font-weight: 500; cursor: pointer; transition: all 0.2s;">Placed (<?php echo $status_counts['Placed']; ?>)</button>
+    <button class="filter-btn" data-filter="still-applying" style="background-color: #fff; color: #334155; border: 1px solid #cbd5e1; padding: 8px 16px; border-radius: 6px; font-weight: 500; cursor: pointer; transition: all 0.2s;">Still Applying (<?php echo $status_counts['Still Applying']; ?>)</button>
+    <button class="filter-btn" data-filter="not-applying" style="background-color: #fff; color: #334155; border: 1px solid #cbd5e1; padding: 8px 16px; border-radius: 6px; font-weight: 500; cursor: pointer; transition: all 0.2s;">Not Applying (<?php echo $status_counts['Not Applying']; ?>)</button>
+</div>
 
-    <section class="data-table-section">
-        <div class="table-header-flex">
-            <div>
-                <h2 class="table-title">All Students</h2>
-                <p class="total-counter-subtitle">Total Students: <?php echo $total_students; ?> Students</p>
-            </div>
-            
-            <div class="status-filter-pills-row">
-                <button class="filter-pill active" onclick="filterStatus('ALL')">All</button>
-                <button class="filter-pill" onclick="filterStatus('PLACED')">Placed (<?php echo $status_counts['Placed']; ?>)</button>
-                <button class="filter-pill" onclick="filterStatus('APPLYING')">Still Applying (<?php echo $status_counts['Still Applying']; ?>)</button>
-                <button class="filter-pill danger-pill" onclick="filterStatus('NONE')">Not Applying (<?php echo $status_counts['Not Applying']; ?>)</button>
-            </div>
-        </div>
+<div class="search-container" style="margin-bottom: 1.5rem; width: 100%;">
+    <input type="text" id="studentSearchInput" placeholder="Search by student name, matric ID, or course..." style="width: 100%; padding: 10px 16px; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 14px; box-sizing: border-box;">
+</div>
 
-        <div class="top-bar" style="margin-bottom: 1.25rem;">
-            <input type="text" id="studentSearchInput" placeholder="Search by student name, matric ID, or course..." onkeyup="searchTable()">
-        </div>
+<div class="table-responsive" style="background: #fff; border-radius: 8px; border: 1px solid #e2e8f0; overflow-x: auto; width: 100%; box-sizing: border-box;">
+    <table class="lecturer-students-table" style="width: 100%; border-collapse: collapse; text-align: left;">
+        <thead>
+            <tr style="border-bottom: 2px solid #edf2f7; color: #4a5568; font-size: 13px; text-transform: uppercase; background: #f8fafc;">
+                <th style="padding: 14px 12px;">Matric ID</th>
+                <th style="padding: 14px 12px;">Student Name</th>
+                <th style="padding: 14px 12px;">Course</th>
+                <th style="padding: 14px 12px;">Placed Company</th>
+                <th style="padding: 14px 12px;">Status</th>
+                <th style="padding: 14px 12px; text-align: right;">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php 
+            if ($table_result && $table_result->num_rows > 0): 
+                while ($row = $table_result->fetch_assoc()): 
+                    
+                    $row_status = strtolower(trim($row['intern_status'])); 
+                    if ($row_status === 'inactive' || $row_status === 'not applying') { 
+                        $row_status = 'not-applying'; 
+                    }
+                    if ($row_status === 'active' || $row_status === 'placed') { 
+                        $row_status = 'placed'; 
+                    }
+                    if ($row_status === 'still applying') { 
+                        $row_status = 'still-applying'; 
+                    }
+            ?>
+                <tr class="student-row" data-status="<?php echo $row_status; ?>" style="border-bottom: 1px solid #edf2f7;">
+                    <td class="font-bold" style="padding: 16px 12px; font-weight: 700;"><?php echo htmlspecialchars($row['matric_number']); ?></td>
+                    <td class="student-name-cell" style="padding: 16px 12px; font-weight: 500; text-transform: capitalize;"><?php echo htmlspecialchars($row['full_name']); ?></td>
+                    <td style="padding: 16px 12px; color: #64748b;"><?php echo htmlspecialchars($row['course']); ?></td>
+                    <td style="padding: 16px 12px;"><?php echo htmlspecialchars($row['placement_details']); ?></td>
+                    
+                    <td>
+                        <?php 
+                        if ($row_status === 'placed') {
+                            $bg_color = '#e2f0d9'; $text_color = '#385723'; $display_text = 'PLACED';
+                        } elseif ($row_status === 'still-applying') {
+                            $bg_color = '#fff2cc'; $text_color = '#7f6000'; $display_text = 'STILL APPLYING';
+                        } else {
+                            $bg_color = '#fce4d6'; $text_color = '#c65911'; $display_text = 'NOT APPLYING';
+                        }
+                        ?>
+                        <span style="background-color: <?php echo $bg_color; ?>; color: <?php echo $text_color; ?>; font-weight: bold; padding: 6px 14px; border-radius: 4px; display: inline-block; font-size: 11px;">
+                            <?php echo $display_text; ?>
+                        </span>
+                    </td>
 
-        <div class="table-responsive">
-            <table id="globalStudentTable">
-                <thead>
-                    <tr>
-                        <th>Matric ID</th>
-                        <th>Student Name</th>
-                        <th>Course</th>
-                        <th>Placed Company</th>
-                        <th>Status</th>
-                        <th style="text-align: right; padding-right: 20px;">Action</th>
-                    </tr>
-                </thead>
-<tbody>
-    <?php 
-    if ($table_result && $table_result->num_rows > 0): 
-        while ($row = $table_result->fetch_assoc()): 
-            
-            $matric = htmlspecialchars($row['matric_number']);
-            $name = htmlspecialchars($row['full_name']);
-            $course = htmlspecialchars($row['course']);
-            $details = htmlspecialchars($row['placement_details']);
-            $status = $row['intern_status'];
+                    <td style="text-align: right; padding: 16px 12px;">
+                        <?php if ($row_status === 'not-applying'): ?>
+                            <a href="send_alert.php?id=<?php echo urlencode($row['matric_number']); ?>" style="background-color: #e05638; color: white; text-decoration: none; padding: 8px 16px; border-radius: 4px; font-weight: 500; display: inline-block; font-size: 12px;">
+                                Send Alert Email
+                            </a>
+                        <?php else: ?>
+                            <a href="view_student_profile.php?student_id=<?php echo urlencode($row['matric_number']); ?>" style="background-color: #2dbfa4; color: white; text-decoration: none; padding: 8px 16px; border-radius: 4px; font-weight: 500; display: inline-block; font-size: 12px;">
+                                View Profile
+                            </a>
+                        <?php endif; ?>
+                    </td>
+                </tr>
+            <?php 
+                endwhile; 
+            else: 
+            ?>
+                <tr>
+                    <td colspan="6" style="text-align: center; padding: 30px; color: #64748b;">No student records found.</td>
+                </tr>
+            <?php endif; ?>
+        </tbody>
+    </table>
+</div>
 
-            if ($status === 'Placed') {
-                $data_status = "PLACED";
-                $badge_class = "status-placed";
-            } elseif ($status === 'Still Applying') {
-                $data_status = "APPLYING";
-                $badge_class = "status-applying";
-            } else {
-                // This cleanly catches 'Inactive', 'Not Applying', or any other string safely!
-                $data_status = "NONE";
-                $badge_class = "status-none";
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    // 1. Initialise the Doughnut Chart Layout
+    const ctx = document.getElementById('statusDoughnutChart');
+    if (ctx) {
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Placed', 'Still Applying', 'Not Applying'],
+                datasets: [{
+                    data: [
+                        <?php echo (int)$status_counts['Placed']; ?>, 
+                        <?php echo (int)$status_counts['Still Applying']; ?>, 
+                        <?php echo (int)$status_counts['Not Applying']; ?>
+                    ],
+                    backgroundColor: ['#2dbfa4', '#fff2cc', '#e05638'],
+                    borderColor: ['#ffffff', '#ffffff', '#ffffff'],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                        labels: {
+                            font: { family: 'Inter, sans-serif', size: 13 },
+                            color: '#334155'
+                        }
+                    }
+                },
+                cutout: '70%'
             }
-    ?>
-        <tr data-status="<?php echo $data_status; ?>">
-            <td class="font-bold"><?php echo $matric; ?></td>
-            <td><?php echo $name; ?></td>
-            <td class="text-muted"><?php echo $course; ?></td>
-            
-            <td>
-                <?php if ($status === 'Placed'): ?>
-                    <?php echo $details; ?>
-                <?php elseif ($status === 'Still Applying'): ?>
-                    <span class="text-italic text-muted"><?php echo $details; ?></span>
-                <?php else: ?>
-                    <span class="text-danger font-semibold"><?php echo $details; ?></span>
-                <?php endif; ?>
-            </td>
+        });
+    }
 
-            <td><span class="status-pill-badge <?php echo $badge_class; ?>"><?php echo htmlspecialchars($status); ?></span></td>
+    // 2. Setup Filter Buttons & Instant Search Bar Logic Components
+    const filterButtons = document.querySelectorAll(".filter-btn");
+    const searchInput = document.getElementById("studentSearchInput");
+    const tableRows = document.querySelectorAll(".student-row");
+    let currentFilter = "all";
+
+    function filterTable() {
+        const searchText = searchInput.value.toLowerCase().trim();
+
+        tableRows.forEach(row => {
+            const studentStatus = row.getAttribute("data-status");
+            const rowText = row.textContent.toLowerCase();
+
+            // Check if row matches current active filter button
+            const matchesFilter = (currentFilter === "all" || studentStatus === currentFilter);
+            // Check if row matches typed search string field keywords
+            const matchesSearch = rowText.includes(searchText);
+
+            if (matchesFilter && matchesSearch) {
+                row.style.display = ""; 
+            } else {
+                row.style.display = "none"; 
+            }
+        });
+    }
+
+    // Assign click logic to tab buttons
+    filterButtons.forEach(button => {
+        button.addEventListener("click", function() {
+            filterButtons.forEach(btn => {
+                btn.style.backgroundColor = "#fff";
+                btn.style.color = "#334155";
+                btn.style.borderColor = "#cbd5e1";
+            });
             
-            <td style="text-align: right; padding-right: 20px;">
-                <?php if ($status === 'Placed'): ?>
-                    <a href="view_student_profile.php?id=<?php echo $matric; ?>" class="action-btn btn-view">Profile</a>
-                <?php elseif ($status === 'Still Applying'): ?>
-                    <a href="process_application.php?id=<?php echo $matric; ?>&action=approve" class="action-btn btn-approve">Approve</a>
-                    <a href="process_application.php?id=<?php echo $matric; ?>&action=reject" class="action-btn btn-reject">Reject</a>
-                <?php else: ?>
-                    <a href="send_alert.php?id=<?php echo $matric; ?>" class="action-btn btn-send-mail">Send Alert Email</a>
-                <?php endif; ?>
-            </td>
-        </tr>
-    <?php 
-        endwhile; 
-    else: 
-    ?>
-        <tr>
-            <td colspan="6" style="text-align: center; padding: 20px;">No registered student records found.</td>
-        </tr>
-    <?php endif; ?>
-</tbody>
-            </table>
-        </div>
-    </section>
-</main>
+            this.style.backgroundColor = "#0f172a";
+            this.style.color = "#fff";
+            this.style.borderColor = "#0f172a";
+
+            currentFilter = this.getAttribute("data-filter");
+            filterTable();
+        });
+    });
+
+    // Assign keyup logic for typing into search field
+    if (searchInput) {
+        searchInput.addEventListener("keyup", filterTable);
+    }
+});
+</script>
