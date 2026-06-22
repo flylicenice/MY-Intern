@@ -12,7 +12,6 @@ $(document).ready(function () {
                     const placedCount = response.data.placed;
                     const applyingCount = response.data.applying;
                     const notApplyingCount = response.data.not_applying;
-
                     new Chart(assignedChartCanvas, {
                         type: 'doughnut',
                         data: {
@@ -25,7 +24,6 @@ $(document).ready(function () {
                                     '#c2d468', // Not Applying (Yellow-Green)
                                     '#b2bec3'  // Placed (Silver Gray)
                                 ],
-                                borderWidth: 2
                             }]
                         },
                         options: {

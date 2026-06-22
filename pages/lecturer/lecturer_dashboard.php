@@ -10,14 +10,14 @@ $metric_result = $conn->query($metric_query);
 
 if ($metric_result) {
     while ($row = $metric_result->fetch_assoc()) {
-        $status = $row['intern_status'];
+        $status = strtoupper(trim($row['intern_status']));
         $count = (int)$row['total'];
         
-        if ($status === 'Placed') {
-            $status_counts['Placed'] = $count;
-        } elseif ($status === 'Still Applying') {
-            $status_counts['Still Applying'] = $count;
-        } elseif ($status === 'Not Applying' || $status === 'Inactive') {
+        if ($status === 'PLACED' || $status === 'ACTIVE') {
+            $status_counts['Placed'] += $count;
+        } elseif ($status === 'STILL APPLYING') {
+            $status_counts['Still Applying'] += $count;
+        } elseif ($status === 'NOT APPLYING' || $status === 'INACTIVE') {
             $status_counts['Not Applying'] += $count;
         }
         $total_students += $count;
@@ -50,6 +50,9 @@ $table_query = "
 ";
 $table_result = $conn->query($table_query);
 
+// Ambil ID lecturer yang sedang login daripada session akaun
+$lecturer_id = $_SESSION['lecturer_id'] ?? 10; // Menggunakan '10' sebagai default berdasarkan paparan phpMyAdmin anda
+
 $logbook_query = "
     SELECT 
         s.matric_number, 
@@ -58,16 +61,32 @@ $logbook_query = "
         c.company_name,
         COUNT(l.logbook_id) AS submitted_weeks, 
         12 AS total_weeks
-    FROM student s
-    JOIN job_application ja ON s.matric_number = ja.matric_number
-    JOIN job_vacancy jv ON ja.job_id = jv.job_id
-    JOIN company c ON jv.company_id = c.company_id
-    JOIN placement p ON ja.application_id = p.application_id 
+    FROM placement p
+    -- 1. Hubungkan placement_id ke jadual job_application menggunakan application_id (Nilai: 4)
+    INNER JOIN job_application ja ON p.application_id = ja.application_id
+    -- 2. Hubungkan job_application ke jadual student menggunakan matric_number
+    INNER JOIN student s ON ja.matric_number = s.matric_number
+    -- 3. Hubungkan ke jawatan kosong dan syarikat untuk dapatkan nama syarikat tempat penempatan
+    INNER JOIN job_vacancy jv ON ja.job_id = jv.job_id
+    INNER JOIN company c ON jv.company_id = c.company_id
+    -- 4. Hubungkan ke jadual logbook berdasarkan placement_id
     LEFT JOIN logbook l ON p.placement_id = l.placement_id 
-    WHERE s.intern_status = 'Placed' AND ja.application_status = 'Approved'
-    GROUP BY s.matric_number
+    -- 5. TAPISAN UTAMA: Hanya ambil jika status placement aktif (Ongoing) dan milik lecturer yang sedang login
+    WHERE p.lecturer_id = ? 
+      AND p.status = 'Ongoing'
+    GROUP BY 
+        s.matric_number, 
+        s.full_name, 
+        s.course, 
+        c.company_name,
+        p.placement_id
 ";
-$logbook_result = $conn->query($logbook_query);
+
+// Guna Prepared Statement demi keselamatan pangkalan data
+$stmt = $conn->prepare($logbook_query);
+$stmt->bind_param("i", $lecturer_id);
+$stmt->execute();
+$logbook_result = $stmt->get_result();
 
 ?>
 <!DOCTYPE html>
@@ -106,14 +125,17 @@ $logbook_result = $conn->query($logbook_query);
         </ul>
     </aside>
 
-    <?php
-    $currentPage = $_GET['page'] ?? "main";
-    if ($currentPage === "main") {
-        include("lecturer_stats.php");
-    } else if ($currentPage === "logbook") {
-        include("student_logbook.php");
-    }
-    ?>
+<!-- Main Content Presentation Layer -->
+    <div class="dashboard-app-content">
+        <?php
+        $currentPage = $_GET['page'] ?? "main";
+        if ($currentPage === "main") {
+            include("lecturer_stats.php");
+        } elseif ($currentPage === "logbook") {
+            include("student_logbook.php");
+        }
+        ?>
+    </div>
 
 </body>
 </html>

@@ -1,5 +1,4 @@
 <?php
-require_once '../../includes/session.php';
 require_once '../../includes/db.php';
 
 // Catch the Matric ID parameter from the URL string
