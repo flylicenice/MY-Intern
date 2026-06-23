@@ -20,10 +20,6 @@ The traditional internship application process presents several challenges:
 
   * Students often receive no updates after applying, creating uncertainty and delaying decision-making.
 
-* **Lack of Stage-Specific Documentation Management**
-
-  * Students may submit incorrect or outdated documents due to poor document organization.
-
 * **Limited Lecturer Monitoring**
 
   * Lecturers have difficulty tracking student application progress, making it challenging to provide timely guidance.
@@ -45,33 +41,27 @@ The traditional internship application process presents several challenges:
 ### Student Module
 
 * User Registration and Profile Management
-* Internship Search and Filtering
+* Internship Search
 * Online Internship Application Submission
 * Application Status Tracking
 * Resume and Document Management
-* Real-Time Notifications
 
 ### Lecturer Module
 
 * Student Monitoring Dashboard
 * Application Approval Workflow
-* Feedback and Evaluation Management
+* Evaluation Management
 * Progress Tracking
 
 ### Company Module
 
 * Internship Posting Management
 * Candidate Application Review
-* Interview Scheduling
-* Status Updates and Notifications
-* Student Communication
+* Status Updates
 
 ### Administrator Module
 
 * User Management
-* Internship Category Management
-* System Configuration
-* Security and Backup Management
 * Analytics and Reporting
 
 ---
@@ -99,7 +89,6 @@ The traditional internship application process presents several challenges:
 ### Administrators
 
 * Manage system operations.
-* Maintain data integrity and security.
 * Generate reports and analytics.
 
 ---
@@ -119,7 +108,7 @@ The traditional internship application process presents several challenges:
 #### Lecturer Functions
 
 * Student application monitoring
-* Approval and recommendation management
+* Approval management
 * Performance evaluation
 
 #### Company Functions
