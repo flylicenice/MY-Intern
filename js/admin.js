@@ -37,7 +37,7 @@ function openAddLecturerWindow() {
     const top = (screen.height - height) / 2;
 
     window.open(
-        '/MYIntern/pages/admin/add_lecturer.php',
+        '/MY-Intern/pages/admin/add_lecturer.php',
         'PopupName',
         `width=${width},height=${height},left=${left},top=${top}`
     );
@@ -58,41 +58,37 @@ function openAddAdminWindow() {
 }
 
 function validateAddAdminForm() {
-    $("#admin_password").on('input', function () {
-        var passwordLength = $(this).val().length;
-
-        if (passwordLength < 8) {
-            $("#adminPasswordError").css("display", "inline");
-            $("#adminPasswordError").text("Password must be at least 8 characters long.");
-            $("#saveAdminBtn").prop("disabled", true);
-        } else {
-            $("#adminPasswordError").text("");
-        }
-    });
-
     $("#addAdminForm").on("submit", function (event) {
         event.preventDefault();
+
+        // Fixed missing '#' selector syntax typo
+        var passwordLength = $("#admin_password").val() ? $("#admin_password").val().length : 0;
+        
+        if (passwordLength < 8) {
+            alert("Password must be 8 characters long.");
+            return; // Added return to prevent execution if validation fails
+        } // Fixed missing closing bracket here
 
         var adminFormData = $(this).serialize();
 
         $.ajax({
-            url: "/MYIntern/includes/add_admin_process.php",
+            url: "/MY-Intern/includes/add_admin_process.php",
             type: "POST",
             data: adminFormData,
             dataType: "json",
             success: function (response) {
                 if (response.status === "error") {
-                    $("#adminPasswordError").css("display", "inline");
-                    $("#adminPasswordError").text(response.message);
+                    alert(response.message);
+                    console.log(response.error);
                 } else if (response.status === "success") {
-                    $("#adminPasswordError").text("");
-                    $("#saveAdminBtn").text(response.message);
-                    $("#saveAdminBtn").prop("disabled", true);
-                    window.opener.location.reload();
+                    alert(response.message);
+                    if (window.opener) {
+                        window.opener.location.reload();
+                    }
                 }
             },
             error: function (xhr, status, error) {
-                $("#saveAdminBtn").prop("disabled", true);
+                console.log(error);
             },
         });
     });
@@ -111,7 +107,7 @@ function drawCharts() {
 
     if (studentChart) {
         $.ajax({
-            url: "/MYIntern/includes/get_student_chart_data.php",
+            url: "/MY-Intern/includes/get_student_chart_data.php",
             type: "POST",
             dataType: "json",
             success: function (response) {
@@ -143,27 +139,14 @@ function drawCharts() {
                             maintainAspectRatio: false,
                             scales: {
                                 x: {
-                                    grid: {
-                                        display: false
-                                    },
-                                    border: {
-                                        display: false
-                                    },
-                                    ticks: {
-                                        font: { size: 10 }
-                                    }
+                                    grid: { display: false },
+                                    border: { display: false },
+                                    ticks: { font: { size: 10 } }
                                 },
                                 y: {
-                                    grid: {
-                                        display: true
-                                    },
-                                    ticks: {
-                                        font: { size: 10 },
-                                        stepSize: 1
-                                    },
-                                    border: {
-                                        display: false
-                                    }
+                                    grid: { display: true },
+                                    ticks: { font: { size: 10 }, stepSize: 1 },
+                                    border: { display: false }
                                 }
                             }
                         }
@@ -178,7 +161,7 @@ function drawCharts() {
 
     if (companyChart) {
         $.ajax({
-            url: "/MYIntern/includes/get_company_chart_data.php",
+            url: "/MY-Intern/includes/get_company_chart_data.php",
             type: "POST",
             dataType: "json",
             success: function (response) {
@@ -210,7 +193,7 @@ function drawCharts() {
 
     if (placementChart) {
         $.ajax({
-            url: "/MYIntern/includes/get_placement_chart_data.php",
+            url: "/MY-Intern/includes/get_placement_chart_data.php",
             type: "POST",
             dataType: "json",
             success: function (response) {
@@ -235,7 +218,7 @@ function drawCharts() {
                     });
                 }
             },
-            error: function (xhs, status, error) {
+            error: function (xhr, status, error) {
                 console.error("Failed: ", error);
             }
         });
@@ -265,9 +248,8 @@ function deleteAdmin() {
         }
 
         if (confirm("CRITICAL: Are you completely sure you want to permanently delete Admin (" + staffId + ")?")) {
-
             $.ajax({
-                url: "/MYIntern/includes/delete_admin_process.php",
+                url: "/MY-Intern/includes/delete_admin_process.php",
                 type: "POST",
                 data: { user_id: userId },
                 dataType: "json",
@@ -275,8 +257,6 @@ function deleteAdmin() {
                     if (response.status === "success") {
                         alert(response.message);
                         window.location.reload();
-                    } else if (response.status === "failed") {
-                        alert("Error: " + response.message);
                     } else {
                         alert("Error: " + response.message);
                     }
@@ -292,7 +272,9 @@ function deleteAdmin() {
 
 function toggleCompanyFilterMenu() {
     const container = document.getElementById('company-filter-container');
-    container.style.display = (container.style.display === 'none' || container.style.display === '') ? 'block' : 'none';
+    if (container) {
+        container.style.display = (container.style.display === 'none' || container.style.display === '') ? 'block' : 'none';
+    }
 }
 
 function filterCompanyTable() {
@@ -325,7 +307,11 @@ function filterCompanyTable() {
     if (nullRow) {
         nullRow.style.display = (visibleMatchCounter === 0) ? '' : 'none';
     }
-    document.getElementById('company-total-count').innerText = visibleMatchCounter;
+    
+    const totalCountEl = document.getElementById('company-total-count');
+    if (totalCountEl) {
+        totalCountEl.innerText = visibleMatchCounter;
+    }
 }
 
 function verifyCompany(buttonElement, companyId) {
@@ -333,12 +319,10 @@ function verifyCompany(buttonElement, companyId) {
     var btn = $(buttonElement);
 
     if (confirm("Are you sure you want to verify this company?")) {
-
-        // Disable button instantly to prevent double-clicking
         btn.prop('disabled', true).text('Processing...');
 
         $.ajax({
-            url: "/MYIntern/includes/verify_company_process.php",
+            url: "/MY-Intern/includes/verify_company_process.php",
             type: "POST",
             data: { company_id: companyId },
             dataType: "json",
@@ -347,8 +331,6 @@ function verifyCompany(buttonElement, companyId) {
                     alert(response.message);
                     targetRow.attr('data-status', 'verified');
                     window.location.reload();
-
-                    btn.text('Verify');
                 } else {
                     alert("Error: " + response.message);
                     btn.prop('disabled', false).text('Verify');
@@ -364,16 +346,13 @@ function verifyCompany(buttonElement, companyId) {
 }
 
 function verifyStudent(buttonElement, userId) {
-    var targetRow = $(buttonElement).closest('.student-data-row');
     var btn = $(buttonElement);
 
     if (confirm("Are you sure you want to verify this student?")) {
-
-        // Disable button instantly to prevent double-clicking
         btn.prop('disabled', true).text('Processing...');
 
         $.ajax({
-            url: "/MYIntern/includes/verify_student_process.php",
+            url: "/MY-Intern/includes/verify_student_process.php",
             type: "POST",
             data: { user_id: userId },
             dataType: "json",
@@ -381,8 +360,6 @@ function verifyStudent(buttonElement, userId) {
                 if (response.status === "success") {
                     alert(response.message);
                     window.location.reload();
-
-                    btn.text('Verify');
                 } else {
                     alert("Error: " + response.message);
                     btn.prop('disabled', false).text('Verify');
@@ -401,7 +378,7 @@ function addLecturerForm() {
     $("#addLecturerForm").on("submit", function (event) {
         event.preventDefault();
 
-        var passwordLength = $("#lec_password").val().length;
+        var passwordLength = $("#lec_password").val() ? $("#lec_password").val().length : 0;
         const icRegex = /^(([[0-9]{2})(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01]))-*[0-9]{2}-*[0-9]{4}$/;
 
         $("#lec_password").css("border-color", "");
@@ -417,7 +394,7 @@ function addLecturerForm() {
             var lecFormData = $(this).serialize();
 
             $.ajax({
-                url: "/MYIntern/includes/add_lecturer_process.php",
+                url: "/MY-Intern/includes/add_lecturer_process.php",
                 type: "POST",
                 data: lecFormData,
                 dataType: "json",
@@ -426,7 +403,9 @@ function addLecturerForm() {
                         alert(response.message);
                     } else if (response.status === "success") {
                         alert(response.message);
-                        window.opener.location.reload();
+                        if (window.opener) {
+                            window.opener.location.reload();
+                        }
                     }
                 },
                 error: function (xhr, status, error) {
@@ -444,22 +423,21 @@ function closeLecWindow() {
 }
 
 function filterAndSearchStudents() {
-    var searchVal = $(".top-bar input[type='text']").val().toLowerCase().trim();
-
-    var activeFilter = $("input[name='filter']:checked").val();
+    var searchInput = $(".top-bar input[type='text']");
+    var searchVal = searchInput.length ? searchInput.val().toLowerCase().trim() : '';
+    var checkedRadio = $("input[name='filter']:checked");
+    var activeFilter = checkedRadio.length ? checkedRadio.val() : '';
 
     var visibleCount = 0;
 
     $(".student-data-row").each(function () {
         var row = $(this);
-
         var studentName = row.find("td:nth-child(1)").text().toLowerCase();
         var matricNo = row.find("td:nth-child(2)").text().toLowerCase();
         var rowStatus = row.attr("data-status");
 
         var matchesSearch = studentName.includes(searchVal) || matricNo.includes(searchVal);
-
-        var matchesFilter = (!activeFilter || rowStatus === activeFilter);
+        var matchesFilter = (!activeFilter || activeFilter === 'all' || rowStatus === activeFilter);
 
         if (matchesSearch && matchesFilter) {
             row.show();

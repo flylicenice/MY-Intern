@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_login'])) {
                 $_SESSION['role'] = $user['role']; // Student, Lecturer, Company or Admin
 
                 $display_name = "User";
-                $redirect_target = '../index.php';
+                $redirect_target = '../pages/login.php';
 
                 if ($user['role'] === 'Student') {
                     $profile_stmt = $conn->prepare("SELECT full_name, matric_number, intern_status, IF (resume IS NOT NULL AND resume != '', 1, 0) AS has_resume FROM student WHERE user_id = ? LIMIT 1");
@@ -66,6 +66,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_login'])) {
                     $display_name = $profile['company_name'] ?? 'Company';
                     $_SESSION['company_id'] = $profile['company_id'];
                     $redirect_target = '../pages/company/company_dashboard.php?page=main';
+                } else {
+                    $redirect_target = '../pages/login.php?error=invalid_credentials';
                 }
 
                 $_SESSION['display_name'] = $display_name;

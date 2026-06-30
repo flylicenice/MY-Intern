@@ -1533,3 +1533,37 @@ tr:last-child td {
 .profile-pic-wrapper:hover .profile-pic-hover-overlay {
     opacity: 1;
 }
+
+@media (width <= 768px) {
+    .role-selection-sidebar {
+        display: inline;
+    }
+
+    .job-posting-card {
+        width: 90%;
+    }
+
+    .job-details-panel {
+        width: 70%;
+    }
+
+    #closeDetailsBtn {
+        width: 15%;
+        height: 10%;
+    }
+
+    header {
+        margin: 0;
+        width: 5%;
+    }
+
+    .nav-bar {
+        display: none;
+        flex-direction: column;
+    }
+
+    .teal-action-btn {
+        font-size: 10px;
+        padding: 5px 30px;
+    }
+}

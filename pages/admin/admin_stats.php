@@ -59,48 +59,4 @@ try {
             Print Summary Report
         </button>
     </div>
-
-    <!-- section class="data-table-section">
-            <h2 class="table-title">Employer Verification Queue</h2>
-
-            <div class="table-responsive">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Company Name</th>
-                            <th>Registration No.</th>
-                            <th>Location</th>
-                            <th>Verification Status</th>
-                            <th>Action Operations</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="null-row" colspan="5">
-                                No pending action
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <?php echo "Google Sdn. Bhd."; ?>
-                            </td>
-                            <td>
-                                <?php echo "Google Sdn. Bhd."; ?>
-                            </td>
-                            <td>
-                                <?php echo "Google Sdn. Bhd."; ?>
-                            </td>
-                            <td>
-                                <p class="status-badge pending">Pending</p>
-                            </td>
-                            <td>
-                                <button id="approve-btn" class="action-btn btn-approve" type="button">Approve</button>
-                                <button class="action-btn btn-reject" type="button">Reject</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </section -->
 </main>

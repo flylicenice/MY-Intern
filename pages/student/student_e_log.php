@@ -118,7 +118,13 @@ if (isset($conn)) {
                 // 4. LOOP BOUNDARIES: Dynamically evaluates each row matching target week status
                 for ($week = 1; $week <= $total_weeks; $week++):
                     $has_submission = isset($submissions[$week]);
-                    $is_future_week = ($week > $current_intern_week);
+                    
+                    // Check if the previous week was submitted
+                    $prev_week_submitted = ($week === 1) || isset($submissions[$week - 1]);
+                    
+                    // A future week is ONLY locked if it exceeds the current calendar timeline 
+                    // AND the previous week has not been submitted yet.
+                    $is_future_week = ($week > $current_intern_week) && !$prev_week_submitted;
                     
                     if ($has_submission) {
                         $display_text = "Weekly Logbook Submitted";

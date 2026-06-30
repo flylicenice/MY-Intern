@@ -155,7 +155,7 @@ function showJobDetailsPanel() {
         console.log("Attempting to apply for ID:", job_Id);
 
         $.ajax({
-            url: "/MYIntern/includes/student_apply_process.php",
+            url: "/MY-Intern/includes/student_apply_process.php",
             type: "POST",
             data: { job_id: job_Id },
             dataType: "json",
@@ -191,7 +191,7 @@ function drawCharts() {
     const studentApplicationChart = $("#studentApplicationChart")[0];
 
     $.ajax({
-        url: "/MYIntern/includes/get_student_application_data.php",
+        url: "/MY-Intern/includes/get_student_application_data.php",
         dataType: "json",
         success: function (response) {
             if (response.status === "success") {
@@ -260,22 +260,19 @@ function handleProfilePicPreview() {
     $("#profilePicInput").on("change", function () {
         const file = this.files[0];
         if (file) {
-            // 1. Client-side MIME validation matching backend boundaries
             const validTypes = ['image/jpeg', 'image/jpg', 'image/png'];
             if (!validTypes.includes(file.type)) {
                 alert("⚠️ Invalid file format. Please upload a JPG, JPEG, or PNG image template.");
-                this.value = ''; // Flush selection allocation
+                this.value = '';
                 return;
             }
 
-            // 2. Client-side size validation tracking (2MB max allocation ceiling)
             if (file.size > 2 * 1024 * 1024) {
                 alert("⚠️ Picture limit exceeded. Max 2MB image profiles allowed.");
                 this.value = '';
                 return;
             }
 
-            // 3. Convert image stream to update layout element instantly
             const reader = new FileReader();
             reader.onload = function (e) {
                 $("#avatar-preview").attr("src", e.target.result);
@@ -295,7 +292,7 @@ function acceptOffer() {
 
             $.ajax({
                 url: "../../includes/accept_offer_process.php",
-                type: "POST", // Best practice for mutation/state updates
+                type: "POST",
                 data: {
                     job_id: jobId
                 },
@@ -303,8 +300,7 @@ function acceptOffer() {
                 success: function (response) {
                     if (response.success) {
                         alert("Offer accepted successfully!");
-                        window.location.reload(); // Refresh to update statuses and badges
-                    } else {
+                        window.location.reload();
                         alert("Error: " + response.message);
                     }
                 },
@@ -318,38 +314,31 @@ function acceptOffer() {
 
 function jobSearch() {
     $('#job-search').on('keyup search change', function() {
-        // Grab the search term and convert to lowercase for case-insensitive matching
         var searchTerm = $(this).val().toLowerCase().trim();
 
         // Loop through each job posting card
         $('.job-posting-card').each(function() {
             var card = $(this);
             
-            // Extract the searchable text fragments inside the card
             var title = card.find('.job-posting-title').text().toLowerCase();
             var company = card.find('.company-name-text').text().toLowerCase();
             var location = card.find('.job-location-text').text().toLowerCase();
             
-            // Optional: Include the hidden job description attribute inside the search context
             var description = card.find('.job-desc-text').data('desc') ? card.find('.job-desc-text').data('desc').toLowerCase() : '';
 
-            // Check if the search term matches any part of the title, company, location, or description
             if (title.includes(searchTerm) || 
                 company.includes(searchTerm) || 
                 location.includes(searchTerm) || 
                 description.includes(searchTerm)) {
                 
-                // Show the card if it matches
                 card.show();
             } else {
-                // Hide the card if it doesn't match
                 card.hide();
             }
         });
 
-        // Optional: Display a fallback message if all job cards are hidden
         var visibleCards = $('.job-posting-card:visible').length;
-        $('#no-results-msg').remove(); // Clear previous fallback messages if any exist
+        $('#no-results-msg').remove();
         
         if (visibleCards === 0) {
             $('#job-posting-area').append('<p id="no-results-msg" style="text-align: center; color: #64748b; margin-top: 20px;">No jobs match your search criteria.</p>');

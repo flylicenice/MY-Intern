@@ -14,7 +14,6 @@ try {
     exit();
 }
 
-// Check directly if the session status value is 'active'
 $is_active_intern = (isset($_SESSION['intern_status']) && strtolower($_SESSION['intern_status']) === 'active');
 ?>
 
@@ -24,12 +23,12 @@ $is_active_intern = (isset($_SESSION['intern_status']) && strtolower($_SESSION['
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/4d8d735e30.js" crossorigin="anonymous"></script>
     <script src="js/student.js"></script>
     <link rel="stylesheet" href="css/style.css">
     <title>MYIntern | Home</title>
@@ -53,6 +52,7 @@ $is_active_intern = (isset($_SESSION['intern_status']) && strtolower($_SESSION['
         </div>
     </main>
 
+    <!-- Job Details Card -->
     <div class="main-area" id="job-posting-area" style="overflow: auto;">
         <?php
         if ($result->num_rows > 0) {
@@ -72,12 +72,6 @@ $is_active_intern = (isset($_SESSION['intern_status']) && strtolower($_SESSION['
                         <p class="job-salary-text">RM <?php echo $allowance; ?> per month</p>
                         <span class="job-desc-text" data-desc="<?php echo htmlspecialchars($desc, ENT_QUOTES, 'UTF-8'); ?>" style="display:none;"></span>
                     </div>
-
-                    <button class="teal-action-btn apply-now-btn" 
-                            data-job-id="<?php echo $job_id; ?>" 
-                            <?php echo $is_active_intern ? 'disabled style="background-color: #a0aec0; cursor: not-allowed;"' : ''; ?>>
-                        <?php echo $is_active_intern ? 'Already Interning' : 'Apply'; ?>
-                    </button>
                 </div>
         <?php
             }
@@ -88,6 +82,7 @@ $is_active_intern = (isset($_SESSION['intern_status']) && strtolower($_SESSION['
     </div>
     <?php include("includes/footer.php"); ?>
 
+    <!-- Job Details Panel -->
     <?php if (isset($_SESSION['matric_number'])): ?>
         <div class="job-panel-overlay">
             <div class="job-details-panel" id="detailsPanel">
@@ -99,11 +94,11 @@ $is_active_intern = (isset($_SESSION['intern_status']) && strtolower($_SESSION['
                     <p id="panel-desc" style="white-space: pre-line;"></p>
                 </div>
 
-                <button class="teal-action-btn apply-now-btn" 
-                        id="panel-apply-btn" 
-                        data-job-id="" 
-                        data-has-resume="<?php echo $_SESSION['has_resume']; ?>"
-                        <?php echo $is_active_intern ? 'disabled style="background-color: #a0aec0; cursor: not-allowed;"' : ''; ?>>
+                <button class="teal-action-btn apply-now-btn"
+                    id="panel-apply-btn"
+                    data-job-id=""
+                    data-has-resume="<?php echo $_SESSION['has_resume']; ?>"
+                    <?php echo $is_active_intern ? 'disabled style="background-color: #a0aec0; cursor: not-allowed;"' : ''; ?>>
                     <?php echo $is_active_intern ? 'Already Interning' : 'Apply Now'; ?>
                 </button>
                 <button class="action-btn" id="closeDetailsBtn" type="button">&times;</button>
@@ -126,4 +121,5 @@ $is_active_intern = (isset($_SESSION['intern_status']) && strtolower($_SESSION['
         </div>
     <?php endif; ?>
 </body>
+
 </html>

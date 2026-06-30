@@ -60,7 +60,7 @@ function addJobPosting() {
         var jobPostingData = $(this).serialize();
 
         $.ajax({
-            url: "/MYIntern/includes/add_job_post_process.php",
+            url: "/MY-Intern/includes/add_job_post_process.php",
             type: "POST",
             dataType: "json",
             data: jobPostingData,
@@ -90,7 +90,7 @@ function closeJobPosting(buttonElement, jobId) {
         btn.prop('disabled', true).text('Processing...');
 
         $.ajax({
-            url: "/MYIntern/includes/close_job_posting_process.php",
+            url: "/MY-Intern/includes/close_job_posting_process.php",
             type: "POST",
             data: { job_id: jobId },
             dataType: "json",
@@ -127,7 +127,7 @@ function approveApplication(buttonElement, applicationId, matricNo) {
         btn.prop('disabled', true).text('Processing...');
 
         $.ajax({
-            url: '/MYIntern/includes/offer_application_process.php',
+            url: '/MY-Intern/includes/offer_application_process.php',
             type: 'POST',
             data: {
                 app_id: applicationId,
@@ -182,7 +182,7 @@ function editCompanyInfo() {
         var formData = new FormData(formElement);
         if (confirm("Are you sure you want to update the info?")) {
             $.ajax({
-                url: "/MYIntern/includes/edit_company_info_process.php",
+                url: "/MY-Intern/includes/edit_company_info_process.php",
                 type: "POST",
                 data: formData,
                 dataType: "json",
@@ -251,7 +251,7 @@ function drawCharts() {
 
     if (overviewChart) {
         $.ajax({
-            url: '/MYIntern/includes/get_company_application_data.php',
+            url: '/MY-Intern/includes/get_company_application_data.php',
             type: "POST",
             dataType: "json",
             success: function (response) {
@@ -285,7 +285,7 @@ function drawCharts() {
 
     if (placementChart) {
         $.ajax({
-            url: "/MYIntern/includes/get_application_chart_data.php",
+            url: "/MY-Intern/includes/get_application_chart_data.php",
             type: "POST",
             dataType: "json",
             success: function (response) {
@@ -338,7 +338,7 @@ function drawCharts() {
 
     if (reviewChart) {
         $.ajax({
-            url: "/MYIntern/includes/get_review_chart_data.php",
+            url: "/MY-Intern/includes/get_review_chart_data.php",
             type: "POST",
             dataType: "json",
             success: function (response) {

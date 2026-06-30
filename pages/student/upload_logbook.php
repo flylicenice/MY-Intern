@@ -98,7 +98,7 @@ if (isset($conn)) {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap" rel="stylesheet">
-    <link href="/MYIntern/css/style.css" rel="stylesheet">
+    <link href="/MY-Intern/css/style.css" rel="stylesheet">
 </head>
 
 <body>
